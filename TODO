@@ -1,0 +1,11 @@
+Make tests.
+
+Start working on the automatic checker.
+
+clippy
+
+https://docs.rs/log/0.4.17/log/index.html
+
+error handling: thiserrer + anyhow or eyre or miette?; ask djan/tene; also maybe spandoc?
+  - https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want
+  thiserror well; good overview of Rust error handling
