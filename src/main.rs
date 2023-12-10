@@ -1,5 +1,4 @@
 #![warn(clippy::all, clippy::pedantic)]
-use regex::Regex;
 use secrecy::ExposeSecret;
 use std::env;
 
@@ -100,18 +99,18 @@ fn address_to_string(address: &imap_proto::Address) -> String {
     )
     .expect("Couldn't convert a host in an Address to UTF-8")
     .to_string();
-    format!("{}<{}@{}>", name, mailbox, host)
+    format!("{name}<{mailbox}@{host}>")
 }
 
-fn check_matcher_part(mp: MatcherPart, from_addr: &String, subject: &String) -> bool {
+fn check_matcher_part(mp: MatcherPart, from_addr: &str, subject: &str) -> bool {
     match mp {
         MatcherPart::From(regex) => {
-            if regex.is_match(from_addr.as_str()) {
+            if regex.is_match(from_addr) {
                 return true;
             }
         }
         MatcherPart::Subject(regex) => {
-            if regex.is_match(subject.as_str()) {
+            if regex.is_match(subject) {
                 return true;
             }
         }
@@ -122,7 +121,7 @@ fn check_matcher_part(mp: MatcherPart, from_addr: &String, subject: &String) -> 
 
 #[tracing::instrument]
 fn match_mail(matcher_set: &Vec<Matcher>, from_addr: &String, subject: &String) -> bool {
-    for matcher in matcher_set.iter() {
+    for matcher in matcher_set {
         match matcher {
             Matcher::Match(match_part) => {
                 if !check_matcher_part(match_part.clone(), from_addr, subject) {
@@ -138,8 +137,7 @@ fn match_mail(matcher_set: &Vec<Matcher>, from_addr: &String, subject: &String) 
     }
 
     println!(
-        "Mail with from addr \n\t{}\n and subject \n\t{}\n was matched by \n\t{:?}\n",
-        from_addr, subject, matcher_set
+        "Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n was matched by \n\t{matcher_set:?}\n"
     );
     return true;
 }
@@ -183,7 +181,7 @@ fn move_to_storage(
 
     let seqs_list = seqs
         .iter()
-        .map(|x| x.to_string())
+        .map(std::string::ToString::to_string)
         .collect::<Vec<_>>()
         .join(",");
 
@@ -208,7 +206,7 @@ fn move_to_storage(
             Some(ref x) => std::str::from_utf8(x)
                 .expect("Message Subject was not valid utf-8")
                 .to_string(),
-            None => "".to_string(),
+            None => String::new(),
         };
         // let subject = std::str::from_utf8(envelope.subject.as_ref().expect("Envelope did not have a subject!"))
         //     .expect("Message Subject was not valid utf-8").to_string();
