@@ -1,0 +1,118 @@
+[basics]
+imapserver = "localhost"
+login = "weeble"
+# Note that "pass" is the literal password that dovecot expects in testing
+# mode; it doesn't care about the login name
+password = "pass"
+matcher_sets = [
+  [
+    { Match = { From = " <spdrata@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spdrata@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spcorpus@stodi.digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spjbovlaste@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    # This is the hassio box; see https://bugzilla.redhat.com/show_bug.cgi?id=1845127
+    { Match = { From = " <root@ibm-p8-kvm-03-guest-02.virt.pnr.lab.eng.rdu2.redhat.com>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <root@stodi.digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <puppet_cron_stodi@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spdkhaproxy@stodi.digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <sphaproxy@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <sptwjbo@stodi.digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spjbotcan@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <sptwdlp@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <sptwrobin@stodi.digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <sptwgaming@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <sptwrlp@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <root@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <root@[a-z]+.digitalkingdom.org>$" } },
+    { Match = { Subject = "^Daily duplicacy backup " } },
+  ],
+  [
+    { Match = { From = " <root@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Daily duplicacy backup " } },
+  ],
+  [
+    { Match = { From = " <spjboski@lojban.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spcamxes@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spvlasisku@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <spmediawiki@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+  ],
+  [
+    { Match = { From = " <rlpowell(.cron)?@digitalkingdom.org>$" } },
+    { Match = { Subject = "^Cron " } },
+    { UnMatch = { Subject = "pic_and_video_naming" } },
+  ],
+  [
+    { Match = { From = " <apache@lojban.org>$" } },
+    { Match = { Subject = "^.jvsw. (New )?(Definition|Etymology|NatLang) " } },
+  ],
+  [
+    { Match = { Subject = "^Report [dD]omain: digitalkingdom.org;? Submitter: " } },
+  ],
+  [
+    { Match = { Subject = "^Report [dD]omain: lojban.org;? Submitter: " } },
+  ],
+    [
+    { Match = { Subject = "^Dmarc Aggregate Report Domain: .digitalkingdom.org." } },
+  ],
+    [
+    { Match = { Subject = "^Dmarc Aggregate Report Domain: .lojban.org." } },
+  ],
+]

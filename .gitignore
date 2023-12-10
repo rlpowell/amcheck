@@ -1,2 +1,10 @@
+# Vim
+[._]*.sw[a-p]
+*~
+
+# helps ripgrep not be silly
+.git
+
 /target
-app-passwd
+settings/prod.toml
+test/dovecot_based/local_only

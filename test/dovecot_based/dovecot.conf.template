@@ -1,0 +1,31 @@
+# NOT FOR PRODUCTION USE.  Seriously.
+
+#mail_home=/srv/mail/
+mail_location=maildir:##LOCATION##:LAYOUT=fs:INBOX=##LOCATION##/INBOX/:INDEX=/tmp/:CONTROL=/tmp/:VOLATILEDIR=/tmp/
+#mail_location=maildir:/srv/mail:LAYOUT=fs:INDEX=/tmp/
+mail_uid=1000
+mail_gid=1000
+
+mail_debug=yes
+
+protocols = imap
+
+first_valid_uid = 1000
+last_valid_uid = 1000
+
+passdb {
+  driver = static
+  args = password=pass
+}
+
+ssl=yes
+ssl_cert=<cert.pem
+ssl_key=<key.pem
+
+listen = localhost
+
+log_path=/dev/stdout
+info_log_path=/dev/stdout
+debug_log_path=/dev/stdout
+
+# !include_try /etc/dovecot/conf.d/*.conf

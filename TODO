@@ -1,10 +1,28 @@
-Make tests.
+Make tests
+----------
+
+X make a test using our own actual email and the current binary as a
+  regression test suite
+X make sure the directory with the source for those is in .gitignore
+- split out the check config into a config file
+- move the check config optionally be drawn from a separate config
+  file (pointed at by the main config?), so each test can have one
+- make a new, minimal test with just a few sanitized emails and a
+  simple check config; that can get checked in
+- update the local / personal-email regression test to use the full
+  config, make sure it still works
+
+- ---------
+
+X Add tracing.
+
+Drop most of the ".unwrap()"s (i.e. convert stuff to Result)
+
+Clean all the FIXMEs
 
 Start working on the automatic checker.
 
-clippy
-
-https://docs.rs/log/0.4.17/log/index.html
+X clippy
 
 error handling: thiserrer + anyhow or eyre or miette?; ask djan/tene; also maybe spandoc?
   - https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want

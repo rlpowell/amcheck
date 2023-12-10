@@ -8,5 +8,16 @@ edition = "2021"
 [dependencies]
 imap = "3.0.0-alpha.6"
 native-tls = "0.2"
-imap-proto = "0.15"
+imap-proto = "0.16"
 regex = "1"
+config = "0.13"
+tracing-logfmt = "0.3"
+tracing-subscriber = { version = "0.3", features = ["registry", "env-filter"] }
+tracing = "0.1"
+serde = { version = "1.0", features = ["derive"] }
+secrecy = { version = "0.8", features = ["serde"] }
+time = { version = "0.3", features = ["local-offset"] }
+serde_regex = "1.1"
+
+[dev-dependencies]
+toml = "0.8"
