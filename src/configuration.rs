@@ -89,10 +89,10 @@ mod toml_test {
 pub fn get_environment() -> Environment {
     // Detect the running environment.
     // Default to `prod` if unspecified.
-    let environment: Environment = std::env::var("APP_ENVIRONMENT")
+    let environment: Environment = std::env::var("AMCHECK_ENVIRONMENT")
         .unwrap_or_else(|_| "prod".into())
         .try_into()
-        .expect("Failed to parse APP_ENVIRONMENT.");
+        .expect("Failed to parse AMCHECK_ENVIRONMENT.");
 
     environment
 }
@@ -100,21 +100,21 @@ pub fn get_environment() -> Environment {
 pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     let base_path = std::env::current_dir().expect("Failed to determine the current directory");
     let configuration_directory = base_path.join("settings");
-
     let environment = get_environment();
     let environment_filename = format!("{}.toml", environment.as_str());
+
+    let config_file: std::path::PathBuf = match std::env::var("AMCHECK_CONFIG_FILE") {
+        Ok(name) => name.into(),
+        Err(_) => configuration_directory.join(environment_filename),
+    };
+
     let settings = config::Config::builder()
         // .set_default("database.database_name", "newsletter")?
-        // .add_source(config::File::from(
-        //     configuration_directory.join("base.yaml"),
-        // ))
-        .add_source(config::File::from(
-            configuration_directory.join(environment_filename),
-        ))
-        // Add in settings from environment variables (with a prefix of APP and '__' as separator)
-        // E.g. `APP_APPLICATION__PORT=5001 would set `Settings.application.port`
+        .add_source(config::File::from(config_file))
+        // Add in settings from environment variables (with a prefix of AMCHECK and '__' as separator)
+        // E.g. `AMCHECK_APPLICATION__PORT=5001 would set `Settings.application.port`
         .add_source(
-            config::Environment::with_prefix("APP")
+            config::Environment::with_prefix("AMCHECK")
                 .prefix_separator("_")
                 .separator("__"),
         )
