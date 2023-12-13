@@ -33,6 +33,7 @@ _launch_imapd() {
   fi
 
   cp -pr "$initial/"* "$mail_tempdir/"
+  mkdir "$mail_tempdir/index" "$mail_tempdir/control" "$mail_tempdir/tmp"
 
   sed "s;##LOCATION##;$mail_tempdir;g" "$template_dir/dovecot.conf.template" >"$config_tempdir/dovecot.conf"
   cp "$template_dir/cert.pem" "$config_tempdir"

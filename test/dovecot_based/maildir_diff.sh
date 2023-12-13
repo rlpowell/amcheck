@@ -32,12 +32,16 @@ then
 fi
 
 cd "$testdir"
+# Doing the dovecot internal stuff cleanup here means we don't have
+# to account for it in the diffs, *and* temp_del in the bats test is
+# much more likely to actually work
+rm -rf index/ control/ tmp/
 while IFS= read -r -d '' file
 do
   dir="$(echo "$file" | sed -r 's;^./([^/]*)/.*;\1;')"
   headers="$(formail -c -X Message-Id -X From: -X To -X Subject <"$file" | tr '\n' ' ')"
   echo "$dir $headers"
-done < <(find . -type f -print0 || true) | sort >/tmp/testdir.$$
+done < <(find . -type f -print0 || true) | sort -k2 >/tmp/testdir.$$
 
 cd "$targetdir"
 while IFS= read -r -d '' file
@@ -45,15 +49,15 @@ do
   dir="$(echo "$file" | sed -r 's;^./([^/]*)/.*;\1;')"
   headers="$(formail -c -X Message-Id -X From: -X To -X Subject <"$file" | tr '\n' ' ')"
   echo "$dir $headers"
-done < <(find . -type f -print0 || true) | sort >/tmp/targetdir.$$
+done < <(find . -type f -print0 || true) | sort -k2 >/tmp/targetdir.$$
 
 retval=0
 
 wc -l /tmp/testdir.$$ /tmp/targetdir.$$
 if ! diff /tmp/testdir.$$ /tmp/targetdir.$$ >/dev/null 2>&1
 then
-  echo "Partial diff output:"
-  diff /tmp/testdir.$$ /tmp/targetdir.$$
+  echo "Diff output:"
+  git diff --word-diff=color /tmp/testdir.$$ /tmp/targetdir.$$
   echo "Directory counts:"
   for name in $(find "$testdir" "$targetdir" -type d)
   do

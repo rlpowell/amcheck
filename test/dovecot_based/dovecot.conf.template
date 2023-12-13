@@ -1,7 +1,7 @@
 # NOT FOR PRODUCTION USE.  Seriously.
 
 #mail_home=/srv/mail/
-mail_location=maildir:##LOCATION##:LAYOUT=fs:INBOX=##LOCATION##/INBOX/:INDEX=/tmp/:CONTROL=/tmp/:VOLATILEDIR=/tmp/
+mail_location=maildir:##LOCATION##:LAYOUT=fs:INBOX=##LOCATION##/INBOX/:INDEX=##LOCATION##/index/:CONTROL=##LOCATION##/control/:VOLATILEDIR=##LOCATION##/tmp/
 #mail_location=maildir:/srv/mail:LAYOUT=fs:INDEX=/tmp/
 mail_uid=1000
 mail_gid=1000
