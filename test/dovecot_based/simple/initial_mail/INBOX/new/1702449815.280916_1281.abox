@@ -1,0 +1,59 @@
+Return-path: <root@mysite.org>
+Envelope-to: postmaster@mysite.org
+Delivery-date: Fri, 01 Dec 2023 14:36:20 -0800
+Received: from abox.realm ([192.168.123.137]:51960 helo=abox.mysite.org)
+	by stodi.mysite.org with smtp (Exim 4.96)
+	(envelope-from <root@mysite.org>)
+	id 1r9C6h-006Z68-2K
+	for postmaster@mysite.org;
+	Fri, 01 Dec 2023 14:36:20 -0800
+Received: by abox.mysite.org (sSMTP sendmail emulation); Fri, 01 Dec 2023 14:31:01 -0800
+From: "root" <root@mysite.org>
+Date: Fri, 01 Dec 2023 14:31:01 -0800
+To: postmaster@mysite.org
+Subject: Cron <root@abox> /usr/local/bin/rsync_backup_wrapper --config /usr/local/etc/rsync_backup_drive_config.yaml
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <XDG_SESSION_ID=65757>
+X-Cron-Env: <XDG_RUNTIME_DIR=/run/user/0>
+X-Cron-Env: <DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus>
+X-Cron-Env: <XDG_SESSION_TYPE=unspecified>
+X-Cron-Env: <XDG_SESSION_CLASS=background>
+X-Cron-Env: <LANG=en_US.UTF-8>
+X-Cron-Env: <MAILTO=postmaster@mysite.org>
+X-Cron-Env: <MAILFROM=puppet_cron_abox@mysite.org>
+X-Cron-Env: <SHELL=/bin/sh>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <PATH=/usr/bin:/bin>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+X-Spam-Score: -2.4 (--)
+X-Spam_score: -2.4
+X-Spam_score_int: -23
+X-Spam_bar: --
+X-TUID: ekbsdCQ0gtR3
+
+**** Running rsync backup of / to /dev/abox_yellow_2021_10/root
+Running umount /backup_mnt
+    umount: /backup_mnt: not mounted.
+    
+Running sleep 5
+    
+Running mkdir -p /backup_mnt
+    
+Running fsck -n /dev/abox_yellow_2021_10/root
+    fsck from util-linux 2.38.1
+    If you wish to check the consistency of an XFS filesystem or
+    repair a damaged filesystem, see xfs_repair(8).
+    
+Running mount /dev/abox_yellow_2021_10/root /backup_mnt
+    
+Running rsync -axSHAX  --delete --delete-excluded --exclude='/dev/*' --exclude='/proc/*' --exclude='/sys/*' --exclude='/run/*' --exclude='/swapfile' --exclude='/backup_mnt/*' --exclude='.local' --exclude='/media/*' --exclude='/nas' --exclude='/var/lib/containers' --exclude='/var/lib/docker'  / /backup_mnt/
+    
+Running echo sed -i -e 's/abox_magenta_2020_03/abox_yellow_2021_10/g' -e "s/$(vgs -o vguuid --noheadings "/dev/abox_magenta_2020_03" | sed 's/ *//g')/$(vgs -o vguuid --noheadings "/dev/abox_yellow_2021_10" | sed 's/ *//g')/g"  -e "s/$(lvs -o lvuuid --noheadings "/dev/abox_magenta_2020_03/root" | sed 's/ *//g')/$(lvs -o lvuuid --noheadings "/dev/abox_yellow_2021_10/root" | sed 's/ *//g')/g"  -e "s/$(blkid "/dev/abox_magenta_2020_03/root" -s UUID -o value)/$(blkid "/dev/abox_yellow_2021_10/root" -s UUID -o value)/g"  -e "s/$(blkid "$(findmnt /boot -n -o SOURCE)" -s UUID -o value)/$(blkid "/dev/sdb2" -s UUID -o value)/g"  -e "s/$(blkid "$(findmnt /boot/efi -n -o SOURCE)" -s UUID -o value)/$(blkid "/dev/sdb1" -s UUID -o value)/g" -e 's/enforcing=0/enforcing=0 root=BACKUP_DRIVE_ARE_YOU_SURE/g'  /backup_mnt/etc/fstab
+    sed -i -e s/abox_magenta_2020_03/abox_yellow_2021_10/g -e s/lqJaQ3-bZao-dCAW-1nya-slTK-QK3q-HGWUSS/R91dt0-Nqyi-zGW0-a8hL-TRKm-J6Em-pi5d4R/g -e s/fdXrze-gdi2-VQPG-MPmZ-nvTb-Lk1B-gQrfHv/OQkEyR-le9U-3SN1-mRxK-COd2-8Ki0-NDvn4Q/g -e s/bb9a0bf8-d36f-43b1-8c82-c9a40e3cc42b/e8f35bc1-1722-4852-be1b-0394724e3bad/g -e s/9134f34f-4c34-4416-8f6f-d574a181fb5d/13d0c7f1-d2a5-45df-82f4-a8cb3bd8b475/g -e s/7EA6-716F/92D1-77B9/g -e s/enforcing=0/enforcing=0 root=BACKUP_DRIVE_ARE_YOU_SURE/g /backup_mnt/etc/fstab
+    
+Running sed -i -e 's/abox_magenta_2020_03/abox_yellow_2021_10/g' -e "s/$(vgs -o vguuid --noheadings "/dev/abox_magenta_2020_03" | sed 's/ *//g')/$(vgs -o vguuid --noheadings "/dev/abox_yellow_2021_10" | sed 's/ *//g')/g"  -e "s/$(lvs -o lvuuid --noheadings "/dev/abox_magenta_2020_03/root" | sed 's/ *//g')/$(lvs -o lvuuid --noheadings "/dev/abox_yellow_2021_10/root" | sed 's/ *//g')/g"  -e "s/$(blkid "/dev/abox_magenta_2020_03/root" -s UUID -o value)/$(blkid "/dev/abox_yellow_2021_10/root" -s UUID -o value)/g"  -e "s/$(blkid "$(findmnt /boot -n -o SOURCE)" -s UUID -o value)/$(blkid "/dev/sdb2" -s UUID -o value)/g"  -e "s/$(blkid "$(findmnt /boot/efi -n -o SOURCE)" -s UUID -o value)/$(blkid "/dev/sdb1" -s UUID -o value)/g" -e 's/enforcing=0/enforcing=0 root=BACKUP_DRIVE_ARE_YOU_SURE/g'  /backup_mnt/etc/fstab

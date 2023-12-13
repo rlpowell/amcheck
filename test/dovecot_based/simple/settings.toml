@@ -1,0 +1,13 @@
+[basics]
+imapserver = "localhost"
+login = "weeble"
+# Note that "pass" is the literal password that dovecot expects in testing
+# mode; it doesn't care about the login name
+password = "pass"
+matcher_sets = [
+  [
+    { Match = { From = " <root@" } },
+    { Match = { Subject = "^Cron " } },
+    { UnMatch = { Subject = "alert" } },
+  ],
+]

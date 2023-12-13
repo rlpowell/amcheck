@@ -1,0 +1,1109 @@
+Return-path: <list-bounces@mysite.org>
+Envelope-to: me@mysite.org
+Delivery-date: Fri, 01 Dec 2023 12:22:53 -0800
+Received: from localhost ([127.0.0.1]:52498 helo=stodi.mysite.org)
+	by stodi.mysite.org with esmtp (Exim 4.96)
+	(envelope-from <list-bounces@mysite.org>)
+	id 1r9A2H-006AJH-2M;
+	Fri, 01 Dec 2023 12:22:53 -0800
+To: "notme@gmail.com" <notme@gmail.com>
+Date: 1 Dec 2023 20:05:37 +0000
+MIME-Version: 1.0
+Message-ID: <mailman.4324.1701462172.905225.list@mysite.org>
+List-Id: <list.mysite.org>
+List-Post: <mailto:list@mysite.org>
+From: DisneyNOW via list <list@mysite.org>
+Precedence: list
+Cc: DisneyNOW <disneynow@email.disneynow.com>
+X-Mailman-Version: 2.1.34
+X-BeenThere: list@mysite.org
+List-Subscribe: <http://mail.mysite.org/mailman/listinfo/list>,
+ <mailto:list-request@mysite.org?subject=subscribe>
+List-Unsubscribe: <http://mail.mysite.org/mailman/options/list>,
+ <mailto:list-request@mysite.org?subject=unsubscribe>
+List-Archive: <http://mail.mysite.org/pipermail/list/>
+Reply-To: list@mysite.org
+List-Help: <mailto:list-request@mysite.org?subject=help>
+Subject: [list] =?utf-8?q?Celebrate_the_holidays_with_Mickey=2C_Minnie?=
+ =?utf-8?q?=2C_Spidey_and_more!_=E2=9D=84?=
+Content-Type: multipart/mixed; boundary="===============2310357241105441685=="
+Errors-To: list-bounces@mysite.org
+Sender: "list" <list-bounces@mysite.org>
+
+
+--===============2310357241105441685==
+Content-Type: message/rfc822
+Content-Disposition: inline
+
+Received: from mail-pg1-f171.google.com ([209.85.215.171]:59525)
+	by stodi.mysite.org with esmtps  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <notme+caf_=list=mysite.org@gmail.com>)
+	id 1r9A2C-006AIW-0q
+	for list@mysite.org;
+	Fri, 01 Dec 2023 12:22:52 -0800
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5c2b7ec93bbso693710a12.2
+        for <list@mysite.org>; Fri, 01 Dec 2023 12:22:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701462167; x=1702066967;
+        h=subject:date:to:from:mime-version:feedback-id:list-unsubscribe
+         :message-id:errors-to:dkim-signature:delivered-to:x-forwarded-for
+         :x-forwarded-to:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r0PYrW+rdBcir1ZsdSYsPlJIb+WSvooxTM5LtEUgCQw=;
+        b=JMdA9ru4zjK6wW9PU4OzpSM5nd6cCE1WBm+tN/uk+fI6P2re0DakIYQOAb3XbqAF4U
+         9BaAC+UihHlQBRn0dgYKmdHdniAprWp/edyV9aMuIrjctLkZjl3OkH2xu6dHtFMfuM/h
+         UPIJBVgm/Zp8yDAGnKZcpLGesRmHEWEyV87FBhVZtRyH+Tq/5fOmtUua96ZK0KDKf/IR
+         4wK+gGTrIyOJ68nbniFUr53f4/7CdArESVA4dqTvfiShUpN1dp90Z8ne6F2qEKjf3KON
+         xgDbeZbUnVD4RSBxvEqT3/TpjSmxUTvjGB+v9COFu673fOtcY2Xfv8X+Z6RYiSPzBjrh
+         s8nA==
+X-Gm-Message-State: AOJu0Yx+fFmUqN/WEU85Im8TraX/DKpFhnyKC7GSLl5E8uBu4X1/NcoS
+	UQ2caBTTfr7da+teXIEmihzKHC/1ee/d0x0o3KHNu8ZW+ZqA8UdZmg==
+X-Received: by 2002:a17:90b:1d0f:b0:286:59ff:95b9 with SMTP id on15-20020a17090b1d0f00b0028659ff95b9mr99263pjb.15.1701462166914;
+        Fri, 01 Dec 2023 12:22:46 -0800 (PST)
+X-Forwarded-To: list@mysite.org
+X-Forwarded-For: notme@gmail.com list@mysite.org
+Delivered-To: notme@gmail.com
+Received: by 2002:a05:7022:2196:b0:6e:5870:af94 with SMTP id bh22csp1462558dlb;
+        Fri, 1 Dec 2023 12:22:45 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHgs4ETShESPpVestG6ixegVwoV2vspiEVdbaCBTHYwGmxQf/4BXyCY+AwcYsrWdsIP5K6w
+X-Received: by 2002:a05:6122:32cf:b0:4b2:c555:12fc with SMTP id ck15-20020a05612232cf00b004b2c55512fcmr22010vkb.27.1701462165017;
+        Fri, 01 Dec 2023 12:22:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701462165; cv=none;
+        d=google.com; s=arc-20160816;
+        b=dC6PjClmKMoNSe04EHGLEqqM2ItFNFFs1/duY0BjDXNwQnIkWF1gXfDjm6LYLw8uPU
+         /0Tn6I20ob3+GET6y1yNTzTm6W/3T8MPT0E1NUEQWbcbL0QT1nynHjoq2hqyKc5zKDy9
+         Mg4n+c1qGm5P+FXG+TggR1065qXxtcCS3S2h7iXLlpyrvUXgYO1mBVltp94i/oFz07eN
+         RD3rbtf0j4yqmdZm3a5ygST7uTkXrErw9ljV3BRw4MURmxnR2GaDc0MznDtGz1RJUKem
+         76E3ZLrwCD2FCePVMag6d2chI36j7lP8PzxVo9ado1jiD43I/msY3V7CF61j2GNwHl9Y
+         zwUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:date:to:from:mime-version:feedback-id:list-unsubscribe
+         :message-id:errors-to:dkim-signature;
+        bh=r0PYrW+rdBcir1ZsdSYsPlJIb+WSvooxTM5LtEUgCQw=;
+        fh=bKGgmrNbn/4tX4I1OcNc9ulN3BX9GFY07FnqTu/kQt4=;
+        b=g1lVyi2IiepdqinaXkVYD3eDuqI7feJowtd0pNGLJpAp+zHiWvdAVrbOaP/Sr3f1GM
+         /rfBjoyOy3o6kdjWRckDSUvUZEhyUKDoPhOpg3SrLbiJp/BAIVUG8imhFYkCtzSHJ+Jo
+         DRwMu59Ffa9vAbtDY2s71dE7//b82uTfxUaYrpdlbtM0GIc0x04qE+LGVnxFJVbzjAhO
+         kw5YZjZddqUH6qa3OZZ0CQWZ43UY1xARuNRiBzf6AeY7iA+IWdeHhuxdN27KyHQ00u8d
+         QDmTIBj2dykBRvl+LQvc205MhQ6jlDZcqe+BHe19LmbNI3d3oEhaG/BrSBQSZgVGQlrW
+         SFBw==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@email.disneynow.com header.s=0 header.b="BJ/XY2iB";
+       spf=pass (google.com: domain of disneynow@email.disneynow.com designates 66.77.119.147 as permitted sender) smtp.mailfrom=disneynow@email.disneynow.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=email.disneynow.com
+Received: from mta820.email.watchabc.com (mta820.email.watchabc.com. [66.77.119.147])
+        by mx.google.com with ESMTPS id bj39-20020a0561220e6700b004b287803419si960578vkb.275.2023.12.01.12.22.44
+        for <notme@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 12:22:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of disneynow@email.disneynow.com designates 66.77.119.147 as permitted sender) client-ip=66.77.119.147;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@email.disneynow.com header.s=0 header.b="BJ/XY2iB";
+       spf=pass (google.com: domain of disneynow@email.disneynow.com designates 66.77.119.147 as permitted sender) smtp.mailfrom=disneynow@email.disneynow.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=email.disneynow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=0; d=email.disneynow.com;
+ h=Message-ID:List-Unsubscribe:MIME-Version:From:To:Date:Subject:Content-Type;
+ i=disneynow@email.disneynow.com;
+ bh=r0PYrW+rdBcir1ZsdSYsPlJIb+WSvooxTM5LtEUgCQw=;
+ b=BJ/XY2iBgdX9T8T4pazM53MAJHGutVNR6vdKw0MG34ixhu/nrxEqMtg3RTEFHkuxfrUnwxLNx0lW
+   RLfUXA4hQRZIPfvwv2LpFL5q/aAKC60gU+qX2+u4t74qyvpffp/CHAw7izeBSnT66ssx71GkhFsD
+   kWQs3hBkJz8r6Pv+M+s=
+Received: from NY5PMER189 (10.24.58.151) by mta820.email.watchabc.com id hd90982o8is8 for <notme@gmail.com>; Fri, 1 Dec 2023 15:05:37 -0500 (envelope-from <disneynow@email.disneynow.com>)
+Errors-to: disneynow@email.disneynow.com
+Message-ID: <665.5243017400.202312012005372760231.0053872051@email.disneynow.com>
+List-Unsubscribe: <mailto:unsubscribe-8577941b6ebeccaddc7273b260526cced42456ceb509b7ce676494029c166cdf@email.disneynow.com?subject=Unsubscribe>
+X-Mailer: XyzMailer
+X-Xyz-cr: 665
+X-Xyz-cn: 132491
+X-Xyz-bcn: 132337
+X-Xyz-md: 100
+X-Xyz-mg: 5243017400
+X-Xyz-et: 112
+X-Xyz-pk: 109572434
+X-Xyz-ct: 2017628
+X-Xyz-bct: 2016801
+X-Xyz-Rcpt-Hash: 7fb3443ff4e56b8b81622d3d30190619d6d046cab1c281982add23dc127d5c8d@gmail.com
+Feedback-ID: 665.132491:ChtahDgtlMsNA
+X-PVIQ: 000273-000603-000665-132491-000000
+X-CM-MessageId: 665-132491
+MIME-Version: 1.0
+From: "DisneyNOW" <disneynow@email.disneynow.com>
+To: "notme@gmail.com" <notme@gmail.com>
+Date: 1 Dec 2023 20:05:37 +0000
+Subject: =?utf-8?B?Q2VsZWJyYXRlIHRoZSBob2xpZGF5cyB3aXRoIE1pY2tleSwgTWlubmllLCBTcGlkZXkgYW5kIG1vcmUhIOKdhA==?= 
+Content-Type: multipart/alternative;
+ boundary=--boundary_53831934_f06857ba-7926-46b0-8fc9-b057ddfa1771
+X-Spam-Score: -1.5 (-)
+X-Spam_score: -1.5
+X-Spam_score_int: -14
+X-Spam_bar: -
+
+
+----boundary_53831934_f06857ba-7926-46b0-8fc9-b057ddfa1771
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+Dear Viewer,=0A=0AThis newsletter is created with HTML graphics a=
+nd images, =0Abut you are receiving this text version because you=
+r email =0Aclient does not support this format.  To view the HTML=
+ =0Aversion of the newsletter in a web browser, click here:=0Ahtt=
+p://l.email.disneynow.com/rts/go2.aspx?t=3D1579695&tp=3Di-1NGB-Aj=
+-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3D8577941b6ebe=
+ccaddc7273b260526cced42456ceb509b7ce676494029c166cdf&pi=3DEIII3MN=
+XPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=3Dccc73bee5432ad5acfc3f3=
+13c6b0edd1304f34a77ab7969c2dcefb2972863c8f=0A=0A-----------------=
+---------------------------------------------=0A=0AClicking on th=
+ird party links and their associated images, including =0A"Watch =
+Now," will take you away from our Disney site where different ter=
+ms of=0A use and privacy policy apply.=0A=0AThis email was sent t=
+o: notme@gmail.com.=0A=0APlease do not reply to this em=
+ail as this address is not monitored.=0A=0AThis email contains an=
+ advertisement from:=0ADisney Channel | 500 S. Buena Vista Street=
+ | Burbank, CA 91521.=0A=0AStop all types of future commercial em=
+ail from Disney Channel regarding =0Aits products or services: =0A=
+http://l.email.disneynow.com/rts/go2.aspx?t=3D1579696&tp=3Di-1NGB=
+-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3DmgLwiTAsm=
+x8AAAGHSDQNZQEDH6%2B308gNI6dnFiersT0ERpxv1LO1KK%2BXmzBE2MkOxuECmG=
+etEp7TwYzVmxFFHzE%3D%7cDNHolidayCategory%7c132491&pi=3DEIII3MNXPS=
+rBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=3Da71a7de95ce2bf29e9269af2b=
+e90a7b233e5682a19dda1443aebfe29bb708efe=0A=0AManage all email pre=
+ferences from The Walt Disney Family of Companies: =0Ahttp://l.em=
+ail.disneynow.com/rts/go2.aspx?t=3D1579697&tp=3Di-1NGB-Aj-YSx-5ip=
+AKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3DmgLwiTAsmx8AAAGHSDQN=
+ZQEDH6%2B308gNI6dnFiersT0ERpxv1LO1KK%2BXmzBE2MkOxuECmGetEp7TwYzVm=
+xFFHzE%3D%7cDNHolidayCategory%7c132491&pi=3DEIII3MNXPSrBUy8rsXLQw=
+zeUpKiZ4wvNmcXR8InEt6U&hp2=3Dfc17d6b33d965daa1bfda0298daceaebb747=
+d150e0741758f26744b83f22dfa5=0A=0A(c) 2023 Disney. All rights res=
+erved.=0A=0AAll other devices, platforms, titles and related copy=
+rights and =0Atrademarks are the property of their respective own=
+ers.=0A=0A
+----boundary_53831934_f06857ba-7926-46b0-8fc9-b057ddfa1771
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "h=
+ttp://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">=0A<html =
+xmlns=3D"http://www.w3.org/1999/xhtml"=0A xmlns:v=3D"urn:schemas-=
+microsoft-com:vml"=0A xmlns:o=3D"urn:schemas-microsoft-com:office=
+:office">=0A<head>=0A    <meta http-equiv=3D"Content-Type" conten=
+t=3D"text/html; charset=3Dutf-8" />=0A    <meta name=3D"viewport"=
+ content=3D"width=3Ddevice-width, initial-scale=3D1, maximum-scal=
+e=3D1" />=0A    <meta name=3D"x-apple-disable-message-reformattin=
+g" />=0A    <meta name=3D"format-detection" content=3D"date=3Dno"=
+>=0A<meta name=3D"format-detection" content=3D"telephone=3Dno">=0A=
+    =0A<!--[if mso]>=0A<xml:namespace ns=3D"urn:schemas-microsoft=
+-com:vml" prefix=3D"v" />=0A<style>v: * { behavior:url(#default#V=
+ML); display:inline-block }</style>=0A<![endif]-->=0A<!--[if !mso=
+]><!-->=0A<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Ded=
+ge" />=0A<!--<![endif]-->=0A    =0A<title>DisneyNOW</title>=0A   =
+ =0A<style>=0A=0Abody {width:100% !important; -webkit-text-size-a=
+djust:100%; -ms-text-size-adjust:100%; margin:0!important; paddin=
+g:0!important;}=0A=0A.ReadMsgBody {width: 100%;}=0A.ExternalClass=
+ p,=0A.ExternalClass span,=0A.ExternalClass font,=0A.ExternalClas=
+s td=0A{line-height: 100%}=0A=0A.gmailfix {=0A display:none;=0A d=
+isplay:none!important;}=0Atable { border-collapse:collapse; mso-t=
+able-lspace:0pt; mso-table-rspace:0pt; padding:0;}=0Atable td {bo=
+rder-collapse: collapse;}=0Ap{margin:0 auto; text-align:center;}=0A=
+*{-webkit-text-size-adjust:none;-ms-text-size-adjust:none;max-hei=
+ght:1000000px;mso-line-height-rule:exactly; line-height: 100%}=0A=
+span.MsoHyperlinkFollowed {=0A     mso-style-priority:99;=0A     =
+color:inherit;}=0Aa { text-decoration: none!important;}=0A    a:v=
+isited { text-decoration: none!important;color:inherit;}=0A    a:=
+hover { text-decoration: none; }=0A    a:focus { text-decoration:=
+ none; }=0A/*a:-webkit-any-link {=0Acolor: inherit !important;=0A=
+}*/=0A.appleLinks a {text-decoration: none !important;}=0A.emfoot=
+er {=0A    text-decoration:none!important;=0A    text-decoration-=
+color:#9c9c9c!important;=0A    color:#9c9c9c!important;}=0Aa.ufoo=
+ter {=0A    text-decoration: underline!important;=0A    text-deco=
+ration-color: #ffffff!important;=0A    color: #ffffff!important;}=
+  =0Aa.ufooter:visited {=0A    text-decoration: underline!importa=
+nt;=0A    text-decoration-color: #ffffff!important;=0A    color: =
+#ffffff!important;}  =0A    =0A/* Rounded Corners */=0A.mobile3Ro=
+unded {=0A    display: block;=0A}  =0A.RoundedAll {=0A    border-=
+radius: 10px;=0A}=0A.RoundedTop {=0A    border-top-left-radius: 1=
+0px;=0A    border-top-right-radius: 10px;=0A}=0A.RoundedBtm {=0A =
+   border-bottom-left-radius: 10px;=0A    border-bottom-right-rad=
+ius: 10px;=0A}=0A    =0A    =0A/*Media for Android 4.4.4*/=0A/*@m=
+edia only screen and (max-width: 600px){=0A=0A}*/=0A/*Media iPhon=
+e 6 Plus*/=0A@media only screen and (max-width : 440px ){=0A=0A.m=
+obileCont:checked ~ table *[class=3DmobText]{font-size: 14px!impo=
+rtant;}=0A.mobileCont:checked ~ table *[class=3Dcontenttable]{wid=
+th:414px!important;}=0A=0A.mobileCont:checked ~ table *[class=3Dm=
+obile]{width:414px!important;height:auto!important;}=0A=0A.mobile=
+Cont:checked ~ table *[class=3Dmobile2]{width:207px!important;hei=
+ght:auto!important;}=0A=0A.mobileCont:checked ~ table *[class=3Dm=
+obile3]{width:364px!important;height:auto!important;}=0A    =0A  =
+  .mobileCont:checked ~ table *[class=3Dmobile3Rounded]{width:364=
+px!important;height:auto!important;display:block!important;}=0A=0A=
+.mobileCont:checked ~ table *[class=3Dmobile4]{width:314px!import=
+ant;height:auto!important;}=0A=0A.mobileCont:checked ~ table *[cl=
+ass=3Dmobile5]{width:101px!important;height:135px!important;}=0A=0A=
+.mobileCont:checked ~ table *[class=3Dmobile5B]{width:118px!impor=
+tant;height:auto!important;}=0A=0A.mobileCont:checked ~ table *[c=
+lass=3Dmobile6]{width:31px!important;height:135px!important;}=0A=0A=
+.mobileCont:checked ~ table *[class=3Dmobile7]{width:125px!import=
+ant;height:70px!important;}=0A=0A.mobileCont:checked ~ table *[cl=
+ass=3Dmobile8]{width:165px!important;height:auto!important;}=0A=0A=
+.mobileCont:checked ~ table *[class=3Dmobile9]{width:101px!import=
+ant;height:auto!important;}=0A=0A.mobileCont:checked ~ table *[cl=
+ass=3Dmobile10]{width:31px!important;height:auto!important;}=0A=0A=
+.mobileCont:checked ~ table *[class=3Dmobile11]{width:182px!impor=
+tant;height:270px!important;}=0A=0A.mobileCont:checked ~ table *[=
+class=3Dcont2]{width:60%!important;}=0A=0A.mobileCont:checked ~ t=
+able *[class=3Dcont3]{width:80%!important;}=0A=0A.mobileCont:chec=
+ked ~ table *[class=3Dcont4]{width:314px!important;}=0A=0A.mobile=
+Cont:checked ~ table *[class=3Dcont5]{width:384px!important;text-=
+align: center;display: block!important;}=0A=0A.mobileCont:checked=
+ ~ table *[class=3Dcont6]{width:275px!important;margin:auto!impor=
+tant;display: block!important;}=0A=0A.mobileCont:checked ~ table =
+*[class=3Dcont7]{width:240px!important;margin:auto!important;disp=
+lay: block!important;}=0A=0A.mobileCont:checked ~ table *[class=3D=
+cont182]{width:182px!important;important;display: block!important=
+;}=0A    =0A    .mobileCont:checked ~ table *[class=3Dctamob182]{=
+display:block!important;margin:auto!important;width:182px !import=
+ant;height:auto!important;max-height:inherit!important;overflow:v=
+isible!important;}=0A    =0A    .mobileCont:checked ~ table *[cla=
+ss=3Dctamob118]{display:block!important;margin:auto!important;wid=
+th:118px !important;height:auto!important;max-height:inherit!impo=
+rtant;overflow:visible!important;}=0A=0A.mobileCont:checked ~ tab=
+le *[class=3Dtitle1]{text-align: center;}=0A=0A.mobileCont:checke=
+d ~ table *[class=3Dblock]{display:block!important;}=0A.mobileCon=
+t:checked ~ table *[class=3Dblockcta]{display:block!important;hei=
+ght:40px!important}=0A=0A.mobileCont:checked ~ table *[class=3Dbl=
+ock2]{display:block!important;width: 350px!important;}=0A    =0A =
+   .mobileCont:checked ~ table *[class=3Dblock3]{display:block!im=
+portant;width: 414px!important;}=0A=0A.mobileCont:checked ~ table=
+ *[class=3Dmob9]{width:350px!important;height:350px!important;}=0A=
+=0A    .mobileCont:checked ~ table *[class=3Dcont8]{width:354px!i=
+mportant;}=0A=0A.mobileCont:checked ~ table *[class=3Dcont9]{widt=
+h:275px!important;}=0A=0A.mobileCont:checked ~ table *[class=3Dct=
+a]{display:block!important;} /*margin-left:20%;*/=0A=0A.mobileCon=
+t:checked ~ table *[class=3Dspcrcta]{width:86px!important;} =0A.m=
+obileCont:checked ~ table *[class=3Dspcrcta2]{width:86px!importan=
+t;height:55px!important;} =0A=0A.mobileCont:checked ~ table *[cla=
+ss=3Dhide]{display:none!important;}=0A=0A.mobileCont:checked ~ ta=
+ble *[class=3Dfont1]{font-size:30px!important;}=0A=0A.mobileCont:=
+checked ~ table *[class=3Dfont2]{font-size:12px!important;line-he=
+ight:16px!important;}=0A=0A.mobileCont:checked ~ table *[class=3D=
+spleft]{width:25px!important;}=0A    =0A    .mobileCont:checked ~=
+ table *[class=3Dspcr7]{width:112px!important;}=0A    =0A    .mob=
+ileCont:checked ~ table *[class=3Dspcr6]{width:74px!important;}=0A=
+=0A.mobileCont:checked ~ table *[class=3Dspcr5]{width:44px!import=
+ant;}=0A=0A.mobileCont:checked ~ table *[class=3Dspcr4]{width:20p=
+x!important;}=0A=0A.mobileCont:checked ~ table *[class=3Dspcr3]{w=
+idth:150px!important;}=0A=0A .mobileCont:checked ~ table *[class=3D=
+spcr2]{width:50px!important;}=0A=0A .mobileCont:checked ~ table *=
+[class=3Dspacer1]{width:141px!important;}=0A=0A.mobileCont:checke=
+d ~ table *[class=3Dspcrh]{height:15px!important;}=0A=0A    .mobi=
+leCont:checked ~ table *[class=3Dspcrh2]{height:220px!important;}=
+=0A=0A.mobileCont:checked ~ table *[class=3DminOverwrite] { min-w=
+idth:414px !important;}=0A    .mobileCont:checked ~ table *[class=
+=3Dcontenttable2] { width:207px !important;}=0A=0A    .mobileCont=
+:checked ~ table *[class=3Dshowmobile]{display:block!important;ma=
+rgin:auto!important;width:414px !important;height:auto!important;=
+max-height:inherit!important;overflow:visible!important;}=0A=0A  =
+  .mobileCont:checked ~ table *[id=3DimgSwap]{=0A        display:=
+block;=0A        background-image:url(http://i.email.watchabc.com=
+/wpm/665/ContentUploads/Templates/ABCTemplate/ABC_TemplateRedesig=
+n_BGmob_01.jpg) !important;=0A        background-repeat: no-repea=
+t !important;=0A        background-position: center !important;=0A=
+        width:414px !important;=0A        height: 550px !importan=
+t;}=0A    =0A    @media screen and (prefers-color-scheme: dark) {=
+=0A.contenttable3{background-color: #000000!important; color: #ff=
+ffff!important;}=0A.colorText{color:#000000!important;}=0A    }  =
+=0A}=0A=0A/*Media iPhone 6*/=0A /* @media only screen and (max-wi=
+dth: 379px) {=0A=0A  }*/=0A/*Media iPhone & Regular mobile size 3=
+20*/=0A/* @media only screen and (max-width: 330px) {=0A=0A}*/=0A=
+=0A</style>=0A    =0A<style type=3D"text/css">=0A@font-face{=0A  =
+  font-family:'AvenirDNW';=0A    font-style:normal;=0A    font-we=
+ight:400;=0A    src:url(http://cdn1.edgedatg.com/aws/disneynow/pr=
+od/fonts/v1/regular-AvenirNextRoundedW01-Re/188b58ca-5489-4e70-80=
+10-7b867980f487.woff2) format("woff2");=0A    mso-font-alt: Arial=
+;=0A    mso-generic-font-family: swiss;=0A    }  =0A@font-face{=0A=
+    font-family:'AvenirDNW';=0A    font-style:normal;=0A    font-=
+weight:500;=0A    src:url(http://cdn1.edgedatg.com/aws/disneynow/=
+prod/fonts/v1/medium-AvenirNextRoundedW01-Md1075562/5559fceb-87c2=
+-4a44-9925-ad308acec971.woff2) format("woff2");=0A    mso-font-al=
+t: Arial;=0A    mso-generic-font-family: swiss;=0A    }    =0A@fo=
+nt-face{=0A    font-family:'AvenirDNW';=0A    font-style:normal;=0A=
+    font-weight:600;=0A    src:url(http://cdn1.edgedatg.com/aws/d=
+isneynow/prod/fonts/v1/demi-AvenirNextRoundedW01-De1075568/a0a87e=
+49-3806-4285-adb4-3d8c713e526c.woff2) format("woff2");=0A    mso-=
+font-alt: Arial;=0A    mso-generic-font-family: swiss;=0A    }   =
+=0A@font-face{=0A    font-family:'AvenirDNW';=0A    font-style:no=
+rmal;=0A    font-weight:700;=0A    src:url(http://cdn1.edgedatg.c=
+om/aws/disneynow/prod/fonts/v1/bold-AvenirNextRoundedW01-Bo107557=
+4/ad3c6c4a-3054-4bcc-b0de-596d767c68be.woff2) format("woff2");=0A=
+    mso-font-alt: Arial;=0A    mso-generic-font-family: swiss;=0A=
+    }   =0A</style>=0A    =0A<!--[if gte mso 16]><xml>=0A  <o:Off=
+iceDocumentSettings>=0A    <o:AllowPNG/>=0A    <o:PixelsPerInch>9=
+6</o:PixelsPerInch>=0A  </o:OfficeDocumentSettings>=0A</xml><![en=
+dif]-->=0A    =0A<!--[if gte mso 9]>=0A<style>=0A.mobile3Rounded =
+{display: none;}=0A</style>=0A<![endif]-->=0A=0A</head>=0A    =0A=
+<body style=3D"margin:0; padding:0 !important; mso-line-height-ru=
+le:exactly;">=0A    <!--[if !mso]><!--->=0A    <input type=3D"che=
+ckbox" class=3D"mobileCont" checked style=3D"appearance:none!impo=
+rtant; overflow:hidden; display:none; width:0px; max-width:0px; h=
+eight:0px; max-height:0px; visibility:hidden; z-index:-9999; posi=
+tion:absolute; left:100000px;"/>=0A    <!--<![endif]-->=0A<div cl=
+ass=3D"gmailfix" style=3D"white-space:nowrap; font:15px courier; =
+line-height:0;">=0A&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
+p; &nbsp; &nbsp; &nbsp; &nbsp; =0A&nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =0A&nbsp; &nbsp; &n=
+bsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=0A</div>=0A<table width=3D=
+"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"=
+contenttable" bgcolor=3D"#f7f7f7">=0A    <tr>=0A      <td valign=3D=
+"top">  =0A<!--Preview Text Start -->  =0A<p style=3D"color:#ffff=
+ff; display:none;">Plus, bonus content from Naughty Nine, the new=
+ Disney Christmas Movie!</p><div style=3D"display:none;">&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&=
+zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwn=
+j;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&=
+nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbs=
+p;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zw=
+nj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&n=
+bsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&=
+zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;=
+&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp=
+;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwn=
+j;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&=
+nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;=
+&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj=
+;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&nbsp;&zwn=
+j;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nb=
+sp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&z=
+wnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>=0A<!--Preview Text=
+ End -->=0A<!--PIXELS-->=0A<table bgcolor=3D"#ffffff" width=3D"64=
+0" class=3D"contenttable" border=3D"0" cellspacing=3D"0" cellpadd=
+ing=3D"0" align=3D"center" style=3D"display:none;">=0A<tr>=0A<!--=
+MOVABLE INK Pixel Start -->=0A<td width=3D"1" height=3D"1" align=3D=
+"center">=0A</td>=0A<!--MOVABLE INK Pixel end -->=0A<td width=3D"=
+1" height=3D"1" align=3D"center">=0A<table border=3D"0" cellpaddi=
+ng=3D"0" cellspacing=3D"0" align=3D"center" style=3D"display:none=
+;">=0A  <tr>=0A    <td style=3D"font-size:1px; line-height:1px;">=
+<img src=3D"http://pxl.disneyabc-ympxl.com/log.gif?cid=3D39f493bd=
+e1&mid=3D132491&uuid=3Dnotme@gmail.com" border=3D"0" st=
+yle=3D"display:block;" height=3D"1" width=3D"2" /></td>=0A  </tr>=
+=0A</table>=0A</td>=0A<td width=3D"1" height=3D"1" align=3D"cente=
+r"><img src=3D"http://l.email.disneynow.com/rts/open.aspx?tp=3Di-=
+1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII=
+3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" height=3D"1" width=3D"1"=
+ style=3D"display:none">=0A</td>=0A    </tr>=0A</table>=0A<!--PIX=
+ELS END-->=0A<!--Body starts here-->=0A<table class=3D"contenttab=
+le" align=3D"center" width=3D"640" border=3D"0" cellpadding=3D"0"=
+ cellspacing=3D"0" style=3D"background-color:#ffffff;">=0A    <tr=
+>=0A      <td>=0A    =0A<!--HEADER RED DNOW--> =0A<table class=3D=
+"contenttable" align=3D"center" width=3D"640" border=3D"0" cellpa=
+dding=3D"0" cellspacing=3D"0" style=3D"background-color:#c40431;"=
+>=0A    <tr>=0A        <td align=3D"center">=0A<!-- DESKTOP VERSI=
+ON STARTS -->=0A<table width=3D"640" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center" class=3D"hide">=0A    <tr>=0A=
+       <td align=3D"center"><a data-link-name=3D"dnw-dis-temp-xho=
+m-0" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D157969=
+8&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&=
+x=3D20231201&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=
+=3D9d93c597621c1fa1554e8a7cb33634008973d86cde5182fdbb32a0af10a0fb=
+f8" target=3D"_blank" class=3D"wl2"><img src=3D"https://i.email.w=
+atchabc.com/wpm/665/ContentUploads/Templates/DisneyNOW/header_red=
+_d.png" width=3D"640" height=3D"90" border=3D"0" style=3D"display=
+:block;" class=3D"mobile" alt=3D"Disney" /></a></td>=0A    </tr>=0A=
+</table>=0A<!-- DESKTOP VERSION ENDS -->=0A<!-- MOBILE VERSION ST=
+ARTS -->=0A    <!--[if !mso]>=0A    <!-->=0A    <div style=3D"dis=
+play:none; width:0px; max-height:0px; overflow:hidden;" class=3D"=
+showmobile">=0A        <table width=3D"414px" border=3D"0" align=3D=
+"center" cellpadding=3D"0" cellspacing=3D"0" class=3D"showmobile"=
+ style=3D"margin: 0 auto; display: none; border: 0; max-height:0p=
+x; overflow:hidden;">=0A            <tr>=0A                <td al=
+ign=3D"center"><a data-link-name=3D"dnw-dis-temp-xhom-0" href=3D"=
+http://l.email.disneynow.com/rts/go2.aspx?h=3D1579698&tp=3Di-1NGB=
+-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3D20231201&=
+pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=3D9d93c59762=
+1c1fa1554e8a7cb33634008973d86cde5182fdbb32a0af10a0fbf8" target=3D=
+"_blank" class=3D"wl2"><img src=3D"https://i.email.watchabc.com/w=
+pm/665/ContentUploads/Templates/DisneyNOW/header_red_m.png" width=
+=3D"414" height=3D"90" border=3D"0" style=3D"display:block;" alt=3D=
+"Disney" /></a></td>=0A            </tr>=0A        </table>=0A   =
+ </div>=0A    <!--<![endif]-->=0A<!--MOBILE VERSION ENDS-->=0A<!-=
+-INTRO COPY-->=0A<table width=3D"640" border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" align=3D"center" class=3D"contenttable">=0A=
+    <tr>=0A<td align=3D"center" width=3D"49" class=3D"spleft">&nb=
+sp;</td>=0A<td align=3D"center" valign=3D"middle" style=3D"font-s=
+ize:16px;line-height:22px"><span style=3D"font-family: 'AvenirDNW=
+', Helvetica, Arial, sans-serif; font-size:16px;line-height:22px;=
+ color:#ffffff; font-weight: 500;">=0AWatch Magical Holidays live=
+ now on Disney Junior! </span>=0A</td>=0A  <td align=3D"center" w=
+idth=3D"49" class=3D"spleft">&nbsp;</td>=0A    </tr>  =0A</table>=
+=0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D=
+"center">=0A<tr>=0A<td align=3D"center" width=3D"20" height=3D"10=
+">&nbsp;</td>=0A    </tr>=0A</table>=0A<!--INTRO COPY ENDS-->=0A =
+       </td>=0A    </tr>=0A</table> =0A<!--HEADER RED DNOW ENDS--=
+>  =0A=0A          =0A<!--HERO MODULE-->=0A<table class=3D"conten=
+ttable" align=3D"center" width=3D"640" border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" style=3D"background-color:#ffffff;">=0A    =
+<tr>=0A        <td align=3D"center">=0A<table width=3D"640" borde=
+r=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" clas=
+s=3D"contenttable">=0A    <tr>=0A       <td align=3D"center"><a d=
+ata-link-name=3D"dnw-yt-lan-live-1-b" href=3D"http://l.email.disn=
+eynow.com/rts/go2.aspx?h=3D1579699&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7=
+PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKi=
+Z4wvNmcXR8InEt6U" target=3D"_blank"><img src=3D"https://i.email.w=
+atchabc.com/wpm/665/ContentUploads/Templates/DisneyNOW/DMH_16x9_5=
+120x2880.jpg" width=3D"640" height=3D"auto" border=3D"0" style=3D=
+"display:block;" class=3D"mobile" alt=3D"Disney Junior Magical Ho=
+lidays" /></a></td>=0A    </tr>=0A</table>=0A<table border=3D"0" =
+cellpadding=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A=
+       <td align=3D"center" width=3D"20" height=3D"36">&nbsp;</td=
+>=0A    </tr>=0A</table>=0A<!--Headline-->=0A<table width=3D"640"=
+ border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center=
+" class=3D"contenttable">=0A<tr>=0A<td align=3D"center" width=3D"=
+49" class=3D"spleft">&nbsp;</td>=0A<td align=3D"center" valign=3D=
+"bottom" style=3D"font-size:36px;line-height:40px"><span style=3D=
+"font-family: 'AvenirDNW', Helvetica, Arial, sans-serif; font-siz=
+e:36px;line-height:40px; color:#000000; font-weight: 700;"><a dat=
+a-link-name=3D"dnw-yt-lan-live-1-b" href=3D"http://l.email.disney=
+now.com/rts/go2.aspx?h=3D1579699&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7Pk=
+nK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4=
+wvNmcXR8InEt6U" target=3D"_blank" style=3D"text-decoration:none;f=
+ont-family: 'AvenirDNW', Helvetica, Arial, sans-serif; font-size:=
+ 36px;line-height:40px; color:#000000; font-weight: 700;" class=3D=
+"appleLinks">=0AHappy Holidays!  </a></span>=0A</td>=0A<td align=3D=
+"center" width=3D"49" class=3D"spleft">&nbsp;</td>=0A    </tr>  =0A=
+</table>=0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" align=3D"center">=0A<tr>=0A<td align=3D"center" width=3D"20" he=
+ight=3D"10">&nbsp;</td>=0A    </tr>=0A</table>=0A<!--Headline end=
+s-->=0A<!--Paragraph-->=0A<table width=3D"640" border=3D"0" cellp=
+adding=3D"0" cellspacing=3D"0" align=3D"center" class=3D"contentt=
+able">=0A    <tr>=0A<td align=3D"center" width=3D"49" class=3D"sp=
+left">&nbsp;</td>=0A<td align=3D"center" valign=3D"bottom" style=3D=
+"font-size:16px;line-height:22px"><span style=3D"font-family: 'Av=
+enirDNW', Helvetica, Arial, sans-serif; font-size:16px;line-heigh=
+t:22px; color:#000000; font-weight: 400;">=0A<em>Magical Holidays=
+</em> returns on Disney Junior. Watch holiday shorts, music video=
+s, and more LIVE! </span>=0A</td>=0A  <td align=3D"center" width=3D=
+"49" class=3D"spleft">&nbsp;</td>=0A    </tr>  =0A</table>=0A<tab=
+le border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"cent=
+er">=0A    <tr>=0A        <td align=3D"center" width=3D"29" heigh=
+t=3D"30">&nbsp;</td>=0A    </tr> =0A</table>=0A<!--Paragraph eend=
+s-->=0A<!--SINGLE CTA STARTS-->=0A<table width=3D"240" border=3D"=
+0" align=3D"center" cellpadding=3D"0" cellspacing=3D"0">=0A    <t=
+r>=0A        <td height=3D"50" valign=3D"middle" align=3D"center"=
+ style=3D"height:50px;width:240px;"><a data-link-name=3D"dnw-yt-l=
+an-live-1-b" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D=
+1579699&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1=
+eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D=
+"_blank" class=3D"wl2"> <img src=3D"https://i.email.watchabc.com/=
+wpm/665/ContentUploads/Templates/DisneyNOW/0926FinalMain240w.png"=
+ width=3D"240" height=3D"50" border=3D"0" style=3D"display:block;=
+" alt=3D"Wacth Now" /> </a></td>=0A    </tr>=0A</table>  =0A<!--S=
+INGLE CTA ENDS-->=0A=0A<table border=3D"0" cellpadding=3D"0" cell=
+spacing=3D"0" align=3D"center" class=3D"contenttable">=0A    <tr>=
+=0A        <td align=3D"center" width=3D"29" height=3D"30"></td>=0A=
+    </tr>=0A</table>    =0A</td>=0A    </tr> =0A</table>  =0A=0A<=
+!--HERO MODULE ENDS-->       =0A<!--SECONDARY CONTENT LIST-->=0A<=
+table class=3D"contenttable" align=3D"center" width=3D"640" borde=
+r=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"background-c=
+olor:#ffffff;">=0A    <tr>=0A<td>=0A<table border=3D"0" cellpaddi=
+ng=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A       =
+ <td align=3D"center" width=3D"29" height=3D"30"></td>=0A    </tr=
+> =0A</table>=0A<!--Headline-->=0A<table width=3D"640" border=3D"=
+0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D"=
+contenttable">=0A    <tr>=0A        <td align=3D"center" width=3D=
+"49" class=3D"spleft">&nbsp;</td>=0A<td align=3D"center" valign=3D=
+"bottom" style=3D"font-size:36px;line-height:40px"><span style=3D=
+"font-family: 'AvenirDNW', Helvetica, Arial, sans-serif; font-siz=
+e:36px;line-height:40px; color:#000000; font-weight: 700;">=0APla=
+y more holiday games!</span>=0A</td>=0A<td align=3D"center" width=
+=3D"49" class=3D"spleft">&nbsp;</td>=0A    </tr>  =0A</table>=0A<=
+table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"c=
+enter">=0A    <tr>=0A        <td align=3D"center" width=3D"29" he=
+ight=3D"35"></td>=0A    </tr>=0A</table>=0A<!--Headline ends-->=0A=
+<!--ROW 1-->=0A<table width=3D"640" border=3D"0" align=3D"center"=
+ cellpadding=3D"0" cellspacing=3D"0" class=3D"contenttable">=0A<t=
+r>=0A<td valign=3D"top" class=3D"block">=0A<table border=3D"0" ce=
+llpadding=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A=
+<td align=3D"center" width=3D"50" class=3D"hide">&nbsp;</td>=0A<t=
+d align=3D"center" valign=3D"top"><a data-link-name=3D"dnw-dnw-in=
+t-game-2-b" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D=
+1579700&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1=
+eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D=
+"_blank"><img src=3D"https://i.email.watchabc.com/wpm/665/Content=
+Uploads/Templates/DisneyNOW/GT_DNOW_DJMagicalHolidays_V2_1131.jpg=
+" width=3D"260" height=3D"auto" border=3D"0" style=3D"display:blo=
+ck;" class=3D"mobile4" alt=3D"Magical Holidays" /></a></td>=0A   =
+ </tr>  =0A</table>=0A</td>=0A    <td valign=3D"top" class=3D"blo=
+ck" width=3D"330">=0A<table border=3D"0" cellpadding=3D"0" cellsp=
+acing=3D"0" align=3D"left" class=3D"contenttable">=0A    <tr>=0A<=
+td class=3D"spcr2" align=3D"center" width=3D"20" height=3D"29">&n=
+bsp;</td>=0A<td align=3D"left">=0A<table border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A        <=
+td align=3D"center" width=3D"29" class=3D"spcrh" height=3D"0"></t=
+d>=0A    </tr>  =0A</table>  =0A<table class=3D"cont4" width=3D"2=
+80" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"cen=
+ter">=0A    <tr>=0A<td align=3D"left" valign=3D"top" style=3D"fon=
+t-size:24px;line-height:26px">=0A<span style=3D"font-family: 'Ave=
+nirDNW', Helvetica, Arial, sans-serif; font-size:24px;line-height=
+:26px; color:#000000; font-weight: 600;">    =0A        <a data-l=
+ink-name=3D"dnw-dnw-int-game-2-b" href=3D"http://l.email.disneyno=
+w.com/rts/go2.aspx?h=3D1579700&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK=
+-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wv=
+NmcXR8InEt6U" target=3D"_blank" style=3D"text-decoration:none;fon=
+t-family: 'AvenirDNW', Helvetica, Arial, sans-serif; font-size: 2=
+4px;line-height:26px; color:#000000; font-weight: 600;" class=3D"=
+appleLinks">=0A         Magical Holidays</a>=0A        </span>=0A=
+        </td>=0A    </tr>  =0A</table>=0A<table border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A  =
+      <td align=3D"center" width=3D"29" height=3D"6"></td>=0A    =
+</tr>=0A</table>  =0A<table width=3D"280" border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" align=3D"center" class=3D"cont4">=0A   =
+ <tr>=0A<td align=3D"left" valign=3D"bottom" style=3D"font-size:1=
+6px;line-height:22px">=0A        <span style=3D"font-family: 'Ave=
+nirDNW', Helvetica, Arial, sans-serif; font-size:16px;line-height=
+:22px; color:#000000; font-weight: 400;">=0APlay holiday games wi=
+th your favorite Disney characters!=0A        </span>=0A        <=
+/td>=0A</tr>  =0A</table>  =0A<table border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A        <td a=
+lign=3D"center" width=3D"29" height=3D"12"></td>=0A    </tr>=0A</=
+table> =0A    </td>=0A<td class=3D"spcr2" align=3D"center" width=3D=
+"30" height=3D"29">&nbsp;</td>=0A</tr>  =0A</table>=0A<table bord=
+er=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"left" class=
+=3D"contenttable">=0A    <tr>=0A        <td class=3D"spcr6" align=
+=3D"center" width=3D"20" height=3D"29">&nbsp;</td>=0A<td class=3D=
+"block">=0A            <table width=3D"182" border=3D"0" align=3D=
+"center" cellpadding=3D"0" cellspacing=3D"0">=0A                <=
+tr>=0A                <td height=3D"50" valign=3D"middle" align=3D=
+"center" style=3D"height:50px;"><a data-link-name=3D"dnw-dnw-int-=
+game-2-b" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D1=
+579700&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1e=
+SIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"=
+_blank" class=3D"wl2"> <img src=3D"https://i.email.disneynow.com/=
+wpm/665/ContentUploads/Templates/DisneyNOW/Mainmobilealt182wv2.pn=
+g" width=3D"auto" height=3D"50" border=3D"0" style=3D"display:blo=
+ck;" alt=3D"Play Now" /> </a></td>=0A                </tr>=0A    =
+        </table>=0A    </td>=0A<td class=3D"spcr6" align=3D"cente=
+r" width=3D"160" height=3D"29">&nbsp;</td>=0A    </tr>=0A</table>=
+=0A</td>=0A</tr>=0A</table>=0A<table border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A        <td a=
+lign=3D"center" width=3D"29" height=3D"40"></td>=0A    </tr>=0A</=
+table>=0A<!--ROW 1 ENDS-->=0A<!--ROW 2-->=0A<table width=3D"640" =
+border=3D"0" align=3D"center" cellpadding=3D"0" cellspacing=3D"0"=
+ class=3D"contenttable">=0A<tr>=0A<td valign=3D"top" class=3D"blo=
+ck">=0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" al=
+ign=3D"center">=0A    <tr>=0A<td align=3D"center" width=3D"50" cl=
+ass=3D"hide">&nbsp;</td>=0A<td align=3D"center" valign=3D"top"><a=
+ data-link-name=3D"dnw-dnw-int-game-2-b" href=3D"http://l.email.d=
+isneynow.com/rts/go2.aspx?h=3D1579701&tp=3Di-1NGB-Aj-YSx-5ipAKm-1=
+o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeU=
+pKiZ4wvNmcXR8InEt6U" target=3D"_blank"><img src=3D"https://i.emai=
+l.watchabc.com/wpm/665/ContentUploads/Templates/DisneyNOW/GT_DNOW=
+_AllStarRacersHoliday2023_GameTile_2710.jpg" width=3D"260" height=
+=3D"auto" border=3D"0" style=3D"display:block;" class=3D"mobile4"=
+ alt=3D"All-Star Racers" /></a></td>=0A    </tr>  =0A</table>=0A<=
+/td>=0A    <td valign=3D"top" class=3D"block" width=3D"330">=0A<t=
+able border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"le=
+ft" class=3D"contenttable">=0A    <tr>=0A<td class=3D"spcr2" alig=
+n=3D"center" width=3D"20" height=3D"29">&nbsp;</td>=0A<td align=3D=
+"left">=0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ align=3D"center">=0A    <tr>=0A        <td align=3D"center" widt=
+h=3D"29" class=3D"spcrh" height=3D"0"></td>=0A    </tr>  =0A</tab=
+le>  =0A<table class=3D"cont4" width=3D"280" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A<td a=
+lign=3D"left" valign=3D"top" style=3D"font-size:24px;line-height:=
+26px">=0A<span style=3D"font-family: 'AvenirDNW', Helvetica, Aria=
+l, sans-serif; font-size:24px;line-height:26px; color:#000000; fo=
+nt-weight: 600;">    =0A        <a data-link-name=3D"dnw-dnw-int-=
+game-2-b" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D1=
+579701&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1e=
+SIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"=
+_blank" style=3D"text-decoration:none;font-family: 'AvenirDNW', H=
+elvetica, Arial, sans-serif; font-size: 24px;line-height:26px; co=
+lor:#000000; font-weight: 600;" class=3D"appleLinks">=0A       Al=
+l-Star Racers</a>=0A        </span>=0A        </td>=0A    </tr>  =
+=0A</table>=0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" align=3D"center">=0A    <tr>=0A        <td align=3D"center" w=
+idth=3D"29" height=3D"6"></td>=0A    </tr>=0A</table>  =0A<table =
+width=3D"280" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" al=
+ign=3D"center" class=3D"cont4">=0A    <tr>=0A<td align=3D"left" v=
+align=3D"bottom" style=3D"font-size:16px;line-height:22px">=0A   =
+     <span style=3D"font-family: 'AvenirDNW', Helvetica, Arial, s=
+ans-serif; font-size:16px;line-height:22px; color:#000000; font-w=
+eight: 400;">=0ARace through a winter wonderland with holiday tra=
+cks!=0A        </span>=0A        </td>=0A</tr>  =0A</table>  =0A<=
+table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"c=
+enter">=0A    <tr>=0A        <td align=3D"center" width=3D"29" he=
+ight=3D"12"></td>=0A    </tr>=0A</table> =0A    </td>=0A<td class=
+=3D"spcr2" align=3D"center" width=3D"30" height=3D"29">&nbsp;</td=
+>=0A</tr>  =0A</table>=0A<table border=3D"0" cellpadding=3D"0" ce=
+llspacing=3D"0" align=3D"left" class=3D"contenttable">=0A    <tr>=
+=0A        <td class=3D"spcr6" align=3D"center" width=3D"20" heig=
+ht=3D"29">&nbsp;</td>=0A<td class=3D"block">=0A            <table=
+ width=3D"182" border=3D"0" align=3D"center" cellpadding=3D"0" ce=
+llspacing=3D"0">=0A                <tr>=0A                <td hei=
+ght=3D"50" valign=3D"middle" align=3D"center" style=3D"height:50p=
+x;"><a data-link-name=3D"dnw-dnw-int-game-2-b" href=3D"http://l.e=
+mail.disneynow.com/rts/go2.aspx?h=3D1579701&tp=3Di-1NGB-Aj-YSx-5i=
+pAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsX=
+LQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" class=3D"wl2"> <img =
+src=3D"https://i.email.watchabc.com/wpm/665/ContentUploads/Templa=
+tes/Play182wNEW.png" width=3D"auto" height=3D"50" border=3D"0" st=
+yle=3D"display:block;" alt=3D"Play In the App" /> </a></td>=0A   =
+             </tr>=0A            </table>=0A    </td>=0A<td class=
+=3D"spcr6" align=3D"center" width=3D"160" height=3D"29">&nbsp;</t=
+d>=0A    </tr>=0A</table>=0A</td>=0A</tr>=0A</table>=0A<table bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center">=0A=
+    <tr>=0A        <td align=3D"center" width=3D"29" height=3D"40=
+"></td>=0A    </tr> =0A</table>=0A<!--ROW 2 ENDS-->=0A<!--ROW 2--=
+>=0A<table width=3D"640" border=3D"0" align=3D"center" cellpaddin=
+g=3D"0" cellspacing=3D"0" class=3D"contenttable">=0A<tr>=0A<td va=
+lign=3D"top" class=3D"block">=0A<table border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A<td align=3D=
+"center" width=3D"50" class=3D"hide">&nbsp;</td>=0A<td align=3D"c=
+enter" valign=3D"top"><a data-link-name=3D"dnw-dnw-int-game-2-b" =
+href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D1579701&tp=3D=
+i-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEI=
+II3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank"><img=
+ src=3D"https://i.email.watchabc.com/wpm/665/ContentUploads/Templ=
+ates/DisneyNOW/GT_DisneyNOW_ColorSplash_ColorSplashHoliday2023_26=
+78.jpg" width=3D"260" height=3D"auto" border=3D"0" style=3D"displ=
+ay:block;" class=3D"mobile4" alt=3D"Color Splash" /></a></td>=0A =
+   </tr>  =0A</table>=0A</td>=0A    <td valign=3D"top" class=3D"b=
+lock" width=3D"330">=0A<table border=3D"0" cellpadding=3D"0" cell=
+spacing=3D"0" align=3D"left" class=3D"contenttable">=0A    <tr>=0A=
+<td class=3D"spcr2" align=3D"center" width=3D"20" height=3D"29">&=
+nbsp;</td>=0A<td align=3D"left">=0A<table border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A        =
+<td align=3D"center" width=3D"29" class=3D"spcrh" height=3D"0"></=
+td>=0A    </tr>  =0A</table>  =0A<table class=3D"cont4" width=3D"=
+280" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"ce=
+nter">=0A    <tr>=0A<td align=3D"left" valign=3D"top" style=3D"fo=
+nt-size:24px;line-height:26px">=0A<span style=3D"font-family: 'Av=
+enirDNW', Helvetica, Arial, sans-serif; font-size:24px;line-heigh=
+t:26px; color:#000000; font-weight: 600;">    =0A        <a data-=
+link-name=3D"dnw-dnw-int-game-2-b" href=3D"http://l.email.disneyn=
+ow.com/rts/go2.aspx?h=3D1579701&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7Pkn=
+K-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4w=
+vNmcXR8InEt6U" target=3D"_blank" style=3D"text-decoration:none;fo=
+nt-family: 'AvenirDNW', Helvetica, Arial, sans-serif; font-size: =
+24px;line-height:26px; color:#000000; font-weight: 600;" class=3D=
+"appleLinks">=0A      Color Splash</a>=0A        </span>=0A      =
+  </td>=0A    </tr>  =0A</table>=0A<table border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0" align=3D"center">=0A    <tr>=0A        =
+<td align=3D"center" width=3D"29" height=3D"6"></td>=0A    </tr>=0A=
+</table>  =0A<table width=3D"280" border=3D"0" cellpadding=3D"0" =
+cellspacing=3D"0" align=3D"center" class=3D"cont4">=0A    <tr>=0A=
+<td align=3D"left" valign=3D"bottom" style=3D"font-size:16px;line=
+-height:22px">=0A        <span style=3D"font-family: 'AvenirDNW',=
+ Helvetica, Arial, sans-serif; font-size:16px;line-height:22px; c=
+olor:#000000; font-weight: 400;">=0AAdd a splash of color to your=
+ holidays!=0A        </span>=0A        </td>=0A</tr>  =0A</table>=
+  =0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" alig=
+n=3D"center">=0A    <tr>=0A        <td align=3D"center" width=3D"=
+29" height=3D"12"></td>=0A    </tr>=0A</table> =0A    </td>=0A<td=
+ class=3D"spcr2" align=3D"center" width=3D"30" height=3D"29">&nbs=
+p;</td>=0A</tr>  =0A</table>=0A<table border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" align=3D"left" class=3D"contenttable">=0A  =
+  <tr>=0A        <td class=3D"spcr6" align=3D"center" width=3D"20=
+" height=3D"29">&nbsp;</td>=0A<td class=3D"block">=0A            =
+<table width=3D"182" border=3D"0" align=3D"center" cellpadding=3D=
+"0" cellspacing=3D"0">=0A                <tr>=0A                <=
+td height=3D"50" valign=3D"middle" align=3D"center" style=3D"heig=
+ht:50px;"><a data-link-name=3D"dnw-dnw-int-game-2-b" href=3D"http=
+://l.email.disneynow.com/rts/go2.aspx?h=3D1579701&tp=3Di-1NGB-Aj-=
+YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrB=
+Uy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" class=3D"wl2">=
+ <img src=3D"https://i.email.watchabc.com/wpm/665/ContentUploads/=
+Templates/Play182wNEW.png" width=3D"auto" height=3D"50" border=3D=
+"0" style=3D"display:block;" alt=3D"Play in the App" /> </a></td>=
+=0A                </tr>=0A            </table>=0A    </td>=0A<td=
+ class=3D"spcr6" align=3D"center" width=3D"160" height=3D"29">&nb=
+sp;</td>=0A    </tr>=0A</table>=0A</td>=0A</tr>=0A</table>=0A<tab=
+le border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"cent=
+er">=0A    <tr>=0A        <td align=3D"center" width=3D"29" heigh=
+t=3D"60"></td>=0A    </tr> =0A</table>=0A<!--ROW 2 ENDS-->=0A</td=
+>=0A    </tr>=0A</table>=0A<!--SECONDARY CONTENT LIST ENDS-->=0A<=
+!--Headline-->=0A<table width=3D"640" border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" align=3D"center" class=3D"contenttable">=0A=
+    <tr>=0A        <td align=3D"center" width=3D"49" class=3D"spl=
+eft">&nbsp;</td>=0A<td align=3D"center" valign=3D"bottom" style=3D=
+"font-size:36px;line-height:40px"><span style=3D"font-family: 'Av=
+enirDNW', Helvetica, Arial, sans-serif; font-size:36px;line-heigh=
+t:40px; color:#000000; font-weight: 700;">=0ANew Disney Christmas=
+ Movie!</span>=0A</td>=0A<td align=3D"center" width=3D"49" class=3D=
+"spleft">&nbsp;</td>=0A    </tr>  =0A</table>=0A=0A<!--Headline e=
+nds-->=0A<!--TRIPLE IMAGE MODULE (Image over Text in Mobile) STAR=
+TS--> =0A            <!--WRAPPER - DO NOT REMOVE-->=0A           =
+ <table width=3D"640" class=3D"contenttable" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" align=3D"center" bgcolor=3D"#ffffff"=
+>=0A              <tr>=0A                <td><!--WRAPPER DO NOT R=
+EMOVE-->=0A                  =0A                  <table border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D=
+"contenttable">=0A                    <tr>=0A                    =
+  <td align=3D"center" width=3D"20" height=3D"40" class=3D"hide">=
+</td>=0A                    </tr>=0A                  </table>=0A=
+                  <table width=3D"640" border=3D"0" align=3D"cent=
+er" cellpadding=3D"0" cellspacing=3D"0" class=3D"contenttable">=0A=
+                    <tr>=0A                      <td align=3D"cen=
+ter" height=3D"30" width=3D"12" class=3D"block">&nbsp;</td>=0A   =
+                   <!--MOVIE 1-->=0A                      <td val=
+ign=3D"top" class=3D"block"><!--POSTER 1-->=0A                   =
+     <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" alig=
+n=3D"center">=0A                          <tr>=0A                =
+            <td align=3D"center"><a data-link-name=3D"dnw-yt-lan-=
+vid-3-b" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D15=
+79702&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eS=
+IhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_=
+blank"> <img src=3D"https://i.email.watchabc.com/wpm/665/ContentU=
+ploads/Templates/DisneyNOW/NaughtyNineBTS.png" width=3D"286" heig=
+ht=3D"auto" border=3D"0" style=3D"display:block;" class=3D"mobile=
+4B" alt=3D"The Naughty Nine Behind the Scenes" /> </a></td>=0A   =
+           =20           </tr>=0A                        </table>=
+=0A                        <!--POSTER 1 ENDS-->=0A               =
+         <table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+align=3D"center" class=3D"contenttable">=0A                      =
+    <tr>=0A                            <td align=3D"center" width=
+=3D"29" height=3D"15"></td>=0A                          </tr>=0A =
+                       </table>=0A                        <table =
+class=3D"cont4" width=3D"280" border=3D"0" cellpadding=3D"0" cell=
+spacing=3D"0" align=3D"center">=0A    <tr>=0A<td align=3D"left" v=
+align=3D"top" style=3D"font-size:24px;line-height:26px">=0A<span =
+style=3D"font-family: 'AvenirDNW', Helvetica, Arial, sans-serif; =
+font-size:24px;line-height:26px; color:#000000; font-weight: 600;=
+">    =0A        <a data-link-name=3D"dnw-yt-lan-vid-3-b" href=3D=
+"http://l.email.disneynow.com/rts/go2.aspx?h=3D1579702&tp=3Di-1NG=
+B-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MN=
+XPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" style=3D"=
+text-decoration:none;font-family: 'AvenirDNW', Helvetica, Arial, =
+sans-serif; font-size: 24px;line-height:26px; color:#000000; font=
+-weight: 600;" class=3D"appleLinks">=0A      The Naughty Nine Beh=
+ind the Scenes</a>=0A        </span>=0A        </td>=0A    </tr> =
+ =0A</table>=0A <table border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" align=3D"center" class=3D"contenttable">=0A               =
+           <tr>=0A                            <td align=3D"center=
+" width=3D"29" height=3D"6"></td>=0A                          </t=
+r>=0A                        </table>=0A <table width=3D"280" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" cl=
+ass=3D"cont4">=0A    <tr>=0A<td align=3D"left" valign=3D"bottom" =
+style=3D"font-size:16px;line-height:22px">=0A        <span style=3D=
+"font-family: 'AvenirDNW', Helvetica, Arial, sans-serif; font-siz=
+e:16px;line-height:22px; color:#000000; font-weight: 400;">=0ALet=
+'s take a peek at Santa's village, Santa's workshop, Santa's slei=
+gh, and more!=0A        </span>=0A        </td>=0A</tr>  =0A</tab=
+le> =0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" al=
+ign=3D"center" class=3D"contenttable">=0A                        =
+  <tr>=0A                            <td align=3D"center" width=3D=
+"29" height=3D"15"></td>=0A                          </tr>=0A    =
+                    </table>=0A<!--TOP CTA-->            =0A     =
+   <!-- DESKTOP VERSION STARTS -->=0A        <table width=3D"240"=
+ border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center=
+" class=3D"conttentable">=0A            <tr>=0A               <td=
+ height=3D"50" valign=3D"middle" align=3D"center" style=3D"height=
+:50px;width:240px;"><a data-link-name=3D"dnw-yt-lan-vid-3-b" href=
+=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D1579702&tp=3Di-=
+1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII=
+3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" class=3D=
+"mobile"><img src=3D"https://i.email.watchabc.com/wpm/665/Content=
+Uploads/Templates/DisneyNOW/0926FinalMain240w.png" width=3D"240" =
+height=3D"50" border=3D"0" style=3D"display:block;" alt=3D"Watch =
+Now" /> </a></td>=0A            </tr>=0A        </table>=0A      =
+  <!-- DESKTOP VERSION ENDS -->=0A    =0A        <!--TOP CTA ENDS=
+-->=0A        <table border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" align=3D"center">=0A            <tr>=0A                <td al=
+ign=3D"center" width=3D"20" height=3D"15"></td>=0A            </t=
+r>=0A        </table>=0A        <!--BOTTOM CTA-->=0A        <!-- =
+DESKTOP VERSION STARTS -->=0A        <table width=3D"240" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D=
+"conttentable">=0A            <tr>=0A               <td height=3D=
+"50" valign=3D"middle" align=3D"center" style=3D"height:50px;widt=
+h:240px;"><a data-link-name=3D"dnw-dnw-lan-show-3-b" href=3D"http=
+://l.email.disneynow.com/rts/go2.aspx?h=3D1579703&tp=3Di-1NGB-Aj-=
+YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrB=
+Uy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" class=3D"mobil=
+e"><img src=3D"https://i.email.watchabc.com/wpm/665/ContentUpload=
+s/Templates/DisneyNOW/Main240wDNWhiteback.png" width=3D"240" heig=
+ht=3D"50" border=3D"0" style=3D"display:block;" alt=3D"DisneyNOW"=
+ /> </a></td>=0A            </tr>=0A        </table>=0A        <!=
+-- DESKTOP VERSION ENDS -->=0A        <!--BOTTOM CTA ENDS-->=0A  =
+                      </td>=0A                      <!--MOVIE 1 E=
+NDS-->=0A                      <td align=3D"center" height=3D"30"=
+ width=3D"12" class=3D"block">&nbsp;</td>=0A                     =
+ <!--MOVIE 2-->=0A                      <td valign=3D"top" class=3D=
+"block"><!--POSTER 2-->=0A                        <table border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center">=0A     =
+                     <tr>=0A                            <td align=
+=3D"center"><a data-link-name=3D"dnw-yt-lan-vid-3-b" href=3D"http=
+://l.email.disneynow.com/rts/go2.aspx?h=3D1579704&tp=3Di-1NGB-Aj-=
+YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrB=
+Uy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank"> <img src=3D"h=
+ttps://i.email.watchabc.com/wpm/665/ContentUploads/Templates/Disn=
+eyNOW/NaughtyNineFeaturette.png" width=3D"286" height=3D"auto" bo=
+rder=3D"0" style=3D"display:block;" class=3D"mobile4B" alt=3D"The=
+ Naughty Nine Featurette" /> </a></td>=0A                        =
+  </tr>=0A                        </table>=0A                    =
+    <!--POSTER 2 ENDS-->=0A                        <table border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D=
+"contenttable">=0A                          <tr>=0A              =
+              <td align=3D"center" width=3D"29" height=3D"15"></t=
+d>=0A                          </tr>=0A                        </=
+table>=0A                     <table class=3D"cont4" width=3D"280=
+" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"cente=
+r">=0A    <tr>=0A<td align=3D"left" valign=3D"top" style=3D"font-=
+size:24px;line-height:26px">=0A<span style=3D"font-family: 'Aveni=
+rDNW', Helvetica, Arial, sans-serif; font-size:24px;line-height:2=
+6px; color:#000000; font-weight: 600;">    =0A        <a data-lin=
+k-name=3D"dnw-yt-lan-vid-3-b" href=3D"http://l.email.disneynow.co=
+m/rts/go2.aspx?h=3D1579704&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-=
+5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcX=
+R8InEt6U" target=3D"_blank" style=3D"text-decoration:none;font-fa=
+mily: 'AvenirDNW', Helvetica, Arial, sans-serif; font-size: 24px;=
+line-height:26px; color:#000000; font-weight: 600;" class=3D"appl=
+eLinks">=0A      The Naughty Nine Featurette</a>=0A        </span=
+>=0A        </td>=0A    </tr>  =0A</table>=0A <table border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D"co=
+ntenttable">=0A                          <tr>=0A                 =
+           <td align=3D"center" width=3D"29" height=3D"6"></td>=0A=
+                          </tr>=0A                        </table=
+>=0A <table width=3D"280" border=3D"0" cellpadding=3D"0" cellspac=
+ing=3D"0" align=3D"center" class=3D"cont4">=0A    <tr>=0A<td alig=
+n=3D"left" valign=3D"bottom" style=3D"font-size:16px;line-height:=
+22px">=0A        <span style=3D"font-family: 'AvenirDNW', Helveti=
+ca, Arial, sans-serif; font-size:16px;line-height:22px; color:#00=
+0000; font-weight: 400;">=0AThe cast of the Disney Original Movie=
+ <em>The Naughty Nine</em> talk about the holiday heist adventure=
+.=0A        </span>=0A        </td>=0A</tr>  =0A</table>    =0A=0A=
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"=
+center" class=3D"contenttable">=0A                          <tr>=0A=
+                            <td align=3D"center" width=3D"29" hei=
+ght=3D"15"></td>=0A                          </tr>=0A            =
+            </table>=0A <!--TOP CTA-->            =0A        <!--=
+ DESKTOP VERSION STARTS -->=0A        <table width=3D"240" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=
+=3D"conttentable">=0A            <tr>=0A               <td height=
+=3D"50" valign=3D"middle" align=3D"center" style=3D"height:50px;w=
+idth:240px;"><a data-link-name=3D"dnw-yt-lan-vid-3-b" href=3D"htt=
+p://l.email.disneynow.com/rts/go2.aspx?h=3D1579704&tp=3Di-1NGB-Aj=
+-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSr=
+BUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" class=3D"mobi=
+le"><img src=3D"https://i.email.watchabc.com/wpm/665/ContentUploa=
+ds/Templates/DisneyNOW/0926FinalMain240w.png" width=3D"240" heigh=
+t=3D"50" border=3D"0" style=3D"display:block;" alt=3D"Watch Now" =
+/> </a></td>=0A            </tr>=0A        </table>=0A        <!-=
+- DESKTOP VERSION ENDS -->=0A        =0A        <!--TOP CTA ENDS-=
+->=0A        <table border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" align=3D"center">=0A            <tr>=0A                <td al=
+ign=3D"center" width=3D"20" height=3D"15"></td>=0A            </t=
+r>=0A        </table>=0A        <!--BOTTOM CTA-->=0A        <!-- =
+DESKTOP VERSION STARTS -->=0A        <table width=3D"240" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D=
+"conttentable">=0A            <tr>=0A               <td height=3D=
+"50" valign=3D"middle" align=3D"center" style=3D"height:50px;widt=
+h:240px;"><a data-link-name=3D"dnw-dnw-lan-show-3-b" href=3D"http=
+://l.email.disneynow.com/rts/go2.aspx?h=3D1579703&tp=3Di-1NGB-Aj-=
+YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&pi=3DEIII3MNXPSrB=
+Uy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"_blank" class=3D"mobil=
+e"><img src=3D"https://i.email.watchabc.com/wpm/665/ContentUpload=
+s/Templates/DisneyNOW/Main240wDNWhiteback.png" width=3D"240" heig=
+ht=3D"50" border=3D"0" style=3D"display:block;" alt=3D"DisneyNOW"=
+ /> </a></td>=0A            </tr>=0A        </table>=0A        <!=
+-- DESKTOP VERSION ENDS -->=0A       =0A        <!--BOTTOM CTA EN=
+DS-->=0A                        </td>=0A                      <!-=
+-MOVIE 2 ENDS-->=0A                      <td align=3D"center" hei=
+ght=3D"30" width=3D"12" class=3D"block">&nbsp;</td>=0A           =
+           =0A                      =0A                    </tr>=0A=
+                  </table>=0A<!--GRAY DIVIDER THIN-->=0A<table cl=
+ass=3D"contenttable" align=3D"center" width=3D"640" border=3D"0" =
+cellpadding=3D"0" cellspacing=3D"0" style=3D"background-color:#ff=
+ffff;">=0A    <tr>=0A        <td align=3D"center" width=3D"29" he=
+ight=3D"60">&nbsp;</td>=0A    </tr>=0A</table>=0A<!--GRAY DIVIDER=
+ THIN ENDS-->   =0A<!--APP BANNER 1-->=0A<table class=3D"contentt=
+able" align=3D"center" width=3D"640" border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" style=3D"background-color:#ffffff;">=0A    <=
+tr>=0A        <td align=3D"center">=0A<!-- DESKTOP VERSION STARTS=
+ -->=0A<table width=3D"640" border=3D"0" cellpadding=3D"0" cellsp=
+acing=3D"0" align=3D"center" class=3D"hide">=0A    <tr>=0A       =
+<td align=3D"center"><a data-link-name=3D"dnw-dnw-lan-app-4-b" hr=
+ef=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D1579705&tp=3D=
+i-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3D202=
+31201&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=3Dd610=
+944f542d1932acaddb4b431f6c0f01947b6849d2d4f36039ed25edaa9c64" tar=
+get=3D"_blank"><img src=3D"https://i.email.watchabc.com/wpm/665/C=
+ontentUploads/Templates/DisneyNOW/banner_app_dnow_d.png" width=3D=
+"640" height=3D"190" border=3D"0" style=3D"display:block;" class=3D=
+"mobile" alt=3D"Watch now. Play now. Watch full episodes and play=
+ gamese from anywhere. GET THE APP" /></a></td>=0A    </tr>=0A</t=
+able>=0A<!-- DESKTOP VERSION ENDS -->=0A<!-- MOBILE VERSION START=
+S -->=0A    <!--[if !mso]>=0A    <!-->=0A    <div style=3D"displa=
+y:none; width:0px; max-height:0px; overflow:hidden;" class=3D"sho=
+wmobile">=0A        <table width=3D"414px" border=3D"0" align=3D"=
+center" cellpadding=3D"0" cellspacing=3D"0" class=3D"showmobile" =
+style=3D"margin: 0 auto; display: none; border: 0; max-height:0px=
+; overflow:hidden;">=0A            <tr>=0A                <td ali=
+gn=3D"center">=0A                <a data-link-name=3D"dnw-dnw-lan=
+-app-4-b" href=3D"http://l.email.disneynow.com/rts/go2.aspx?h=3D1=
+579706&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1e=
+SIhU&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U" target=3D"=
+_blank"><img src=3D"https://i.email.watchabc.com/wpm/665/ContentU=
+ploads/Templates/DisneyNOW/banner_app_dnow_m.png" width=3D"414" h=
+eight=3D"250" border=3D"0" style=3D"display:block;" alt=3D"Watch =
+now. Play now. Watch full episodes and play gamese from anywhere.=
+ GET THE APP" /></a>=0A                </td>=0A            </tr>=0A=
+        </table>=0A    </div>=0A    <!--<![endif]-->=0A<!--MOBILE=
+ VERSION ENDS-->=0A        </td>=0A    </tr>=0A</table> =0A<!--AP=
+P BANNER 1 ENDS-->=0A<!--GRAY DIVIDER THIN-->=0A<table class=3D"c=
+ontenttable" align=3D"center" width=3D"640" border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" style=3D"background-color:#ffffff;">=0A=
+    <tr>=0A        <td align=3D"center" width=3D"29" height=3D"25=
+">&nbsp;</td>=0A    </tr>=0A</table>=0A<!--GRAY DIVIDER THIN ENDS=
+-->                  =0A<!--FOOTER--><!--Change table background =
+color per brand-->=0A<table class=3D"contenttable" align=3D"cente=
+r" width=3D"640" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ style=3D"background-color:#c40431;">=0A    <!--COLORS: DisneyNOW=
+ #c40431 / Disney Channel #8336a8 / Disney JR #0078c4-->=0A    <t=
+r>=0A<td>=0A<!-- DESKTOP VERSION STARTS -->=0A<table width=3D"640=
+" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"cente=
+r" class=3D"hide">=0A    <tr>=0A       <td align=3D"center"><a da=
+ta-link-name=3D"dnw-dis-temp-xhom-0" href=3D"http://l.email.disne=
+ynow.com/rts/go2.aspx?h=3D1579698&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7P=
+knK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3D20231201&pi=3DEIII3MNXPSrBUy8=
+rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=3D9d93c597621c1fa1554e8a7cb33634=
+008973d86cde5182fdbb32a0af10a0fbf8" target=3D"_blank" class=3D"wl=
+2"><img src=3D"https://i.email.watchabc.com/wpm/665/ContentUpload=
+s/Templates/DisneyNOW/header_red_d.png" width=3D"640" height=3D"9=
+0" border=3D"0" style=3D"display:block;" class=3D"mobile" alt=3D"=
+Disney" /></a></td>=0A    </tr>=0A</table>=0A<!-- DESKTOP VERSION=
+ ENDS -->=0A<!-- MOBILE VERSION STARTS -->=0A    <!--[if !mso]>=0A=
+    <!-->=0A    <div style=3D"display:none; width:0px; max-height=
+:0px; overflow:hidden;" class=3D"showmobile">=0A        <table wi=
+dth=3D"414px" border=3D"0" align=3D"center" cellpadding=3D"0" cel=
+lspacing=3D"0" class=3D"showmobile" style=3D"margin: 0 auto; disp=
+lay: none; border: 0; max-height:0px; overflow:hidden;">=0A      =
+      <tr>=0A                <td align=3D"center"><a data-link-na=
+me=3D"dnw-dis-temp-xhom-0" href=3D"http://l.email.disneynow.com/r=
+ts/go2.aspx?h=3D1579698&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5il=
+ZrF-l9k82GNiKN-1eSIhU&x=3D20231201&pi=3DEIII3MNXPSrBUy8rsXLQwzeUp=
+KiZ4wvNmcXR8InEt6U&hp2=3D9d93c597621c1fa1554e8a7cb33634008973d86c=
+de5182fdbb32a0af10a0fbf8" target=3D"_blank" class=3D"wl2"><img sr=
+c=3D"https://i.email.watchabc.com/wpm/665/ContentUploads/Template=
+s/DisneyNOW/header_red_m.png" width=3D"414" height=3D"90" border=3D=
+"0" style=3D"display:block;" alt=3D"Disney" /></a></td>=0A       =
+     </tr>=0A        </table>=0A    </div>=0A    <!--<![endif]-->=
+=0A<!--MOBILE VERSION ENDS-->=0A<!-- View Online --> =0A<table wi=
+dth=3D"640" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" alig=
+n=3D"center" class=3D"contenttable">=0A    <tr>=0A <td width=3D"3=
+0">&nbsp;</td>=0A<td align=3D"left" valign=3D"bottom" style=3D"fo=
+nt-size:10px;line-height:12px">=0A            <span style=3D"font=
+-family: Helvetica, Arial, sans-serif; font-size:10px;line-height=
+:12px; color:#ffffff;" class=3D"ufooter">=0A<a data-link-name=3D"=
+dnw-ex-tem-xweb-0-a" href=3D"http://l.email.disneynow.com/rts/go2=
+.aspx?h=3D1579707&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9=
+k82GNiKN-1eSIhU&x=3D8577941b6ebeccaddc7273b260526cced42456ceb509b=
+7ce676494029c166cdf%7c20231201&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4=
+wvNmcXR8InEt6U&hp2=3Dd3b11dcec238ee8324acb228fb32e6e04750ed024628=
+323738792c78d7ad10ae" target=3D"_blank" style=3D"text-decoration:=
+underline;text-decoration-color:#ffffff;color:#ffffff;font-weight=
+:bold;" class=3D"ufooter">=0A            View Online</a> =0A     =
+       </span>=0A        </td>=0A</tr>  =0A</table>   =0A<table b=
+order=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center">=
+=0A    <tr>=0A        <td align=3D"center" width=3D"29" height=3D=
+"8">&nbsp;</td>=0A    </tr>=0A</table>=0A<!-- View Online Ends --=
+> =0A<!--LEGAL AND OPT OUT LINKS-->=0A<table width=3D"640" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=
+=3D"contenttable">=0A    <tr>=0A <td width=3D"30" height=3D"18">&=
+nbsp;</td>=0A<td align=3D"left" valign=3D"bottom" style=3D"font-s=
+ize:10px;line-height:12px">=0A            <span style=3D"font-fam=
+ily: Helvetica, Arial, sans-serif; font-size:10px;line-height:12p=
+x; color:#ffffff;" class=3D"ufooter">=0A            Clicking on t=
+hird party links and their associated images, including "Watch No=
+w," will take you away from our Disney site where different terms=
+ of use and privacy policy apply.=0A=0A</span>=0A        </td>=0A=
+<td width=3D"30" height=3D"18">&nbsp;</td>=0A</tr>  =0A</table>=0A=
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"=
+center">=0A    <tr>=0A        <td align=3D"center" width=3D"29" h=
+eight=3D"8">&nbsp;</td>=0A    </tr>=0A</table>=0A<table width=3D"=
+640" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" align=3D"ce=
+nter" class=3D"contenttable">=0A    <tr>=0A <td width=3D"30" heig=
+ht=3D"18">&nbsp;</td>=0A<td align=3D"left" valign=3D"bottom" styl=
+e=3D"font-size:10px;line-height:12px">=0A            <span style=3D=
+"font-family: Helvetica, Arial, sans-serif; font-size:10px;line-h=
+eight:12px; color:#ffffff;" class=3D"ufooter">=0A            This=
+ email was sent to: <a data-link-name=3D"dcn-ex-tem-xweb-0-a" hre=
+f=3D"mailto:notme@gmail.com" target=3D"_blank" style=3D=
+"text-decoration:underline;text-decoration-color:#ffffff;color:#f=
+fffff;font-weight:bold;" class=3D"ufooter">notme@gmail.=
+com</a>=0A                <br /><br/>=0A            Please do not=
+ reply to this email as this address is not monitored.=0A        =
+        <br /><br />=0A            This email contains an adverti=
+sement from:=0A                <br />=0ADisney Channel | 500 S. B=
+uena Vista Street | Burbank, CA 91521.=0A                <br /><b=
+r />=0A<a data-link-name=3D"dcn-ow-tem-xlos-0" href=3D"http://l.e=
+mail.disneynow.com/rts/go2.aspx?h=3D1579708&tp=3Di-1NGB-Aj-YSx-5i=
+pAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU&x=3DmgLwiTAsmx8AAAGHSDQ=
+NZQEDH6%2B308gNI6dnFiersT0ERpxv1LO1KK%2BXmzBE2MkOxuECmGetEp7TwYzV=
+mxFFHzE%3D%7cDNHolidayCategory%7c132491&pi=3DEIII3MNXPSrBUy8rsXLQ=
+wzeUpKiZ4wvNmcXR8InEt6U&hp2=3D0e8b4e9e4652c6e13b2787c86120bd0e01f=
+11711f148dcd83444385032e24fff" target=3D"_blank" style=3D"text-de=
+coration:underline;text-decoration-color:#ffffff;color:#ffffff;fo=
+nt-weight:bold;" class=3D"ufooter">Stop all types of future comme=
+rcial email</a> from Disney Channel regarding its products or ser=
+vices. =0A                <br /><br />=0A<a data-link-name=3D"dcn=
+-ow-tem-xpref-0" href=3D"http://l.email.disneynow.com/rts/go2.asp=
+x?h=3D1579709&tp=3Di-1NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82G=
+NiKN-1eSIhU&x=3DmgLwiTAsmx8AAAGHSDQNZQEDH6%2B308gNI6dnFiersT0ERpx=
+v1LO1KK%2BXmzBE2MkOxuECmGetEp7TwYzVmxFFHzE%3D%7cDNHolidayCategory=
+%7c132491&pi=3DEIII3MNXPSrBUy8rsXLQwzeUpKiZ4wvNmcXR8InEt6U&hp2=3D=
+3121b9fc402627fa1f5e616a664f789b248c3e1b24bcbab1d7bb292d64b7657c"=
+ target=3D"_blank" style=3D"text-decoration:underline;text-decora=
+tion-color:#ffffff;color:#ffffff;font-weight:bold;" class=3D"ufoo=
+ter">Manage all email preferences</a> from The Walt Disney Family=
+ of Companies.=0A    </span>=0A  </td>=0A<td width=3D"30" height=3D=
+"18">&nbsp;</td>=0A</tr>  =0A</table>=0A<!--LEGAL AND OPT OUT LIN=
+KS END-->=0A<table border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" align=3D"center">=0A    <tr>=0A        <td align=3D"center" wi=
+dth=3D"29" height=3D"8">&nbsp;</td>=0A    </tr>=0A</table>=0A<tab=
+le width=3D"640" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ align=3D"center" class=3D"contenttable">=0A    <tr>=0A <td width=
+=3D"30">&nbsp;</td>=0A<td align=3D"left" valign=3D"bottom" style=3D=
+"font-size:10px;line-height:12px">=0A            <span style=3D"f=
+ont-family: Helvetica, Arial, sans-serif; font-size:10px;line-hei=
+ght:12px; color:#ffffff;" class=3D"ufooter">=0A&copy; 2023 Disney=
+. All Rights Reserved. <br>=0A<br>=0A              All other devi=
+ces, platforms, titles and related copyrights and trademarks are =
+the property of their respective owners.=0A</span>=0A</td>=0A</tr=
+>  =0A</table>=0A<table border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" align=3D"center">=0A    <tr>=0A        <td align=3D"cente=
+r" width=3D"29" height=3D"30">&nbsp;</td>=0A    </tr>=0A</table>=0A=
+        </td>=0A</tr>=0A</table>=0A<!--FOOTER ENDS-->=0A </td>=0A=
+    </tr>=0A</table> =0A</td>=0A    </tr>=0A</table>=0A</td>=0A</=
+tr>=0A</table>=0A<div style=3D"display:none !important;mso-hide:a=
+ll;"><a href=3D"http://l.email.disneynow.com/rts/un.aspx?tp=3Di-1=
+NGB-Aj-YSx-5ipAKm-1o-7PknK-1c-5ilZrF-l9k82GNiKN-1eSIhU" style=3D"=
+display:none !important;mso-hide:all;"></a></div></body>=0A</html=
+>
+----boundary_53831934_f06857ba-7926-46b0-8fc9-b057ddfa1771--
+
+
+
+
+--===============2310357241105441685==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+list mailing list
+list@mysite.org
+http://mail.mysite.org/mailman/listinfo/list
+
+--===============2310357241105441685==--
+
+
+
+
