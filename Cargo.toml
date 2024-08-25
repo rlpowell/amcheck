@@ -18,6 +18,8 @@ serde = { version = "1.0", features = ["derive"] }
 secrecy = { version = "0.8", features = ["serde"] }
 time = { version = "0.3", features = ["local-offset"] }
 serde_regex = "1.1"
+error-stack = "0.4"
+thiserror = "1.0"
 
 [dev-dependencies]
 toml = "0.8"

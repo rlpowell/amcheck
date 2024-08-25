@@ -45,5 +45,10 @@ _launch_imapd() {
   echo $! > /tmp/bats-dovecot.pid
   sleep 3
 
+  ps -p "$(cat /tmp/bats-dovecot.pid)" >/dev/null || {
+	  echo "Couldn't start dovecot."
+	  false
+  }
+
   cd "$startdir"
 }

@@ -1,0 +1,5 @@
+Run all the tests like so in the container:
+
+$ ./test/bats/bin/bats -r test/dovecot_based/
+
+Relies on sudo to launch dovecot-imapd

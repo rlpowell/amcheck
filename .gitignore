@@ -8,3 +8,6 @@
 /target
 settings/prod.toml
 test/dovecot_based/local_only
+
+.container_history
+.ignore

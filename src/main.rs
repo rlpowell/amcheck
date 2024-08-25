@@ -4,13 +4,26 @@ use std::env;
 
 use amcheck::configuration::{get_configuration, get_environment, Matcher, MatcherPart};
 
+use error_stack::{Result, ResultExt};
+use thiserror::Error;
+
 use tracing::dispatcher::{self, Dispatch};
 use tracing::{debug, info};
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{EnvFilter, Registry};
 
+#[derive(Debug, Error)]
+enum MyError {
+    #[error("IMAP error")]
+    Imap,
+    #[error("Date formatting error")]
+    DateFormatting,
+    #[error("Could not subtract {0} days from now.")]
+    DateSubtraction(i64),
+}
+
 #[tracing::instrument]
-fn main() {
+fn main() -> Result<(), MyError> {
     let subscriber = Registry::default()
         .with(
             tracing_logfmt::builder()
@@ -36,7 +49,7 @@ fn main() {
         // DANGER: do not use in prod!
         client = client.danger_skip_tls_verify(true);
     }
-    let client = client.connect().unwrap();
+    let client = client.connect().change_context(MyError::Imap)?;
 
     // the client we have here is unauthenticated.
     // to do anything useful with the e-mails, we need to log in
@@ -50,10 +63,10 @@ fn main() {
 
     match args[1].as_str() {
         "move" => {
-            move_to_storage(&mut imap_session, settings.basics.matcher_sets, false);
+            move_to_storage(&mut imap_session, settings.basics.matcher_sets, false)?;
         }
         "move_noop" => {
-            move_to_storage(&mut imap_session, settings.basics.matcher_sets, true);
+            move_to_storage(&mut imap_session, settings.basics.matcher_sets, true)?;
         }
         "check" => {
             check_storage(&imap_session, settings.basics.matcher_sets);
@@ -62,7 +75,9 @@ fn main() {
     }
 
     // be nice to the server and log out
-    imap_session.logout().unwrap();
+    imap_session.logout().change_context(MyError::Imap)?;
+
+    Ok(())
 }
 
 #[tracing::instrument]
@@ -83,23 +98,25 @@ fn address_to_string(address: &imap_proto::Address) -> String {
         ),
         None => String::new(),
     };
-    let mailbox = std::str::from_utf8(
-        address
-            .mailbox
-            .as_ref()
-            .expect("Couldn't get a mailbox out of an Address"),
-    )
-    .expect("Couldn't convert a mailbox in an Address to UTF-8")
-    .to_string();
-    let host = std::str::from_utf8(
-        address
-            .host
-            .as_ref()
-            .expect("Couldn't get a host out of an Address"),
-    )
-    .expect("Couldn't convert a host in an Address to UTF-8")
-    .to_string();
-    format!("{name}<{mailbox}@{host}>")
+
+    let address_lp = match address.mailbox.as_ref() {
+        Some(x) => x,
+        None => "MISSING".as_bytes(),
+    };
+
+    let localpart = std::str::from_utf8(address_lp)
+        .expect("Couldn't convert a local part ('mailbox') in an Address to UTF-8")
+        .to_string();
+
+    let address_host = match address.host.as_ref() {
+        Some(x) => x,
+        None => "MISSING".as_bytes(),
+    };
+
+    let host = std::str::from_utf8(address_host)
+        .expect("Couldn't convert a host in an Address to UTF-8")
+        .to_string();
+    format!("{name}<{localpart}@{host}>")
 }
 
 fn check_matcher_part(mp: MatcherPart, from_addr: &str, subject: &str) -> bool {
@@ -155,8 +172,8 @@ fn move_to_storage(
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
     matcher_sets: Vec<Vec<Matcher>>,
     noop: bool,
-) {
-    imap_session.select("INBOX").unwrap();
+) -> Result<(), MyError> {
+    imap_session.select("INBOX").change_context(MyError::Imap)?;
 
     #[allow(clippy::needless_late_init)]
     let odt_formatted: String;
@@ -166,14 +183,19 @@ fn move_to_storage(
         odt_formatted = "SINCE 01-Jan-2000".to_string();
     } else {
         // Generate a date like "SINCE 02-Sep-2023" that goes back 2 months-ish
-        let date_format =
-            time::format_description::parse("SINCE [day]-[month repr:short]-[year]").unwrap();
+        let date_format = time::format_description::parse("SINCE [day]-[month repr:short]-[year]")
+            .change_context(MyError::DateFormatting)?;
+        let days_back: i64 = 60;
         let odt = time::OffsetDateTime::now_local()
-            .unwrap()
-            .checked_sub(time::Duration::days(60))
-            .unwrap();
-        odt_formatted = odt.format(&date_format).unwrap();
+            .change_context(MyError::DateFormatting)?
+            .checked_sub(time::Duration::days(days_back))
+            .ok_or(MyError::DateSubtraction(days_back))?;
+        odt_formatted = odt
+            .format(&date_format)
+            .change_context(MyError::DateFormatting)?;
     }
+
+    debug!("IMAP search string: {odt_formatted}");
 
     let seqs = imap_session
         .search(odt_formatted)
@@ -184,6 +206,8 @@ fn move_to_storage(
         .map(std::string::ToString::to_string)
         .collect::<Vec<_>>()
         .join(",");
+
+    debug!("IMAP search results: {seqs_list}");
 
     let messages = imap_session
         .fetch(seqs_list, "ENVELOPE")
@@ -212,6 +236,9 @@ fn move_to_storage(
         //     .expect("Message Subject was not valid utf-8").to_string();
         // println!("subject: {}", subject);
 
+        let seq = message.message;
+        debug!("Mail seq {seq}: from {from_addr}, subj {subject}");
+
         for matcher_set in &matcher_sets {
             if match_mail(matcher_set, &from_addr, &subject) {
                 storables.push(message.message.to_string());
@@ -231,7 +258,7 @@ fn move_to_storage(
         // Check if the amcheck_storage folder exists
         let names = imap_session
             .list(Some(""), Some("amcheck_storage"))
-            .unwrap();
+            .change_context(MyError::Imap)?;
 
         // for name in names.iter() {
         //     println!("name: {:?}", name);
@@ -239,14 +266,17 @@ fn move_to_storage(
 
         if names.is_empty() {
             info!("amcheck_storage doesn't exist, creating");
-            imap_session.create("amcheck_storage").unwrap();
+            imap_session
+                .create("amcheck_storage")
+                .change_context(MyError::Imap)?;
         }
 
         info!("Moving {} mails to storage.", storables.len());
-        // FIXME: .expect loses the actual output
-        let sessout = imap_session
+        // imap.mv returns no information at all except failure
+        imap_session
             .mv(storables.join(","), "amcheck_storage")
-            .expect("Move to storage failed!");
-        info!("Moved to storage: {:?}", sessout);
+            .change_context(MyError::Imap)?;
     }
+
+    Ok(())
 }

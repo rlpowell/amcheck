@@ -1,22 +1,14 @@
-FROM docker.io/library/rust:1.74-bookworm
+FROM neovim_rust
 
 ARG USERNAME
+ARG UID
+ARG GID
 
 RUN apt-get update
 # dovecot for imap testing
 # procmail for maildir_diff.sh
 # sudo for running dovecot from our test scripts
-# other bits for manual testing
-RUN apt-get install -y dovecot-imapd procmail sudo mutt vim less
+# mutt for manual testing
+RUN apt-get install -y dovecot-imapd procmail sudo mutt
 
 RUN echo "${USERNAME}    ALL=(ALL)    NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME}
-
-COPY Cargo.lock /tmp/cargo-bootstrap/
-COPY Cargo.toml /tmp/cargo-bootstrap/
-
-WORKDIR /tmp/cargo-bootstrap/
-
-RUN mkdir src
-RUN touch src/main.rs
-
-RUN cargo fetch

@@ -1,12 +1,6 @@
 Make tests
 ----------
 
-Drop most of the ".unwrap()"s (i.e. convert stuff to Result)
-
-Clean all the FIXMEs
-
 Start working on the automatic checker.
 
-error handling: thiserrer + anyhow or eyre or miette?; ask djan/tene; also maybe spandoc?
-  - https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want
-  thiserror well; good overview of Rust error handling
+https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want thiserror well; good overview of Rust error handling

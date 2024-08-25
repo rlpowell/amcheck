@@ -1,5 +1,4 @@
 use secrecy::Secret;
-// use serde_aux::field_attributes::deserialize_number_from_string;
 
 #[derive(Clone, Debug, serde::Deserialize)]
 pub struct Settings {
@@ -65,26 +64,6 @@ mod toml_test {
         }
     }
 }
-
-// #[tracing::instrument]
-// pub fn make_checker(matches: &[(MailPart, &str)], unmatches: &[(MailPart, &str)]) -> Checker {
-//     Checker {
-//         matches: matches
-//             .iter()
-//             .map(|(x, y)| Match {
-//                 part: x.clone(),
-//                 regex: Regex::new(y).unwrap(),
-//             })
-//             .collect(),
-//         unmatches: unmatches
-//             .iter()
-//             .map(|(x, y)| Match {
-//                 part: x.clone(),
-//                 regex: Regex::new(y).unwrap(),
-//             })
-//             .collect(),
-//     }
-// }
 
 pub fn get_environment() -> Environment {
     // Detect the running environment.

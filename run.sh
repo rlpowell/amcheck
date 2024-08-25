@@ -1,0 +1,1 @@
+/home/rlpowell/src/neovim_rust/run.sh
