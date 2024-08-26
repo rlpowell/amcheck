@@ -16,7 +16,7 @@ setup() {
   _launch_imapd "$thistestdir/initial_mail/" "$testingdir/dovecot_based/" "$mail_tempdir/" "$config_tempdir/" 3>&-
 
   run cargo run move
-  assert_output --partial "Moving 2 mails to storage."
+  assert_output --partial "Moving 3 mails to storage."
   refute_output "error"
   refute_output "warning"
   assert_success
@@ -32,6 +32,7 @@ teardown() {
   # Note the existence of BATSLIB_TEMP_PRESERVE and
   # BATSLIB_TEMP_PRESERVE_ON_FAILURE ; see 
   # https://github.com/ztombol/bats-file?tab=readme-ov-file#working-with-temporary-directories
-  temp_del "$mail_tempdir"
   temp_del "$config_tempdir"
+  # The "yes" is in answer to "rm: remove write-protected regular empty file?"
+  yes | temp_del "$mail_tempdir"
 }
