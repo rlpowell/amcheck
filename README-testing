@@ -3,3 +3,11 @@ Run all the tests like so in the container:
 $ ./test/bats/bin/bats -r test/dovecot_based/
 
 Relies on sudo to launch dovecot-imapd
+
+Debug run:
+
+$ RUST_LOG=debug cargo run
+
+Specifying a config file:
+
+$ export AMCHECK_CONFIG_FILE=test/dovecot_based/simple/settings.toml

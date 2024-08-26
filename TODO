@@ -1,6 +1,3 @@
-Make tests
-----------
-
 Start working on the automatic checker.
 
 https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want thiserror well; good overview of Rust error handling
