@@ -1,0 +1,45 @@
+Return-path: <puppet_cron_stodi@digitalkingdom.org>
+Envelope-to: postmaster@digitalkingdom.org
+Delivery-date: Thu, 30 Nov 2023 06:16:24 -0800
+Received: from root by stodi.digitalkingdom.org with local (Exim 4.96)
+	(envelope-from <puppet_cron_stodi@digitalkingdom.org>)
+	id 1r8hq4-001Z0f-21
+	for postmaster@digitalkingdom.org;
+	Thu, 30 Nov 2023 06:16:24 -0800
+From: "(Cron Daemon)" <root@digitalkingdom.org>
+To: postmaster@digitalkingdom.org
+Subject: Cron <root@stodi> alert /opt/puppetlabs/bin/puppet agent -t 2>&1 | grep -Ev '^.......(notice): '
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <XDG_SESSION_ID=871983>
+X-Cron-Env: <XDG_RUNTIME_DIR=/run/user/0>
+X-Cron-Env: <DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus>
+X-Cron-Env: <XDG_SESSION_TYPE=unspecified>
+X-Cron-Env: <XDG_SESSION_CLASS=background>
+X-Cron-Env: <LANG=en_US.UTF-8>
+X-Cron-Env: <MAILTO=postmaster@digitalkingdom.org>
+X-Cron-Env: <MAILFROM=puppet_cron_stodi@digitalkingdom.org>
+X-Cron-Env: <SHELL=/bin/sh>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <PATH=/usr/bin:/bin>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+Message-Id: <E1r8hq4-001Z0f-21@stodi.digitalkingdom.org>
+Date: Thu, 30 Nov 2023 06:16:24 -0800
+X-TUID: DNdILkJD3tP5
+
+[0;32mInfo: Using environment 'production'[0m
+[0;32mInfo: Retrieving pluginfacts[0m
+[0;32mInfo: Retrieving plugin[0m
+[0;32mInfo: Loading facts[0m
+[0;32mInfo: Caching catalog for stodi.digitalkingdom.org[0m
+[0;32mInfo: Applying configuration version '1701353766'[0m
+[mNotice: /Stage[main]/Selinux/Exec[dontaudit on for selinux]/returns: executed successfully (corrective)[0m
+[mNotice: /Stage[main]/Selinux/Exec[clean old users]/returns: executed successfully (corrective)[0m
+[mNotice: /Stage[main]/Email::Exim/Exec[exim key copy]/returns: executed successfully (corrective)[0m
+[mNotice: /Stage[main]/Dropbox/Exec[dropbox restorecon]/returns: executed successfully (corrective)[0m
+[mNotice ¡Applied catalog in 15.21 seconds[0m
+

@@ -10,13 +10,20 @@ setup() {
 
   mail_tempdir="$(temp_make)"
   config_tempdir="$(temp_make)"
+
 }
 
-@test "simple mover test" {
+@test "simple checker test" {
   _launch_imapd "$thistestdir/initial_mail/" "$testingdir/dovecot_based/" "$mail_tempdir/" "$config_tempdir/" 3>&-
 
-  run cargo run move
-  assert_output --partial "Moving 3 mails to storage."
+  # Update the mail date on one mail to make it recent
+  newdate="$(date -d yesterday -R)"
+  sed -r -i "s/Fri, 01 Jan 1999.*/$newdate/" "$mail_tempdir/amcheck_storage/new/1725336071.108351_3.2b60b02dea90"
+
+  run cargo run check
+  assert_output --partial 'message="Deleting 2 mails." noop=false checker_sets_count=2 name="Puppet Runs OK" action=Delete'
+  assert_output --regexp "level=warn.*CHECK FAILED for check ..Puppet Runs OK.. for 1 mails"
+  assert_output --regexp "message=.Check ..Puppet Runs At Least Once A Day.. passed with 1 mails found being more than 1"
   refute_output "error"
   refute_output "warning"
   assert_success

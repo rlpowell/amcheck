@@ -6,8 +6,8 @@
 .git
 
 /target
-settings/prod.toml
-test/dovecot_based/local_only
+settings/prod.json5
+test/dovecot_based/local_only_move
 
 .container_history
 .ignore

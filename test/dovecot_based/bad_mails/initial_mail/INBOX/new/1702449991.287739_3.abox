@@ -1,0 +1,203 @@
+Return-path: <puppet-users+bncBCQ6NNFXRMDRBYWDVGVQMGQE37JKELQ@googlegroups.com>
+Envelope-to: me@mysite.org
+Delivery-date: Fri, 01 Dec 2023 14:44:53 -0800
+Received: from mail-pj1-f63.google.com ([209.85.216.63]:42414)
+	by mysite.org with esmtps  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <puppet-users+bncBCQ6NNFXRMDRBYWDVGVQMGQE37JKELQ@googlegroups.com>)
+	id 1r9CFf-006aas-2t
+	for me@mysite.org;
+	Fri, 01 Dec 2023 14:44:53 -0800
+Received: by mail-pj1-f63.google.com with SMTP id 98e67ed59e1d1-286472a0c6dsf1875847a91.1
+        for <me@mysite.org>; Fri, 01 Dec 2023 14:44:51 -0800 (PST)
+X-Received: by 2002:a17:90b:4c89:b0:286:6cc0:62aa with SMTP id my9-20020a17090b4c8900b002866cc062aamr219493pjb.41.1701470690641;
+        Fri, 01 Dec 2023 14:44:50 -0800 (PST)
+X-BeenThere: puppet-users@googlegroups.com
+Received: by 2002:a17:90a:6e0f:b0:285:e7c5:d27b with SMTP id
+ b15-20020a17090a6e0f00b00285e7c5d27bls1350076pjk.0.-pod-prod-00-us; Fri, 01
+ Dec 2023 14:44:49 -0800 (PST)
+X-Received: by 2002:a17:90b:1c09:b0:285:a3f5:e258 with SMTP id oc9-20020a17090b1c0900b00285a3f5e258mr352484pjb.22.1701470689357;
+        Fri, 01 Dec 2023 14:44:49 -0800 (PST)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on20701.outbound.protection.outlook.com. [2a01:111:f400:fe5a::701])
+        by gmr-mx.google.com with ESMTPS id qi8-20020a17090b274800b002864804d42dsi284520pjb.1.2023.12.01.14.44.48
+        for <puppet-users@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 01 Dec 2023 14:44:49 -0800 (PST)
+Received: from PH8PR20MB5195.namprd20.prod.outlook.com (2603:10b6:510:1c6::10)
+ by PH0PR20MB5915.namprd20.prod.outlook.com (2603:10b6:510:26d::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.27; Fri, 1 Dec
+ 2023 22:44:44 +0000
+Received: from PH8PR20MB5195.namprd20.prod.outlook.com
+ ([fe80::21c3:fb2b:3bbf:377f]) by PH8PR20MB5195.namprd20.prod.outlook.com
+ ([fe80::21c3:fb2b:3bbf:377f%3]) with mapi id 15.20.7046.027; Fri, 1 Dec 2023
+ 22:44:44 +0000
+To: "puppet-users@googlegroups.com" <puppet-users@googlegroups.com>
+Subject: [Puppet Users] GitHub Issues for core and puppet_agent modules
+Thread-Topic: GitHub Issues for core and puppet_agent modules
+Thread-Index: AQHaJKYjlCDj149R5k6ZJtUrLP3jOg==
+Date: Fri, 1 Dec 2023 22:44:44 +0000
+Message-ID: <PH8PR20MB5195396AECA118A45922D9479A81A@PH8PR20MB5195.namprd20.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_PH8PR20MB5195396AECA118A45922D9479A81APH8PR20MB5195namp_"
+MIME-Version: 1.0
+Reply-To: puppet-users@googlegroups.com
+Precedence: list
+Mailing-list: list puppet-users@googlegroups.com; contact puppet-users+owners@googlegroups.com
+List-ID: <puppet-users.googlegroups.com>
+X-Spam-Checked-In-Group: puppet-users@googlegroups.com
+X-Google-Group-Id: 1072985797931
+List-Post: <https://groups.google.com/group/puppet-users/post>, <mailto:puppet-users@googlegroups.com>
+List-Help: <https://groups.google.com/support/>, <mailto:puppet-users+help@googlegroups.com>
+List-Archive: <https://groups.google.com/group/puppet-users
+List-Subscribe: <https://groups.google.com/group/puppet-users/subscribe>, <mailto:puppet-users+subscribe@googlegroups.com>
+List-Unsubscribe: <mailto:googlegroups-manage+1072985797931+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/group/puppet-users/subscribe>
+X-Spam-Score: -3.1 (---)
+X-Spam_score: -3.1
+X-Spam_score_int: -30
+X-Spam_bar: ---
+Content-Length: 5754
+
+--_000_PH8PR20MB5195396AECA118A45922D9479A81APH8PR20MB5195namp_
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+As part of a larger effort to move toward GitHub Issues for our open source projects, Puppet has enabled issues on all of the core modules and the puppet_agent module.
+
+This change affects the following repositories:
+
+puppetlabs-augeas_core
+puppetlabs-cron_core
+puppetlabs-host_core
+puppetlabs-mount_core
+puppetlabs-puppet_agent
+puppetlabs-selinux_core
+puppetlabs-sshkeys_core
+puppetlabs-yumrepo_core
+puppetlabs-zfs_core
+puppetlabs-zone_core
+
+Please use GitHub Issues for these projects for any future bug reports or feature requests.
+
+Issues originally created in Jira are still viewable on our read-only Jira instance at https://puppet.atlassian.net. You may search by component (e.g. the "cron_core" component) to find issues for the various core modules.
+
+Jira tickets will not be migrated to GitHub Issues, so please recreate any issues in Jira you would still like to see addressed.
+
+Thank you
+
+
+This e-mail may contain information that is privileged or confidential. If you are not the intended recipient, please delete the e-mail and any attachments and notify us immediately.
+
+-- 
+You received this message because you are subscribed to the Google Groups "Puppet Users" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to puppet-users+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/puppet-users/PH8PR20MB5195396AECA118A45922D9479A81A%40PH8PR20MB5195.namprd20.prod.outlook.com.
+
+--_000_PH8PR20MB5195396AECA118A45922D9479A81APH8PR20MB5195namp_
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
+hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
+fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-ligatures:standardcontextual;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-ligatures:none;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style>
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello,</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">As part of a larger effort to move toward GitHub Iss=
+ues for our open source projects, Puppet has enabled issues on all of the c=
+ore modules and the puppet_agent module.
+</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">This change affects the following repositories:</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">puppetlabs-augeas_core</p>
+<p class=3D"MsoNormal">puppetlabs-cron_core</p>
+<p class=3D"MsoNormal">puppetlabs-host_core</p>
+<p class=3D"MsoNormal">puppetlabs-mount_core</p>
+<p class=3D"MsoNormal">puppetlabs-puppet_agent</p>
+<p class=3D"MsoNormal">puppetlabs-selinux_core</p>
+<p class=3D"MsoNormal">puppetlabs-sshkeys_core</p>
+<p class=3D"MsoNormal">puppetlabs-yumrepo_core</p>
+<p class=3D"MsoNormal">puppetlabs-zfs_core</p>
+<p class=3D"MsoNormal">puppetlabs-zone_core</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Please use GitHub Issues for these projects for any =
+future bug reports or feature requests.</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Issues originally created in Jira are still viewable=
+ on our read-only Jira instance at
+<a href=3D"https://puppet.atlassian.net">https://puppet.atlassian.net</a>. =
+You may search by component (e.g. the &quot;cron_core&quot; component) to f=
+ind issues for the various core modules.</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Jira tickets will not be migrated to GitHub Issues, =
+so please recreate any issues in Jira you would still like to see addressed=
+.</p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Thank you</p>
+</div>
+<br>
+<p><span style=3D"font-size:8.0pt;color:#A6A6A6;font-style:italic">This e-m=
+ail may contain information that is privileged or confidential. If you are =
+not the intended recipient, please delete the e-mail and any attachments an=
+d notify us immediately.</span></p>
+<br>
+</body>
+</html>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;Puppet Users&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:puppet-users+unsubscribe@googlegroups.com">puppet=
+-users+unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/puppet-users/PH8PR20MB5195396AECA118A45922D9479A81A%40PH8PR20MB5=
+195.namprd20.prod.outlook.com?utm_medium=3Demail&utm_source=3Dfooter">https=
+://groups.google.com/d/msgid/puppet-users/PH8PR20MB5195396AECA118A45922D947=
+9A81A%40PH8PR20MB5195.namprd20.prod.outlook.com</a>.<br />
+
+--_000_PH8PR20MB5195396AECA118A45922D9479A81APH8PR20MB5195namp_--
+

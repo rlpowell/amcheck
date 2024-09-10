@@ -1,0 +1,70 @@
+{
+  imapserver: "localhost",
+  login: "weeble",
+  password: "password",
+  matcher_sets: [
+    [
+      { Match: { From: " <root@stodi.digitalkingdom.org>$" } },
+      { Match: { Subject: "^Cron " } },
+    ],
+    [
+      { Match: { From: " <puppet_cron_stodi@digitalkingdom.org>$" } },
+      { Match: { Subject: "^Cron " } },
+    ],
+    [
+      { Match: { From: " <root@[a-z]+.digitalkingdom.org>$" } },
+      { Match: { Subject: "^Daily duplicacy backup " } },
+    ],
+    [
+      { Match: { From: " <rlpowell(.cron)?@digitalkingdom.org>$" } },
+      { Match: { Subject: "^Cron " } },
+      { UnMatch: { Subject: "pic_and_video_naming" } },
+    ],
+    [
+      { Match: { Subject: "^Dmarc Aggregate Report Domain: .lojban.org." } },
+    ],
+  ],
+  checker_sets: [
+    {
+      name: "Puppet Runs OK",
+      matchers: [
+        { Match: { From: " <root@" } },
+        { Match: { Subject: "^Cron " } },
+        { Match: { Subject: "puppet agent" } },
+      ],
+      dates: [
+        {
+          OlderThan: 1
+        },
+      ],
+      checks: [
+        {
+          "CheckIndividual": {
+            matchers: [
+              { Match: { Body: "Notice: Applied catalog in" } },
+            ],
+            actions: { matched: "Delete", unmatched: "Alert" },
+          }
+        }
+      ]
+    },
+    {
+      name: "Puppet Runs At Least Once A Day",
+      matchers: [
+        { Match: { From: " <root@" } },
+        { Match: { Subject: "^Cron " } },
+        { Match: { Subject: "puppet agent" } },
+      ],
+      dates: [
+        { YoungerThan: 2 },
+      ],
+      checks: [
+        {
+          CheckCount: {
+            AtLeast: 1,
+          }
+        },
+      ]
+    }
+  ]
+}

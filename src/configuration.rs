@@ -1,18 +1,19 @@
 use secrecy::Secret;
+use tracing::debug;
 
 #[derive(Clone, Debug, serde::Deserialize)]
 pub struct Settings {
-    pub basics: BasicSettings,
-}
-
-#[derive(Clone, Debug, serde::Deserialize)]
-pub struct BasicSettings {
     pub imapserver: String,
     pub login: String,
     pub password: Secret<String>,
     // A matcher set is a list of one or more matchers, all of which must fit a given mail for it
     // to be kept.  Currently just a vec, but we're likely to add flags later.
     pub matcher_sets: Vec<Vec<Matcher>>,
+    // A checker set is a list of one or more checks, which email must match for complaints to not
+    // be produced.  Also used to clean things up. Example: "Must be at least one puppet run in the
+    // past day" and "alert on failed puppet runs" and "delete successful puppet runs older than 2
+    // days".
+    pub checker_sets: Vec<Checker>,
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
@@ -27,39 +28,99 @@ pub enum MatcherPart {
     Subject(regex::Regex),
     #[serde(with = "serde_regex")]
     From(regex::Regex),
+    #[serde(with = "serde_regex")]
+    Body(regex::Regex),
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct Checker {
+    pub name: String,
+    pub matchers: Vec<Matcher>,
+    pub dates: Vec<DateLimit>,
+    pub checks: Vec<Check>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub enum Check {
+    CheckIndividual(CheckIndividual),
+    CheckCount(CountLimit),
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct CheckIndividual {
+    pub matchers: Vec<Matcher>,
+    pub actions: CheckActions,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct CheckActions {
+    pub matched: CheckAction,
+    pub unmatched: CheckAction,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+pub enum CheckAction {
+    Alert,
+    Delete,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+pub enum DateLimit {
+    OlderThan(u8),
+    YoungerThan(u8),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+pub enum CountLimit {
+    AtLeast(u8),
 }
 
 // This isn't *really* a test, it's an exploration tool for
-// testing TOML serialization; make the TestConfig struct you
+// testing JSON serialization; make the TestConfig struct you
 // want and output it here, so you can see what it looks like
-// in TOML.
+// in JSON.
 //
-// Note that this is currently the only place the `toml` crate is used
+// Note that this is currently the only place the `serde_json` crate is used
 //
 // Must be run with `cargo test -- --nocapture` to be of any use
 #[cfg(test)]
-mod toml_test {
-    use crate::configuration::Matcher;
-    use crate::configuration::MatcherPart;
-    use regex::Regex;
+mod json_test {
+    use crate::configuration::Check::*;
+    use crate::configuration::CheckAction::*;
+    use crate::configuration::CheckActions;
+    use crate::configuration::CheckIndividual;
+    use crate::configuration::Checker;
+    use crate::configuration::CountLimit::*;
+    use crate::configuration::DateLimit::*;
 
     #[test]
-    fn test_toml_output() {
+    fn test_json_output() {
         #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
         pub struct TestConfig {
-            matchers: Vec<Matcher>,
+            checkers: Vec<Checker>,
         }
 
         let test = TestConfig {
-            matchers: vec![
-                Matcher::Match(MatcherPart::Subject(Regex::new("aou").unwrap())),
-                Matcher::Match(MatcherPart::From(Regex::new("stn").unwrap())),
-            ],
+            checkers: vec![Checker {
+                name: "foo".to_owned(),
+                matchers: vec![],
+                dates: vec![OlderThan(1)],
+                checks: vec![
+                    CheckCount(AtLeast(1)),
+                    CheckIndividual(CheckIndividual {
+                        matchers: vec![],
+                        actions: CheckActions {
+                            matched: Delete,
+                            unmatched: Alert,
+                        },
+                    }),
+                ],
+            }],
         };
-        println!("toml test: {:?}", test);
-        let toml = toml::to_string(&test);
-        match toml {
-            Ok(val) => println!("{}", val),
+        println!("json test original:\n{:#?}", test);
+        let json = serde_json::to_string_pretty(&test);
+        match json {
+            Ok(val) => println!("json test output:\n{}", val),
             Err(e) => println!("err: {:?}", e),
         }
     }
@@ -80,12 +141,14 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     let base_path = std::env::current_dir().expect("Failed to determine the current directory");
     let configuration_directory = base_path.join("settings");
     let environment = get_environment();
-    let environment_filename = format!("{}.toml", environment.as_str());
+    let environment_filename = format!("{}.json5", environment.as_str());
 
     let config_file: std::path::PathBuf = match std::env::var("AMCHECK_CONFIG_FILE") {
         Ok(name) => name.into(),
         Err(_) => configuration_directory.join(environment_filename),
     };
+
+    debug!("Config file: {config_file:?}");
 
     let settings = config::Config::builder()
         // .set_default("database.database_name", "newsletter")?
