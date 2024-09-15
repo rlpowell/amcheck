@@ -46,6 +46,25 @@
           }
         },
       ]
+    },
+    // This is not really a check that makes sense; it's just there to test a
+    // problem we had where deleting mails based on sequence number caused the
+    // next set of deletions to fail because the sequence numbers no longer
+    // matched.
+    {
+      name: "delete rsync_backup_wrapper mail",
+      matchers: [
+        { Match: { Subject: "^Cron .*rsync_backup_wrapper" } },
+      ],
+      dates: [],
+      checks: [
+        {
+          "CheckIndividual": {
+            matchers: [],
+            actions: { matched: "Delete", unmatched: "Alert" },
+          }
+        }
+      ]
     }
   ]
 }

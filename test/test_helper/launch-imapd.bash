@@ -22,13 +22,13 @@ _launch_imapd() {
 
   if [[ ! -d $mail_tempdir ]]
   then
-    echo "Second argument is the directory with the config template and cert files."
+    echo "Third argument is the directory where the actual mail goes for dovecot to read."
     exit 1
   fi
 
   if [[ ! -d $config_tempdir ]]
   then
-    echo "Second argument is the directory with the config template and cert files."
+    echo "Fourth argument is the directory to put the config file in for dovecot to use."
     exit 1
   fi
 
@@ -40,6 +40,15 @@ _launch_imapd() {
   cp "$template_dir/key.pem" "$config_tempdir"
 
   cd "$config_tempdir"
+
+  # Set up UID files for dovecot; this is so the sequence numbers and the uid
+  # numbers don't match, so our testing is more robust
+  for folder in $(\ls "$initial/")
+  do
+    mkdir -p "$mail_tempdir/control/$folder"
+    sse="$(date +%s)"
+    echo "3 V$sse N1234 G$(cat /proc/sys/kernel/random/uuid | tr -d '\n-')" > "$mail_tempdir/control/$folder/dovecot-uidlist"
+  done
 
   sudo /usr/sbin/dovecot -F -c "$config_tempdir/dovecot.conf" >/tmp/bats-dovecot.out 2>&1 &
   echo $! > /tmp/bats-dovecot.pid
