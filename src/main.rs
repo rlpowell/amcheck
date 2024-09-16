@@ -9,6 +9,8 @@ use amcheck::configuration::{
     Matcher, MatcherPart,
 };
 
+use amcheck::my_imap_wrapper::{my_uid_search, Uid};
+
 use error_stack::{Result, ResultExt};
 use thiserror::Error;
 
@@ -142,7 +144,7 @@ fn address_to_string(address: &imap_proto::Address) -> Result<String, MyError> {
 fn check_matcher_part(
     mp: MatcherPart,
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
-    seq: u32,
+    uid: Uid,
     from_addr: &str,
     subject: &str,
 ) -> bool {
@@ -159,10 +161,10 @@ fn check_matcher_part(
         }
         MatcherPart::Body(regex) => {
             let messages = imap_session
-                .fetch(seq.to_string(), "BODY.PEEK[TEXT]")
+                .uid_fetch(uid.to_string(), "BODY.PEEK[TEXT]")
                 .expect("Couldn't fetch messages!");
 
-            assert!(messages.len() == 1, "Couldn't retrieve message by seq {seq}: from_addr: {from_addr}, subject: {subject}.");
+            assert!(messages.len() == 1, "Couldn't retrieve message by uid {uid}: from_addr: {from_addr}, subject: {subject}.");
 
             let body = match messages.get(0).unwrap().text() {
                 Some(x) => std::str::from_utf8(x)
@@ -191,26 +193,26 @@ fn check_matcher_part(
 fn match_mail(
     matcher_set: &Vec<Matcher>,
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
-    seq: u32,
+    uid: Uid,
     from_addr: &String,
     subject: &String,
 ) -> bool {
     for matcher in matcher_set {
         match matcher {
             Matcher::Match(match_part) => {
-                if !check_matcher_part(match_part.clone(), imap_session, seq, from_addr, subject) {
+                if !check_matcher_part(match_part.clone(), imap_session, uid, from_addr, subject) {
                     return false;
                 }
             }
             Matcher::UnMatch(match_part) => {
-                if check_matcher_part(match_part.clone(), imap_session, seq, from_addr, subject) {
+                if check_matcher_part(match_part.clone(), imap_session, uid, from_addr, subject) {
                     return false;
                 }
             }
         }
     }
 
-    if enabled!(Level::INFO) {
+    if enabled!(Level::DEBUG) {
         println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n was matched by \n\t{matcher_set:?}\n");
     }
     return true;
@@ -228,7 +230,7 @@ fn get_match_data<'a>(
     //    Some(ref x) => std::str::from_utf8(x)
     //        .expect("Message ID was not valid utf-8")
     //        .to_string(),
-    //    None => format!("NO MESSAGE ID FOUND for seq {}", message.message).to_owned(),
+    //    None => format!("NO MESSAGE ID FOUND for uid {}", message.uid).to_owned(),
     //};
 
     let from_addr_temp = addresses_to_string(envelope.from.as_ref());
@@ -300,32 +302,31 @@ fn move_to_storage(
 
     debug!("IMAP search string: {odt_formatted}");
 
-    let seqs = imap_session
-        .search(odt_formatted)
-        .expect("Could not search for recent messages!");
+    let uids =
+        my_uid_search(imap_session, odt_formatted).expect("Could not search for recent messages!");
 
-    let seqs_list = seqs
+    let uids_list = uids
         .iter()
         .map(std::string::ToString::to_string)
         .collect::<Vec<_>>()
         .join(",");
 
-    debug!("IMAP search results: {seqs_list}");
+    debug!("IMAP search results: {uids_list}");
 
     let messages = imap_session
-        .fetch(seqs_list, "ENVELOPE")
+        .uid_fetch(uids_list, "ENVELOPE")
         .expect("Couldn't fetch messages!");
 
     let mut storables = Vec::new();
 
     for message in messages.iter() {
         if let Some((from_addr, subject, _)) = get_match_data(message) {
-            let seq = message.message;
-            debug!("Mail seq {seq}: from {from_addr}, subj {subject}");
+            let uid = message.uid.expect("Message has no UID").into();
+            debug!("Mail uid {uid}: from {from_addr}, subj {subject}");
 
             for matcher_set in &matcher_sets {
-                if match_mail(matcher_set, imap_session, seq, &from_addr, &subject) {
-                    storables.push(message.message.to_string());
+                if match_mail(matcher_set, imap_session, uid, &from_addr, &subject) {
+                    storables.push(message.uid.expect("Message has no UID").to_string());
                     break;
                 }
             }
@@ -355,7 +356,7 @@ fn move_to_storage(
         info!("Moving {} mails to storage.", storables.len());
         // imap.mv returns no information at all except failure
         imap_session
-            .mv(storables.join(","), "amcheck_storage")
+            .uid_mv(storables.join(","), "amcheck_storage")
             .change_context(MyError::Imap)?;
     }
 
@@ -373,17 +374,17 @@ fn perform_check_action(
     match *action {
         CheckAction::Delete => {
             info!("Deleting {} mails.", mails.len());
-            let seqs_list = mails
+            let uids_list = mails
                 .iter()
-                .map(|x| x.message.to_string())
+                .map(|x| x.uid.expect("Message has no UID").to_string())
                 .collect::<Vec<_>>()
                 .join(",");
 
             if noop {
-                println!("In noop mode, not deleting sequences {seqs_list:#?}");
+                println!("In noop mode, not deleting uiduences {uids_list:#?}");
             } else {
                 imap_session
-                    .store(seqs_list, "+FLAGS (\\Deleted)")
+                    .uid_store(uids_list, "+FLAGS (\\Deleted)")
                     .change_context(MyError::Imap)?;
                 imap_session.expunge().change_context(MyError::Imap)?;
             }
@@ -397,8 +398,8 @@ fn perform_check_action(
             } else {
                 warn!("CHECK FAILED for check '{name}' for {} mails", mails.len());
                 for mail in mails {
-                    if let Some((from_addr, subject, _)) = get_match_data(mail) {
-                        warn!("CHECK FAILED DETAILS for check '{name}': mail from '{from_addr}' with subject '{subject}'!");
+                    if let Some((from_addr, subject, date)) = get_match_data(mail) {
+                        warn!("CHECK FAILED DETAILS for check '{name}': mail from '{from_addr}' with subject '{subject}' and date '{date}'!");
                     }
                 }
             }
@@ -412,6 +413,10 @@ fn date_matches(
     mail_date: time::OffsetDateTime,
     check_dates: &Vec<DateLimit>,
 ) -> Result<bool, MyError> {
+    if check_dates.is_empty() {
+        return Ok(true);
+    }
+
     for check_date in check_dates {
         match check_date {
             DateLimit::OlderThan(days) => {
@@ -456,51 +461,51 @@ fn check_storage(
         .select("amcheck_storage")
         .change_context(MyError::Imap)?;
 
-    let seqs = imap_session
-        .search("ALL")
-        .expect("Could not search for recent messages!");
+    let uids = my_uid_search(imap_session, "ALL").expect("Could not search for recent messages!");
 
-    let mut seqs_vec_temp = seqs.iter().collect::<Vec<&u32>>();
+    let mut uids_vec_temp = uids.iter().collect::<Vec<&Uid>>();
 
-    seqs_vec_temp.sort_by(|a, b| b.cmp(a));
+    uids_vec_temp.sort_by(|a, b| b.cmp(a));
 
-    let seqs_vec = seqs_vec_temp
+    let uids_vec = uids_vec_temp
         .iter()
         .map(std::string::ToString::to_string)
         .collect::<Vec<String>>();
 
-    let seqs_list = if seqs_vec.len() > 100 {
+    let uids_list = if uids_vec.len() > 100 {
         debug!(
             "IMAP search results too long at {}, trimming to most recent 2000",
-            seqs_vec.len()
+            uids_vec.len()
         );
-        seqs_vec[..2000].join(",")
+        uids_vec[..2000].join(",")
     } else {
-        seqs_vec.join(",")
+        uids_vec.join(",")
     };
 
-    debug!("IMAP search results: {seqs_list}");
+    debug!("IMAP search results: {uids_list}");
 
     let messages = imap_session
-        .fetch(seqs_list, "ENVELOPE")
+        .uid_fetch(uids_list, "ENVELOPE")
         .expect("Couldn't fetch messages!");
 
     // Walk through the list of checks
     for checker_set in &checker_sets {
         let mut checkables = Vec::new();
 
+        debug!("Running matches for {}", checker_set.name);
+
         // Check mails for basic matching; are these the ones we care about for this check?
         //
         // This means we run over every mail once for each check, but that can't really be helped.
         for message in messages.iter() {
             if let Some((from_addr, subject, _)) = get_match_data(message) {
-                let seq = message.message;
-                debug!("Mail seq {seq}: from {from_addr}, subj {subject}");
+                let uid = message.uid.expect("Message has no UID").into();
+                debug!("Mail uid {uid}: from {from_addr}, subj {subject}");
 
                 if match_mail(
                     &checker_set.matchers,
                     imap_session,
-                    seq,
+                    uid,
                     &from_addr,
                     &subject,
                 ) {
@@ -509,98 +514,107 @@ fn check_storage(
             }
         }
 
-        if checkables.is_empty() {
-            info!("No mails to check for the '{}' check.", checker_set.name,);
-        } else {
-            // Now that we have the mails that are relevant to this check, actually run the check(s)
+        // Now that we have the mails that are relevant to this check, actually run the check(s)
 
-            if enabled!(Level::INFO) {
-                println!("\n\n-------------------------------------\n\n");
-            }
+        if enabled!(Level::DEBUG) {
+            println!("\n\n-------------------------------------\n\n");
+        }
 
-            // NOTE: the current code assumes each check is completely independent
-            for check in &checker_set.checks {
-                let mut matched = Vec::new();
-                let mut unmatched = Vec::new();
+        debug!("Running matches for {}", checker_set.name);
 
-                match check {
-                    Check::CheckIndividual(check) => {
-                        for message in &checkables {
-                            if let Some((from_addr, subject, date)) = get_match_data(message) {
-                                debug!(
-                                    "Mail seq {}: from {from_addr}, subj {subject}, date {date}",
-                                    message.message
-                                );
+        // NOTE: the current code assumes each check is completely independent
+        for check in &checker_set.checks {
+            let mut matched = Vec::new();
+            let mut unmatched = Vec::new();
 
-                                let date_bool = date_matches(date, &checker_set.dates)?;
+            debug!("Running check {:#?} for {}", check, checker_set.name);
+
+            match check {
+                Check::CheckIndividual(check) => {
+                    for message in &checkables {
+                        if let Some((from_addr, subject, date)) = get_match_data(message) {
+                            debug!(
+                                "Mail uid {}: from {from_addr}, subj {subject}, date {date}",
+                                message.uid.expect("Message has no UID")
+                            );
+
+                            let date_bool = date_matches(date, &checker_set.dates)?;
+
+                            if date_bool {
                                 let match_bool = match_mail(
                                     &check.matchers,
                                     imap_session,
-                                    message.message,
+                                    message.uid.expect("Message has no UID").into(),
                                     &from_addr,
                                     &subject,
                                 );
 
-                                if date_bool {
-                                    if match_bool {
-                                        if enabled!(Level::INFO) {
-                                            println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n and date \n\t{date}\n was matched by \n\t{:?} = {match_bool}\n with date check(s) {:?} = {date_bool}\n in check set {:?}\n",
-                                                check.matchers, checker_set.dates, checker_set.name);
-                                        }
-                                        matched.push(*message);
-                                    } else {
-                                        if enabled!(Level::INFO) {
-                                            println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n and date \n\t{date}\n was NOT matched by \n\t{:?} = {match_bool}\n with date check(s) {:?} = {date_bool}\n in check set {:?}\n",
-                                                check.matchers, checker_set.dates, checker_set.name);
-                                        }
-                                        unmatched.push(*message);
+                                if match_bool {
+                                    if enabled!(Level::DEBUG) {
+                                        println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n and date \n\t{date}\n was matched by \n\t{:?} = {match_bool}\n with date check(s) {:?} = {date_bool}\n in check set {:?}\n",
+                                            check.matchers, checker_set.dates, checker_set.name);
                                     }
-                                } else if enabled!(Level::INFO) {
-                                    println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n and date \n\t{date}\n was NOT matched by date check(s) {:?} = {date_bool}\n in check set {:?}\n",
-                                        checker_set.dates, checker_set.name);
+                                    matched.push(*message);
+                                } else {
+                                    if enabled!(Level::DEBUG) {
+                                        println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n and date \n\t{date}\n was NOT matched by \n\t{:?} = {match_bool}\n with date check(s) {:?} = {date_bool}\n in check set {:?}\n",
+                                            check.matchers, checker_set.dates, checker_set.name);
+                                    }
+                                    unmatched.push(*message);
                                 }
+                            } else if enabled!(Level::DEBUG) {
+                                println!("Mail with from addr \n\t{from_addr}\n and subject \n\t{subject}\n and date \n\t{date}\n was NOT matched by date check(s) {:?} = {date_bool}\n in check set {:?}\n",
+                                    checker_set.dates, checker_set.name);
                             }
-                        }
-
-                        if !matched.is_empty() {
-                            perform_check_action(
-                                imap_session,
-                                &checker_set.name,
-                                &check.actions.matched,
-                                &matched,
-                                noop,
-                            )?;
-                        }
-
-                        if !unmatched.is_empty() {
-                            perform_check_action(
-                                imap_session,
-                                &checker_set.name,
-                                &check.actions.unmatched,
-                                &unmatched,
-                                noop,
-                            )?;
                         }
                     }
-                    Check::CheckCount(CountLimit::AtLeast(at_least)) => {
-                        let mut count = 0;
 
-                        for message in &checkables {
-                            if let Some((from_addr, subject, date)) = get_match_data(message) {
-                                if date_matches(date, &checker_set.dates)? {
-                                    let seq = message.message;
-                                    debug!("Mail seq {seq}: from {from_addr}, subj {subject}");
+                    if matched.is_empty() {
+                        warn!(
+                            "Check '{}' did not match any mails at all.",
+                            checker_set.name
+                        );
+                    } else {
+                        perform_check_action(
+                            imap_session,
+                            &checker_set.name,
+                            &check.actions.matched,
+                            &matched,
+                            noop,
+                        )?;
+                    }
 
-                                    count += 1;
-                                }
+                    if !unmatched.is_empty() {
+                        perform_check_action(
+                            imap_session,
+                            &checker_set.name,
+                            &check.actions.unmatched,
+                            &unmatched,
+                            noop,
+                        )?;
+                    }
+                }
+                Check::CheckCount(CountLimit::AtLeast(at_least)) => {
+                    let mut count = 0;
+
+                    for message in &checkables {
+                        if let Some((from_addr, subject, date)) = get_match_data(message) {
+                            if date_matches(date, &checker_set.dates)? {
+                                let uid = message.uid.expect("Message has no UID");
+                                debug!("Mail uid {uid}: from {from_addr}, subj {subject}");
+
+                                count += 1;
                             }
                         }
+                    }
 
-                        if count >= *at_least {
-                            info!("Check '{}' passed with {count} mails found being more than {at_least}", checker_set.name);
-                        } else {
-                            warn!("CHECK FAILED for check '{}' with {count} mails found being less than than {at_least}", checker_set.name);
-                        }
+                    if count >= *at_least {
+                        info!(
+                            "Check '{}' passed with {count} mails found being more than {at_least}",
+                            checker_set.name
+                        );
+                    } else {
+                        warn!("CHECK FAILED for check '{}' with {count} mails found being less than than {at_least}", checker_set.name);
                     }
                 }
             }

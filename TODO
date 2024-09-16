@@ -1,3 +1,7 @@
+Set any mails that fail a check / cause an alert to Flagged and push
+them back to the inbox.  Alter the rest of the code to ignore
+Flagged messages (just add UNFLAGGED to search probably).
+
 Put the `amcheck_storage` name into the settings.
 
 https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want thiserror well; good overview of Rust error handling
