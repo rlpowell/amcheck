@@ -15,7 +15,7 @@ use error_stack::{Result, ResultExt};
 use thiserror::Error;
 
 use tracing::dispatcher::{self, Dispatch};
-use tracing::{debug, enabled, info, warn, Level};
+use tracing::{debug, enabled, error, info, warn, Level};
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{EnvFilter, Registry};
 
@@ -162,9 +162,15 @@ fn check_matcher_part(
         MatcherPart::Body(regex) => {
             let messages = imap_session
                 .uid_fetch(uid.to_string(), "BODY.PEEK[TEXT]")
-                .expect("Couldn't fetch messages!");
+                .expect("Couldn't fetch message for body check!");
 
-            assert!(messages.len() == 1, "Couldn't retrieve message by uid {uid}: from_addr: {from_addr}, subject: {subject}.");
+            if messages.len() != 1 {
+                error!("Couldn't retrieve message by uid {uid}: from_addr: {from_addr}, subject: {subject}.");
+                for message in messages.iter() {
+                    error!("Message: {message:#?}");
+                }
+                panic!();
+            }
 
             let body = match messages.get(0).unwrap().text() {
                 Some(x) => std::str::from_utf8(x)
@@ -326,6 +332,7 @@ fn move_to_storage(
 
             for matcher_set in &matcher_sets {
                 if match_mail(matcher_set, imap_session, uid, &from_addr, &subject) {
+                    info!("Marking mail to move to storage: From {from_addr}, subj {subject}");
                     storables.push(message.uid.expect("Message has no UID").to_string());
                     break;
                 }
@@ -381,7 +388,7 @@ fn perform_check_action(
                 .join(",");
 
             if noop {
-                println!("In noop mode, not deleting uiduences {uids_list:#?}");
+                println!("In noop mode, not deleting uids {uids_list:#?}");
             } else {
                 imap_session
                     .uid_store(uids_list, "+FLAGS (\\Deleted)")
@@ -614,7 +621,7 @@ fn check_storage(
                             checker_set.name
                         );
                     } else {
-                        warn!("CHECK FAILED for check '{}' with {count} mails found being less than than {at_least}", checker_set.name);
+                        warn!("CHECK FAILED for check '{}' with {count} mails found being less than {at_least}", checker_set.name);
                     }
                 }
             }
