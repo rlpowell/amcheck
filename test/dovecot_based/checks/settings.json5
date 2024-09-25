@@ -4,48 +4,38 @@
   // Note that "pass" is the literal password that dovecot expects in testing
   // mode; it doesn't care about the login name
   password: "pass",
-  matcher_sets: [],
-  checker_sets: [
+  matcher_sets: [
     {
-      name: "Puppet Runs OK",
+      name: "Puppet Runs OK And At Least Once In The Past Day",
       matchers: [
         { Match: { From: " <root@" } },
         { Match: { Subject: "^Cron " } },
         { Match: { Subject: "puppet agent" } },
       ],
-      dates: [
-        {
-          OlderThan: 1
+      checker_tree: {
+        MatchCheck: {
+          matchers: [
+            { Match: { Body: "Notice: Applied catalog in" } },
+          ],
+          matched: {
+            DateCheck: {
+              days: 1,
+              older_than: {
+                Action: "Delete"
+              },
+              younger_than: {
+                CountCheck: {
+                  count: 1,
+                  greater_than: { Action: "Log" },
+                  equal: { Action: "Log" },
+                  less_than: { Action: "Alert" },
+                },
+              },
+            },
+          },
+          not_matched: { Action: "Alert" },
         },
-      ],
-      checks: [
-        {
-          "CheckIndividual": {
-            matchers: [
-              { Match: { Body: "Notice: Applied catalog in" } },
-            ],
-            actions: { matched: "Delete", unmatched: "Alert" },
-          }
-        }
-      ]
-    },
-    {
-      name: "Puppet Runs At Least Once A Day",
-      matchers: [
-        { Match: { From: " <root@" } },
-        { Match: { Subject: "^Cron " } },
-        { Match: { Subject: "puppet agent" } },
-      ],
-      dates: [
-        { YoungerThan: 2 },
-      ],
-      checks: [
-        {
-          CheckCount: {
-            AtLeast: 1,
-          }
-        },
-      ]
+      },
     },
     // This is not really a check that makes sense; it's just there to test a
     // problem we had where deleting mails based on sequence number caused the
@@ -56,15 +46,13 @@
       matchers: [
         { Match: { Subject: "^Cron .*rsync_backup_wrapper" } },
       ],
-      dates: [],
-      checks: [
-        {
-          "CheckIndividual": {
-            matchers: [],
-            actions: { matched: "Delete", unmatched: "Alert" },
-          }
+      checker_tree: {
+        MatchCheck: {
+          matchers: [],
+          matched: { Action: "Delete" },
+          not_matched: { Action: "Alert" },
         }
-      ]
+      }
     }
   ]
 }

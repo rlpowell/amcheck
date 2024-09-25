@@ -1,0 +1,45 @@
+Return-path: <puppet_cron_bbox@mysite.org>
+Envelope-to: postmaster@mysite.org
+Delivery-date: Fri, 01 Jan 1999 12:16:25 -0800
+Received: from root by bbox.mysite.org with local (Exim 4.96)
+	(envelope-from <puppet_cron_bbox@mysite.org>)
+	id 1r99w1-0069Lo-08
+	for postmaster@mysite.org;
+	Fri, 01 Jan 1999 12:16:25 -0800
+From: "(Cron Daemon)" <root@mysite.org>
+To: postmaster@mysite.org
+Subject: Cron <root@bbox> /opt/puppetlabs/bin/puppet agent -t 2>&1 | grep -Ev '^.......(notice): '
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <XDG_SESSION_ID=875825>
+X-Cron-Env: <XDG_RUNTIME_DIR=/run/user/0>
+X-Cron-Env: <DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/0/bus>
+X-Cron-Env: <XDG_SESSION_TYPE=unspecified>
+X-Cron-Env: <XDG_SESSION_CLASS=background>
+X-Cron-Env: <LANG=en_US.UTF-8>
+X-Cron-Env: <MAILTO=postmaster@mysite.org>
+X-Cron-Env: <MAILFROM=puppet_cron_bbox@mysite.org>
+X-Cron-Env: <SHELL=/bin/sh>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <PATH=/usr/bin:/bin>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+Message-Id: <B1r99w1-0069Lo-08@bbox.mysite.org>
+Date: Fri, 01 Jan 1999 12:16:25 -0800
+X-TUID: BMuqzbVCRl2g
+
+[0;32mInfo: Using environment 'production'[0m
+[0;32mInfo: Retrieving pluginfacts[0m
+[0;32mInfo: Retrieving plugin[0m
+[0;32mInfo: Loading facts[0m
+[0;32mInfo: Caching catalog for bbox.mysite.org[0m
+[0;32mInfo: Applying configuration version '1701461766'[0m
+[mNotice: /Stage[main]/Selinux/Exec[dontaudit on for selinux]/returns: executed successfully (corrective)[0m
+[mNotice: /Stage[main]/Selinux/Exec[clean old users]/returns: executed successfully (corrective)[0m
+[mNotice: /Stage[main]/Email::Exim/Exec[exim key copy]/returns: executed successfully (corrective)[0m
+[mNotice: /Stage[main]/Dropbox/Exec[dropbox restorecon]/returns: executed successfully (corrective)[0m
+[mNotice: Applied catalog in 15.28 seconds[0m
+

@@ -6,14 +6,63 @@ pub struct Settings {
     pub imapserver: String,
     pub login: String,
     pub password: Secret<String>,
-    // A matcher set is a list of one or more matchers, all of which must fit a given mail for it
-    // to be kept.  Currently just a vec, but we're likely to add flags later.
-    pub matcher_sets: Vec<Vec<Matcher>>,
-    // A checker set is a list of one or more checks, which email must match for complaints to not
-    // be produced.  Also used to clean things up. Example: "Must be at least one puppet run in the
-    // past day" and "alert on failed puppet runs" and "delete successful puppet runs older than 2
-    // days".
-    pub checker_sets: Vec<Checker>,
+    pub matcher_sets: Vec<MatcherSet>,
+}
+
+// FIXME: put this in the readme
+//
+// Mail is handled in two passes.  In the first pass, any mail that matches all the `Matcher`s on
+// each MatcherSet is moved from INBOX to amcheck_storage.  In the second pass, we match that same
+// set again, and then we walk the `CheckerTree`, which will lead to various actions like deleting
+// mails that we're happy with or alerting on mails we're not.
+//
+// Examples of the sorts of things we do with the check tree: "Must be at least one puppet run in
+// the past day" and "alert on failed puppet runs" and "delete successful puppet runs older than 2
+// days".
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct MatcherSet {
+    pub name: String,
+    pub matchers: Vec<Matcher>,
+    pub checker_tree: CheckerTree,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub enum CheckerTree {
+    Empty,
+    Action(Action),
+    MatchCheck(MatchCheck),
+    DateCheck(DateCheck),
+    CountCheck(CountCheck),
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct MatchCheck {
+    pub matchers: Vec<Matcher>,
+    pub matched: Box<CheckerTree>,
+    pub not_matched: Box<CheckerTree>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct DateCheck {
+    pub days: u8,
+    pub older_than: Box<CheckerTree>,
+    pub younger_than: Box<CheckerTree>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct CountCheck {
+    pub count: u8,
+    pub greater_than: Box<CheckerTree>,
+    pub less_than: Box<CheckerTree>,
+    pub equal: Box<CheckerTree>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub enum Action {
+    Alert,
+    Delete,
+    Log,
+    Nothing,
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
@@ -32,49 +81,6 @@ pub enum MatcherPart {
     Body(regex::Regex),
 }
 
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct Checker {
-    pub name: String,
-    pub matchers: Vec<Matcher>,
-    pub dates: Vec<DateLimit>,
-    pub checks: Vec<Check>,
-}
-
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub enum Check {
-    CheckIndividual(CheckIndividual),
-    CheckCount(CountLimit),
-}
-
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct CheckIndividual {
-    pub matchers: Vec<Matcher>,
-    pub actions: CheckActions,
-}
-
-#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct CheckActions {
-    pub matched: CheckAction,
-    pub unmatched: CheckAction,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
-pub enum CheckAction {
-    Alert,
-    Delete,
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
-pub enum DateLimit {
-    OlderThan(u8),
-    YoungerThan(u8),
-}
-
-#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
-pub enum CountLimit {
-    AtLeast(u8),
-}
-
 // This isn't *really* a test, it's an exploration tool for
 // testing JSON serialization; make the TestConfig struct you
 // want and output it here, so you can see what it looks like
@@ -85,37 +91,42 @@ pub enum CountLimit {
 // Must be run with `cargo test -- --nocapture` to be of any use
 #[cfg(test)]
 mod json_test {
-    use crate::configuration::Check::*;
-    use crate::configuration::CheckAction::*;
-    use crate::configuration::CheckActions;
-    use crate::configuration::CheckIndividual;
-    use crate::configuration::Checker;
-    use crate::configuration::CountLimit::*;
-    use crate::configuration::DateLimit::*;
+    use crate::configuration::Action::*;
+    use crate::configuration::CheckerTree::*;
+    use crate::configuration::Matcher::*;
+    use crate::configuration::MatcherPart::*;
+    use crate::configuration::{CountCheck, DateCheck, MatchCheck, MatcherSet};
 
     #[test]
     fn test_json_output() {
         #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
         pub struct TestConfig {
-            checkers: Vec<Checker>,
+            ms: MatcherSet,
         }
 
         let test = TestConfig {
-            checkers: vec![Checker {
+            ms: MatcherSet {
                 name: "foo".to_owned(),
-                matchers: vec![],
-                dates: vec![OlderThan(1)],
-                checks: vec![
-                    CheckCount(AtLeast(1)),
-                    CheckIndividual(CheckIndividual {
-                        matchers: vec![],
-                        actions: CheckActions {
-                            matched: Delete,
-                            unmatched: Alert,
-                        },
-                    }),
-                ],
-            }],
+                matchers: vec![Match(From(
+                    regex::Regex::new("root@digitalkingdom.org").unwrap(),
+                ))],
+                checker_tree: MatchCheck(MatchCheck {
+                    matchers: vec![Match(Body(
+                        regex::Regex::new("Notice: Applied catalog in").unwrap(),
+                    ))],
+                    matched: Box::new(DateCheck(DateCheck {
+                        days: 1,
+                        older_than: Box::new(Action(Delete)),
+                        younger_than: Box::new(CountCheck(CountCheck {
+                            count: 1,
+                            equal: Box::new(Action(Log)),
+                            less_than: Box::new(Action(Log)),
+                            greater_than: Box::new(Action(Alert)),
+                        })),
+                    })),
+                    not_matched: Box::new(Action(Alert)),
+                }),
+            },
         };
         println!("json test original:\n{:#?}", test);
         let json = serde_json::to_string_pretty(&test);
@@ -123,6 +134,67 @@ mod json_test {
             Ok(val) => println!("json test output:\n{}", val),
             Err(e) => println!("err: {:?}", e),
         }
+    }
+
+    #[test]
+    fn test_json_input() {
+        #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+        pub struct TestConfig {
+            ms: MatcherSet,
+        }
+
+        let json = r#"
+{
+  "ms": {
+    "name": "foo",
+    "matchers": [
+      {
+        "Match": {
+          "From": "root@digitalkingdom.org"
+        }
+      }
+    ],
+    "checker_tree": {
+      "MatchCheck": {
+        "matchers": [
+          {
+            "Match": {
+              "Body": "Notice: Applied catalog in"
+            }
+          }
+        ],
+        "matched": {
+          "DateCheck": {
+            "days": 1,
+            "older_than": {
+              "Action": "Delete"
+            },
+            "younger_than": {
+              "CountCheck": {
+                "count": 1,
+                "greater_than": {
+                  "Action": "Alert"
+                },
+                "less_than": {
+                  "Action": "Log"
+                },
+                "equal": {
+                  "Action": "Log"
+                }
+              }
+            }
+          }
+        },
+        "not_matched": {
+          "Action": "Alert"
+        }
+      }
+    }
+  }
+}
+        "#;
+        let output: TestConfig = serde_json::from_str(json).unwrap();
+        println!("rust output: #{output:#?}");
     }
 }
 

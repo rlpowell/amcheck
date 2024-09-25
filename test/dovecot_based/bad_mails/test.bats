@@ -20,9 +20,9 @@ setup() {
   assert_output --regexp 'level=warn.*Mail format error: Couldn..t convert a name in an Address to UTF-8'
   assert_output --regexp 'level=warn.*Mail format error: Couldn..t convert a local part ...mailbox... in an Address to UTF-8'
   assert_output --regexp 'level=warn.*Mail format error: Couldn..t convert a host in an Address to UTF-8'
-  assert_output --regexp 'level=warn.*Mail format error: Message Subject was not valid utf-8'
+  assert_output --regexp 'level=warn.*Mail format error: Mail Subject was not valid utf-8'
   assert_output --regexp 'level=warn.*Mail format error: No Subject found'
-  assert_output --regexp 'level=warn.*Mail format error: Message Date was not valid utf-8'
+  assert_output --regexp 'level=warn.*Mail format error: Mail Date was not valid utf-8'
   assert_output --regexp 'level=warn.*Mail format error: No Date found'
   assert_success
 
@@ -30,7 +30,7 @@ setup() {
   cp test/dovecot_based/bad_mails/bad_body_1.abox "$mail_tempdir/amcheck_storage/new/1702449998.287739_5.abox"
 
   run cargo run check
-  assert_output --partial 'Message body was not valid utf-8'
+  assert_output --partial 'Mail body was not valid utf-8'
   assert_failure
 }
 

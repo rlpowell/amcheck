@@ -56,8 +56,8 @@ retval=0
 wc -l /tmp/testdir.$$ /tmp/targetdir.$$
 if ! diff /tmp/testdir.$$ /tmp/targetdir.$$ >/dev/null 2>&1
 then
-  echo -e "\n\n******* Diff output; green means something is in the targetdir but not the testdir, red the opposite:\n"
-  git diff --word-diff=color /tmp/testdir.$$ /tmp/targetdir.$$ || true
+  echo -e "\n\n******* Diff output; - means something is in the testdir but not the targetdir (i.e. needs to be added to the targetdir)\n"
+  diff -r -u /tmp/testdir.$$ /tmp/targetdir.$$ || true
   echo -e "\n\n******** Directory counts:\n"
   for name in $(find "$testdir" "$targetdir" -type d)
   do
