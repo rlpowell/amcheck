@@ -416,6 +416,10 @@ fn check_storage(
 
     // Walk through the list of checks
     for matcher_set in &matcher_sets {
+        if matches!(matcher_set.checker_tree, CheckerTree::Empty) {
+            continue;
+        }
+
         let mut checkables = Vec::new();
 
         debug!("Running matches for {}", matcher_set.name);
@@ -497,7 +501,7 @@ fn run_check_tree(
             }
             Action::Delete => {
                 if !mails.is_empty() {
-                    info!("Deleting {} mails.", mails.len());
+                    info!("Deleting {} mails for check '{name}'", mails.len());
                     let uids_list = mails
                         .iter()
                         .map(|x| x.uid.to_string())

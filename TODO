@@ -1,4 +1,13 @@
-Skip a checker that has an empty checker_tree; time the difference
+Rename matchers to filters
+
+Change BodyCheck to BodyAnyCheck, BodyAllCheck, and BodyRegexCheck.
+WRT that last: doing the body pulls in a small-ish batch, which is what
+*should* be happening in the check tree, should not be *terribly*
+slow, but add debug statements to the beginning and end of that
+check so we can watch the timing.
+
+Build a check for warnings/errors/etc using BodyAnyCheck; see how it
+goes.
 
 Set any mails that fail a check / cause an alert to Flagged and push
 them back to the inbox.  Alter the rest of the code to ignore
@@ -14,5 +23,7 @@ Add to README:
 - make it clear that you'll need to massage your scripts to what it
   is possible for amcheck to do, because complex body text searches
   are extremely slow
+- note that it would be possible to do body searches in the filters
+  if anyone actually has a use case for that
 
 https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want thiserror well; good overview of Rust error handling
