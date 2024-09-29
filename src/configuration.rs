@@ -33,6 +33,7 @@ pub enum CheckerTree {
     MatchCheck(MatchCheck),
     DateCheck(DateCheck),
     CountCheck(CountCheck),
+    BodyCheck(BodyCheck),
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
@@ -58,10 +59,17 @@ pub struct CountCheck {
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct BodyCheck {
+    pub string: String,
+    pub matched: Box<CheckerTree>,
+    pub not_matched: Box<CheckerTree>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub enum Action {
     Alert,
     Delete,
-    Log,
+    Success,
     Nothing,
 }
 
@@ -77,8 +85,6 @@ pub enum MatcherPart {
     Subject(regex::Regex),
     #[serde(with = "serde_regex")]
     From(regex::Regex),
-    #[serde(with = "serde_regex")]
-    Body(regex::Regex),
 }
 
 // This isn't *really* a test, it's an exploration tool for
@@ -92,6 +98,7 @@ pub enum MatcherPart {
 #[cfg(test)]
 mod json_test {
     use crate::configuration::Action::*;
+    use crate::configuration::BodyCheck;
     use crate::configuration::CheckerTree::*;
     use crate::configuration::Matcher::*;
     use crate::configuration::MatcherPart::*;
@@ -111,18 +118,20 @@ mod json_test {
                     regex::Regex::new("root@digitalkingdom.org").unwrap(),
                 ))],
                 checker_tree: MatchCheck(MatchCheck {
-                    matchers: vec![Match(Body(
-                        regex::Regex::new("Notice: Applied catalog in").unwrap(),
-                    ))],
-                    matched: Box::new(DateCheck(DateCheck {
-                        days: 1,
-                        older_than: Box::new(Action(Delete)),
-                        younger_than: Box::new(CountCheck(CountCheck {
-                            count: 1,
-                            equal: Box::new(Action(Log)),
-                            less_than: Box::new(Action(Log)),
-                            greater_than: Box::new(Action(Alert)),
+                    matchers: vec![],
+                    matched: Box::new(BodyCheck(BodyCheck {
+                        string: "Notice: Applied catalog in".to_string(),
+                        matched: Box::new(DateCheck(DateCheck {
+                            days: 1,
+                            older_than: Box::new(Action(Delete)),
+                            younger_than: Box::new(CountCheck(CountCheck {
+                                count: 1,
+                                equal: Box::new(Action(Success)),
+                                less_than: Box::new(Action(Success)),
+                                greater_than: Box::new(Action(Alert)),
+                            })),
                         })),
+                        not_matched: Box::new(Action(Alert)),
                     })),
                     not_matched: Box::new(Action(Alert)),
                 }),
@@ -176,10 +185,10 @@ mod json_test {
                   "Action": "Alert"
                 },
                 "less_than": {
-                  "Action": "Log"
+                  "Action": "Success"
                 },
                 "equal": {
-                  "Action": "Log"
+                  "Action": "Success"
                 }
               }
             }

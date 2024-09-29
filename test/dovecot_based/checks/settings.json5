@@ -13,10 +13,8 @@
         { Match: { Subject: "puppet agent" } },
       ],
       checker_tree: {
-        MatchCheck: {
-          matchers: [
-            { Match: { Body: "Notice: Applied catalog in" } },
-          ],
+        BodyCheck: {
+          string: "Notice: Applied catalog in",
           matched: {
             DateCheck: {
               days: 1,
@@ -26,8 +24,8 @@
               younger_than: {
                 CountCheck: {
                   count: 1,
-                  greater_than: { Action: "Log" },
-                  equal: { Action: "Log" },
+                  greater_than: { Action: "Success" },
+                  equal: { Action: "Success" },
                   less_than: { Action: "Alert" },
                 },
               },
