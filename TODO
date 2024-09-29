@@ -1,3 +1,5 @@
+Skip a checker that has an empty checker_tree; time the difference
+
 Set any mails that fail a check / cause an alert to Flagged and push
 them back to the inbox.  Alter the rest of the code to ignore
 Flagged messages (just add UNFLAGGED to search probably).
@@ -5,6 +7,12 @@ Flagged messages (just add UNFLAGGED to search probably).
 Put the `amcheck_storage` name into the settings.  And maybe INBOX
 too.
 
-Move the notes from configuration.rs to the README
+Add to README:
+- the notes from configuration.rs
+- Special case: empty matcher matches all mails in the check phase, but is ignored in the move phase.
+- Body checks only work on literal strings
+- make it clear that you'll need to massage your scripts to what it
+  is possible for amcheck to do, because complex body text searches
+  are extremely slow
 
 https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want thiserror well; good overview of Rust error handling
