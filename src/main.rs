@@ -13,10 +13,8 @@ use amcheck::my_imap_wrapper::{my_uid_search, Uid};
 use error_stack::{Result, ResultExt};
 use thiserror::Error;
 
-use tracing::dispatcher::{self, Dispatch};
 use tracing::{debug, enabled, error, info, warn, Level};
-use tracing_subscriber::layer::SubscriberExt;
-use tracing_subscriber::{EnvFilter, Registry};
+use tracing_subscriber::EnvFilter;
 
 #[derive(Debug, Error)]
 enum MyError {
@@ -32,19 +30,12 @@ enum MyError {
 
 #[tracing::instrument]
 fn main() -> Result<(), MyError> {
-    let subscriber = Registry::default()
-        .with(
-            tracing_logfmt::builder()
-                .with_span_path(true)
-                .with_level(true)
-                .with_target(true)
-                .with_span_name(true)
-                .layer(),
-        )
-        .with(EnvFilter::from_default_env());
-
-    dispatcher::set_global_default(Dispatch::new(subscriber))
-        .expect("Global logger has already been set!");
+    tracing_subscriber::fmt()
+        .with_level(true)
+        .with_target(true)
+        .with_env_filter(EnvFilter::from_default_env())
+        .pretty()
+        .init();
 
     let settings = get_configuration().expect("Failed to read configuration.");
 

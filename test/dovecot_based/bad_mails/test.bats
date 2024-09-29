@@ -16,14 +16,14 @@ setup() {
   _launch_imapd "$thistestdir/initial_mail/" "$testingdir/dovecot_based/" "$mail_tempdir/" "$config_tempdir/" 3>&-
 
   run cargo run move
-  assert_output --regexp 'level=warn.*Mail format error: No addresses found'
-  assert_output --regexp 'level=warn.*Mail format error: Couldn..t convert a name in an Address to UTF-8'
-  assert_output --regexp 'level=warn.*Mail format error: Couldn..t convert a local part ...mailbox... in an Address to UTF-8'
-  assert_output --regexp 'level=warn.*Mail format error: Couldn..t convert a host in an Address to UTF-8'
-  assert_output --regexp 'level=warn.*Mail format error: Mail Subject was not valid utf-8'
-  assert_output --regexp 'level=warn.*Mail format error: No Subject found'
-  assert_output --regexp 'level=warn.*Mail format error: Mail Date was not valid utf-8'
-  assert_output --regexp 'level=warn.*Mail format error: No Date found'
+  assert_output --regexp 'WARN.*Mail format error: No addresses found'
+  assert_output --regexp 'WARN.*Mail format error: Couldn.t convert a name in an Address to UTF-8'
+  assert_output --regexp 'WARN.*Mail format error: Couldn.t convert a local part ..mailbox.. in an Address to UTF-8'
+  assert_output --regexp 'WARN.*Mail format error: Couldn.t convert a host in an Address to UTF-8'
+  assert_output --regexp 'WARN.*Mail format error: Mail Subject was not valid utf-8'
+  assert_output --regexp 'WARN.*Mail format error: No Subject found'
+  assert_output --regexp 'WARN.*Mail format error: Mail Date was not valid utf-8'
+  assert_output --regexp 'WARN.*Mail format error: No Date found'
   assert_success
 
   # Put bad mail in place
