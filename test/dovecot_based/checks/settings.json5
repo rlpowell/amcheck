@@ -4,10 +4,10 @@
   // Note that "pass" is the literal password that dovecot expects in testing
   // mode; it doesn't care about the login name
   password: "pass",
-  matcher_sets: [
+  handlers: [
     {
       name: "Puppet Runs OK And At Least Once In The Past Day",
-      matchers: [
+      filters: [
         { Match: { From: " <root@" } },
         { Match: { Subject: "^Cron " } },
         { Match: { Subject: "puppet agent" } },
@@ -41,7 +41,7 @@
     // matched.
     {
       name: "delete rsync_backup_wrapper mail",
-      matchers: [
+      filters: [
         { Match: { Subject: "^Cron .*rsync_backup_wrapper" } },
       ],
       checker_tree: {

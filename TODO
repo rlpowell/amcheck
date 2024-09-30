@@ -1,5 +1,3 @@
-Rename matchers to filters
-
 Change BodyCheck to BodyAnyCheck, BodyAllCheck, and BodyRegexCheck.
 WRT that last: doing the body pulls in a small-ish batch, which is what
 *should* be happening in the check tree, should not be *terribly*

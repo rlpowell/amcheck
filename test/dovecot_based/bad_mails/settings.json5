@@ -4,10 +4,10 @@
   // Note that "pass" is the literal password that dovecot expects in testing
   // mode; it doesn't care about the login name
   password: "pass",
-  matcher_sets: [
+  handlers: [
     {
       name: "Puppet Runs OK",
-      matchers: [
+      filters: [
         { Match: { From: " <root@" } },
         { Match: { Subject: "^Cron " } },
         { Match: { Subject: "puppet agent" } },

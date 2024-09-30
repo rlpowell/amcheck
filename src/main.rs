@@ -5,7 +5,7 @@ use std::cmp::Ordering;
 use std::env;
 
 use amcheck::configuration::{
-    get_configuration, get_environment, Action, CheckerTree, Matcher, MatcherPart, MatcherSet,
+    get_configuration, get_environment, Action, CheckerTree, Filter, Handler, MatcherPart,
 };
 
 use amcheck::my_imap_wrapper::{my_uid_search, Uid};
@@ -71,16 +71,16 @@ fn main() -> Result<(), MyError> {
 
     match args[1].as_str() {
         "move" => {
-            move_to_storage(&mut imap_session, settings.matcher_sets, false)?;
+            move_to_storage(&mut imap_session, settings.handlers, false)?;
         }
         "move_noop" => {
-            move_to_storage(&mut imap_session, settings.matcher_sets, true)?;
+            move_to_storage(&mut imap_session, settings.handlers, true)?;
         }
         "check" => {
-            check_storage(&mut imap_session, settings.matcher_sets, false)?;
+            check_storage(&mut imap_session, settings.handlers, false)?;
         }
         "check_noop" => {
-            check_storage(&mut imap_session, settings.matcher_sets, true)?;
+            check_storage(&mut imap_session, settings.handlers, true)?;
         }
         _ => panic!("Sole argument must be either 'move' or 'check'."),
     }
@@ -193,15 +193,15 @@ fn check_matcher_part(mp: MatcherPart, mail: &Mail) -> bool {
 }
 
 #[tracing::instrument]
-fn match_mail(name: &str, matchers: &Vec<Matcher>, mail: &Mail) -> bool {
+fn match_mail(name: &str, matchers: &Vec<Filter>, mail: &Mail) -> bool {
     for matcher in matchers {
         match matcher {
-            Matcher::Match(match_part) => {
+            Filter::Match(match_part) => {
                 if !check_matcher_part(match_part.clone(), mail) {
                     return false;
                 }
             }
-            Matcher::UnMatch(match_part) => {
+            Filter::UnMatch(match_part) => {
                 if check_matcher_part(match_part.clone(), mail) {
                     return false;
                 }
@@ -313,7 +313,7 @@ fn get_mails(
 #[tracing::instrument(skip(matcher_sets,imap_session), fields(matcher_sets_count = matcher_sets.len()))]
 fn move_to_storage(
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
-    matcher_sets: Vec<MatcherSet>,
+    matcher_sets: Vec<Handler>,
     noop: bool,
 ) -> Result<(), MyError> {
     imap_session.select("INBOX").change_context(MyError::Imap)?;
@@ -356,8 +356,8 @@ fn move_to_storage(
         for matcher_set in &matcher_sets {
             // Special case: empty matcher sets are ignored during the move phase, but treated as
             // matching everything during the check phase
-            if !matcher_set.matchers.is_empty()
-                && match_mail(&matcher_set.name, &matcher_set.matchers, &mail)
+            if !matcher_set.filters.is_empty()
+                && match_mail(&matcher_set.name, &matcher_set.filters, &mail)
             {
                 info!(
                     "Marking mail to move to storage from set {}: From {}, subj {}",
@@ -402,7 +402,7 @@ fn move_to_storage(
 #[tracing::instrument(skip(matcher_sets, imap_session))]
 fn check_storage(
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
-    matcher_sets: Vec<MatcherSet>,
+    matcher_sets: Vec<Handler>,
     noop: bool,
 ) -> Result<(), MyError> {
     imap_session
@@ -433,7 +433,7 @@ fn check_storage(
                 mail.uid, mail.from_addr, mail.subject
             );
 
-            if match_mail(&matcher_set.name, &matcher_set.matchers, mail) {
+            if match_mail(&matcher_set.name, &matcher_set.filters, mail) {
                 checkables.push(mail);
             }
         }

@@ -6,13 +6,13 @@ pub struct Settings {
     pub imapserver: String,
     pub login: String,
     pub password: Secret<String>,
-    pub matcher_sets: Vec<MatcherSet>,
+    pub handlers: Vec<Handler>,
 }
 
 // FIXME: put this in the readme
 //
-// Mail is handled in two passes.  In the first pass, any mail that matches all the `Matcher`s on
-// each MatcherSet is moved from INBOX to amcheck_storage.  In the second pass, we match that same
+// Mail is handled in two passes.  In the first pass, any mail that matches all the `Filter`s on
+// each Handler is moved from INBOX to amcheck_storage.  In the second pass, we match that same
 // set again, and then we walk the `CheckerTree`, which will lead to various actions like deleting
 // mails that we're happy with or alerting on mails we're not.
 //
@@ -20,9 +20,9 @@ pub struct Settings {
 // the past day" and "alert on failed puppet runs" and "delete successful puppet runs older than 2
 // days".
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct MatcherSet {
+pub struct Handler {
     pub name: String,
-    pub matchers: Vec<Matcher>,
+    pub filters: Vec<Filter>,
     pub checker_tree: CheckerTree,
 }
 
@@ -38,7 +38,7 @@ pub enum CheckerTree {
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct MatchCheck {
-    pub matchers: Vec<Matcher>,
+    pub matchers: Vec<Filter>,
     pub matched: Box<CheckerTree>,
     pub not_matched: Box<CheckerTree>,
 }
@@ -74,7 +74,7 @@ pub enum Action {
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub enum Matcher {
+pub enum Filter {
     Match(MatcherPart),
     UnMatch(MatcherPart),
 }
@@ -100,21 +100,21 @@ mod json_test {
     use crate::configuration::Action::*;
     use crate::configuration::BodyCheck;
     use crate::configuration::CheckerTree::*;
-    use crate::configuration::Matcher::*;
+    use crate::configuration::Filter::*;
     use crate::configuration::MatcherPart::*;
-    use crate::configuration::{CountCheck, DateCheck, MatchCheck, MatcherSet};
+    use crate::configuration::{CountCheck, DateCheck, Handler, MatchCheck};
 
     #[test]
     fn test_json_output() {
         #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
         pub struct TestConfig {
-            ms: MatcherSet,
+            ms: Handler,
         }
 
         let test = TestConfig {
-            ms: MatcherSet {
+            ms: Handler {
                 name: "foo".to_owned(),
-                matchers: vec![Match(From(
+                filters: vec![Match(From(
                     regex::Regex::new("root@digitalkingdom.org").unwrap(),
                 ))],
                 checker_tree: MatchCheck(MatchCheck {
@@ -149,14 +149,14 @@ mod json_test {
     fn test_json_input() {
         #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
         pub struct TestConfig {
-            ms: MatcherSet,
+            ms: Handler,
         }
 
         let json = r#"
 {
   "ms": {
     "name": "foo",
-    "matchers": [
+    "filters": [
       {
         "Match": {
           "From": "root@digitalkingdom.org"
