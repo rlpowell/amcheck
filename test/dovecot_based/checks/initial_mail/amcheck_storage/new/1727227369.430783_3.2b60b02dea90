@@ -42,5 +42,6 @@ X-TUID: BMuqzbVCRl2g
 [mNotice: /Stage[main]/Email::Exim/Exec[exim key copy]/returns: executed successfully (corrective)[0m
 [mNotice: /Stage[main]/Dropbox/Exec[dropbox restorecon]/returns: executed successfully (corrective)[0m
 moo
+cow
 [mNotice: Applied catalog in 15.28 seconds[0m
 

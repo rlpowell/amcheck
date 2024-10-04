@@ -33,7 +33,9 @@ pub enum CheckerTree {
     MatchCheck(MatchCheck),
     DateCheck(DateCheck),
     CountCheck(CountCheck),
-    BodyCheck(BodyCheck),
+    BodyCheckAny(BodyCheckAny),
+    BodyCheckAll(BodyCheckAll),
+    BodyCheckRegex(BodyCheckRegex),
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
@@ -59,8 +61,23 @@ pub struct CountCheck {
 }
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
-pub struct BodyCheck {
-    pub string: String,
+pub struct BodyCheckAny {
+    pub strings: Vec<String>,
+    pub matched: Box<CheckerTree>,
+    pub not_matched: Box<CheckerTree>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct BodyCheckAll {
+    pub strings: Vec<String>,
+    pub matched: Box<CheckerTree>,
+    pub not_matched: Box<CheckerTree>,
+}
+
+#[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
+pub struct BodyCheckRegex {
+    #[serde(with = "serde_regex")]
+    pub regex: regex::Regex,
     pub matched: Box<CheckerTree>,
     pub not_matched: Box<CheckerTree>,
 }
@@ -98,7 +115,7 @@ pub enum MatcherPart {
 #[cfg(test)]
 mod json_test {
     use crate::configuration::Action::*;
-    use crate::configuration::BodyCheck;
+    use crate::configuration::BodyCheckAll;
     use crate::configuration::CheckerTree::*;
     use crate::configuration::Filter::*;
     use crate::configuration::MatcherPart::*;
@@ -119,8 +136,8 @@ mod json_test {
                 ))],
                 checker_tree: MatchCheck(MatchCheck {
                     matchers: vec![],
-                    matched: Box::new(BodyCheck(BodyCheck {
-                        string: "Notice: Applied catalog in".to_string(),
+                    matched: Box::new(BodyCheckAll(BodyCheckAll {
+                        strings: vec!["Notice: Applied catalog in".to_string()],
                         matched: Box::new(DateCheck(DateCheck {
                             days: 1,
                             older_than: Box::new(Action(Delete)),
@@ -133,7 +150,7 @@ mod json_test {
                         })),
                         not_matched: Box::new(Action(Alert)),
                     })),
-                    not_matched: Box::new(Action(Alert)),
+                    not_matched: Box::new(Empty),
                 }),
             },
         };
@@ -168,7 +185,7 @@ mod json_test {
         "matchers": [
           {
             "Match": {
-              "Body": "Notice: Applied catalog in"
+              "Subject": "Notice: Applied catalog in"
             }
           }
         ],

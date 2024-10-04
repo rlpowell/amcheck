@@ -1,8 +1,4 @@
-Change BodyCheck to BodyAnyCheck, BodyAllCheck, and BodyRegexCheck.
-WRT that last: doing the body pulls in a small-ish batch, which is what
-*should* be happening in the check tree, should not be *terribly*
-slow, but add debug statements to the beginning and end of that
-check so we can watch the timing.
+Check the timings (using debug) on BodyCheckRegex with the real data
 
 Build a check for warnings/errors/etc using BodyAnyCheck; see how it
 goes.
@@ -17,10 +13,8 @@ too.
 Add to README:
 - the notes from configuration.rs
 - Special case: empty matcher matches all mails in the check phase, but is ignored in the move phase.
-- Body checks only work on literal strings
-- make it clear that you'll need to massage your scripts to what it
-  is possible for amcheck to do, because complex body text searches
-  are extremely slow
+- BodyCheckAny and BodyCheckAll only work on literal strings
+- BodyCheckRegex is very slow
 - note that it would be possible to do body searches in the filters
   if anyone actually has a use case for that
 

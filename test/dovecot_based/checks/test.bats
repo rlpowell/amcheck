@@ -25,10 +25,13 @@ run_with_fmt() {
   sed -r -i "s/Fri, 01 Jan 1999.*/$newdate/" "$mail_tempdir/amcheck_storage/new/1725336071.108351_3.2b60b02dea90"
 
   run run_with_fmt
-  assert_output --regexp 'amcheck.*Deleting 2 mails.*name.*"Puppet Runs OK And At Least Once In The Past Day".*tree_head_type.*"Action Delete".*tree_head_type.*"DateCheck 1".*tree_head_type.*"BodyCheck Notice: Applied catalog in"'
+  assert_output --regexp 'amcheck.*Deleting 2 mails.*name.*"Puppet Runs OK And At Least Once In The Past Day".*tree_head_type.*"Action Delete".*tree_head_type.*"DateCheck 1".*tree_head_type.*"BodyCheckAny ...Notice: Applied catalog in'
   assert_output --regexp 'WARN.*CHECK FAILED for check .Puppet Runs OK And At Least Once In The Past Day. for 1 mails'
   assert_output --regexp 'amcheck.*Check .Puppet Runs OK And At Least Once In The Past Day. passed with 1 mails'
   assert_output --regexp 'amcheck.*Deleting 1 mails.*name.*"delete rsync_backup_wrapper mail".*tree_head_type.*"Action Delete".*tree_head_type.*"MatchCheck .."'
+  assert_output --regexp 'WARN.*CHECK FAILED for check .Artificial BodyCheckAny. for 4 mails'
+  assert_output --regexp 'WARN.*CHECK FAILED for check .Artificial BodyCheckAll. for 1 mails'
+  assert_output --regexp 'WARN.*CHECK FAILED for check .Artificial BodyCheckRegex. for 1 mails'
   refute_output "error"
   refute_output "warning"
   assert_success

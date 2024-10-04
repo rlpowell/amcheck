@@ -13,8 +13,8 @@
         { Match: { Subject: "puppet agent" } },
       ],
       checker_tree: {
-        BodyCheck: {
-          string: "Notice: Applied catalog in",
+        BodyCheckRegex: {
+          regex: "Notice: Applied catalog in",
           matched: {
             DateCheck: {
               days: 1,

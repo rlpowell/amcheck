@@ -5,6 +5,46 @@
   // mode; it doesn't care about the login name
   password: "pass",
   handlers: [
+    // Very artificial
+    {
+      name: "Artificial BodyCheckAny",
+      filters: [],
+      checker_tree: {
+        BodyCheckAny: {
+          strings: [ "Error", "damaged", "moo" ],
+          matched: { Action: "Alert" },
+          not_matched: "Empty",
+        }
+      }
+    },
+    // Very artificial
+    {
+      name: "Artificial BodyCheckAll",
+      filters: [],
+      checker_tree: {
+        BodyCheckAll: {
+          strings: [ "catalog", "moo", "cow" ],
+          matched: { Action: "Alert" },
+          not_matched: "Empty",
+        }
+      }
+    },
+    // Very artificial
+    {
+      name: "Artificial BodyCheckRegex",
+      filters: [
+        { Match: { From: " <root@" } },
+        { Match: { Subject: "^Cron " } },
+        { Match: { Subject: "puppet agent" } },
+      ],
+      checker_tree: {
+        BodyCheckRegex: {
+          regex: "Server Error.*node",
+          matched: { Action: "Alert" },
+          not_matched: "Empty",
+        }
+      }
+    },
     {
       name: "Puppet Runs OK And At Least Once In The Past Day",
       filters: [
@@ -13,8 +53,8 @@
         { Match: { Subject: "puppet agent" } },
       ],
       checker_tree: {
-        BodyCheck: {
-          string: "Notice: Applied catalog in",
+        BodyCheckAll: {
+          strings: ["Notice: Applied catalog in"],
           matched: {
             DateCheck: {
               days: 1,
@@ -51,6 +91,6 @@
           not_matched: { Action: "Alert" },
         }
       }
-    }
+    },
   ]
 }

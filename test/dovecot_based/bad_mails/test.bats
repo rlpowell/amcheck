@@ -26,14 +26,12 @@ setup() {
   assert_output --regexp 'WARN.*Mail format error: No Date found'
   assert_success
 
-  # We no longer directly load the bodies, so we can't get a utf-8 failure for them anymore
-  #
-  # # Put bad mail in place
-  # cp test/dovecot_based/bad_mails/bad_body_1.abox "$mail_tempdir/amcheck_storage/new/1702449998.287739_5.abox"
+  # Put bad mail in place
+  cp test/dovecot_based/bad_mails/bad_body_1.abox "$mail_tempdir/amcheck_storage/new/1702449998.287739_5.abox"
 
-  # run cargo run check
-  # assert_output --partial 'Mail body was not valid utf-8'
-  # assert_failure
+  run cargo run check
+  assert_output --partial 'Mail body was not valid utf-8'
+  assert_failure
 }
 
 teardown() {
