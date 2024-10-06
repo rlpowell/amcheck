@@ -14,7 +14,7 @@ use amcheck::my_imap_wrapper::{my_uid_search, Uid};
 use error_stack::{Result, ResultExt};
 use thiserror::Error;
 
-use tracing::{debug, enabled, error, info, warn, Level};
+use tracing::{debug, enabled, error, info, trace, warn, Level};
 use tracing_subscriber::EnvFilter;
 
 #[derive(Clone, Debug)]
@@ -48,7 +48,7 @@ fn main() -> Result<(), MyError> {
 
     let settings = get_configuration().expect("Failed to read configuration.");
 
-    debug!("Settings: {:?}", settings);
+    debug!("Settings: {:#?}", settings);
 
     let args: Vec<String> = env::args().collect();
 
@@ -173,7 +173,7 @@ fn match_mail(name: &str, matchers: &Vec<Filter>, mail: &Mail) -> bool {
         }
     }
 
-    if enabled!(Level::DEBUG) {
+    if enabled!(Level::TRACE) {
         println!(
             "Mail with from addr \n\t{}\n and subject \n\t{}\n was matched by {name}\n",
             mail.from_addr, mail.subject
@@ -312,9 +312,11 @@ fn move_to_storage(
     let mut storables = Vec::new();
 
     for mail in mails {
-        debug!(
+        trace!(
             "Mail uid {}: from {}, subj {}",
-            mail.uid, mail.from_addr, mail.subject
+            mail.uid,
+            mail.from_addr,
+            mail.subject
         );
 
         for matcher_set in &matcher_sets {
@@ -392,9 +394,11 @@ fn check_storage(
         //
         // This means we run over every mail once for each check, but that can't really be helped.
         for mail in &mails {
-            debug!(
+            trace!(
                 "Mail uid {}: from {}, subj {}",
-                mail.uid, mail.from_addr, mail.subject
+                mail.uid,
+                mail.from_addr,
+                mail.subject
             );
 
             if match_mail(&matcher_set.name, &matcher_set.filters, mail) {
@@ -404,7 +408,7 @@ fn check_storage(
 
         // Now that we have the mails that are relevant to this check, actually run the check(s)
 
-        if enabled!(Level::DEBUG) {
+        if enabled!(Level::TRACE) {
             println!("\n\n-------------------------------------\n\n");
         }
 
@@ -514,7 +518,7 @@ fn run_check_tree(
                     .checked_sub(time::Duration::days(i64::from(check.days)))
                     .ok_or(MyError::DateSubtraction(i64::from(check.days)))?;
 
-                debug!("Checking if mail date {:?} for uid {}: from_addr: {}, subject: {} is older/younger than target date {odt:?}", mail.date, mail.uid, mail.from_addr, mail.subject);
+                trace!("Checking if mail date {:?} for uid {}: from_addr: {}, subject: {} is older/younger than target date {odt:?}", mail.date, mail.uid, mail.from_addr, mail.subject);
 
                 // An older mail has a smaller date, so smaller mail_date is true
                 if mail.date < odt {
@@ -531,145 +535,157 @@ fn run_check_tree(
             run_check_tree(noop, name, &check.younger_than, imap_session, &younger)?;
         }
         CheckerTree::BodyCheckAny(check) => {
-            let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
-            let uids_list = uids
-                .iter()
-                .map(std::string::ToString::to_string)
-                .collect::<Vec<_>>()
-                .join(",");
-
-            let search_string: String;
-
-            if check.strings.is_empty() {
-                warn!("List of strings for BodyCheckAny check '{name}' is empty; terminating tree here.");
-                return Ok(());
-            } else if check.strings.len() == 1 {
-                search_string = format!("BODY \"{}\"", check.strings[0]);
-            } else {
-                search_string = check.strings[1..]
+            if !mails.is_empty() {
+                let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
+                let uids_list = uids
                     .iter()
-                    .fold(format!("BODY \"{}\"", check.strings[0]), |acc, x| {
-                        format!("OR (BODY \"{x}\") ({acc})")
-                    });
-            }
+                    .map(std::string::ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join(",");
 
-            debug!("In BodyCheckAny '{name}', search string is {search_string}.");
+                let search_string: String;
 
-            // Get the list of all UIDs that match the body text in question across the mails in
-            // question
-            let body_text_uids =
-                my_uid_search(imap_session, format!("UID {uids_list} {search_string}"))
-                    .unwrap_or_else(|x| {
-                        panic!(
+                if check.strings.is_empty() {
+                    warn!("List of strings for BodyCheckAny check '{name}' is empty; terminating tree here.");
+                    return Ok(());
+                } else if check.strings.len() == 1 {
+                    search_string = format!("BODY \"{}\"", check.strings[0]);
+                } else {
+                    search_string = check.strings[1..]
+                        .iter()
+                        .fold(format!("BODY \"{}\"", check.strings[0]), |acc, x| {
+                            format!("OR (BODY \"{x}\") ({acc})")
+                        });
+                }
+
+                debug!("In BodyCheckAny '{name}', search string is {search_string}.");
+
+                // Get the list of all UIDs that match the body text in question across the mails in
+                // question
+                let body_text_uids =
+                    my_uid_search(imap_session, format!("UID {uids_list} {search_string}"))
+                        .unwrap_or_else(|x| {
+                            panic!(
                     "Could not BodyCheckAny for mail bodies with strings {:?}, error: {x:?}!",
                     check.strings,
                 )
-                    });
+                        });
 
-            let mut matched = Vec::new();
-            let mut not_matched = Vec::new();
+                let mut matched = Vec::new();
+                let mut not_matched = Vec::new();
 
-            for mail in mails {
-                if body_text_uids.contains(&mail.uid) {
-                    matched.push(*mail);
-                } else {
-                    not_matched.push(*mail);
+                for mail in mails {
+                    if body_text_uids.contains(&mail.uid) {
+                        matched.push(*mail);
+                    } else {
+                        not_matched.push(*mail);
+                    }
                 }
+
+                // Dispatch the two lists down the tree
+                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+
+                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
             }
-
-            // Dispatch the two lists down the tree
-            run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
-
-            run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
         }
         CheckerTree::BodyCheckAll(check) => {
-            let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
-            let uids_list = uids
-                .iter()
-                .map(std::string::ToString::to_string)
-                .collect::<Vec<_>>()
-                .join(",");
-
-            let search_string: String;
-
-            if check.strings.is_empty() {
-                warn!("List of strings for BodyCHeckAll check '{name}' is empty; terminating tree here.");
-                return Ok(());
-            } else if check.strings.len() == 1 {
-                search_string = format!("BODY \"{}\"", check.strings[0]);
-            } else {
-                search_string = check.strings[1..]
+            if !mails.is_empty() {
+                let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
+                let uids_list = uids
                     .iter()
-                    .fold(format!("BODY \"{}\"", check.strings[0]), |acc, x| {
-                        format!("BODY \"{x}\" {acc}")
-                    });
-            }
+                    .map(std::string::ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join(",");
 
-            debug!("In BodyCheckAll '{name}', search string is {search_string}.");
+                let search_string: String;
 
-            // Get the list of all UIDs that match the body text in question across the mails in
-            // question
-            let body_text_uids =
-                my_uid_search(imap_session, format!("UID {uids_list} {search_string}"))
-                    .unwrap_or_else(|x| {
+                if check.strings.is_empty() {
+                    warn!("List of strings for BodyCHeckAll check '{name}' is empty; terminating tree here.");
+                    return Ok(());
+                } else if check.strings.len() == 1 {
+                    search_string = format!("BODY \"{}\"", check.strings[0]);
+                } else {
+                    search_string = check.strings[1..]
+                        .iter()
+                        .fold(format!("BODY \"{}\"", check.strings[0]), |acc, x| {
+                            format!("BODY \"{x}\" {acc}")
+                        });
+                }
+
+                let final_search = format!("UID {uids_list} {search_string}");
+                debug!(
+                    "In BodyCheckAll '{name}', search string is: {}",
+                    final_search
+                );
+
+                // Get the list of all UIDs that match the body text in question across the mails in
+                // question
+                let body_text_uids =
+                    my_uid_search(imap_session, final_search).unwrap_or_else(|x| {
                         panic!(
                     "Could not BodyCheckAll for mail bodies with strings {:?}, error: {x:?}!",
                     check.strings,
                 )
                     });
 
-            let mut matched = Vec::new();
-            let mut not_matched = Vec::new();
+                let mut matched = Vec::new();
+                let mut not_matched = Vec::new();
 
-            for mail in mails {
-                if body_text_uids.contains(&mail.uid) {
-                    matched.push(*mail);
-                } else {
-                    not_matched.push(*mail);
+                for mail in mails {
+                    if body_text_uids.contains(&mail.uid) {
+                        matched.push(*mail);
+                    } else {
+                        not_matched.push(*mail);
+                    }
                 }
+
+                // Dispatch the two lists down the tree
+                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+
+                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
             }
-
-            // Dispatch the two lists down the tree
-            run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
-
-            run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
         }
         CheckerTree::BodyCheckRegex(check) => {
-            debug!("Start of BodyCheckRegex for regex {}", check.regex);
+            if !mails.is_empty() {
+                debug!(
+                    "Start of BodyCheckRegex for regex {}, checking {} mails",
+                    check.regex,
+                    mails.len()
+                );
 
-            let mut mails_by_uid: HashMap<u32, &Mail> = HashMap::new();
-            for mail in mails {
-                mails_by_uid.insert(u32::from(mail.uid), *mail);
-            }
+                let mut mails_by_uid: HashMap<u32, &Mail> = HashMap::new();
+                for mail in mails {
+                    mails_by_uid.insert(u32::from(mail.uid), *mail);
+                }
 
-            let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
-            let uids_list = uids
-                .iter()
-                .map(std::string::ToString::to_string)
-                .collect::<Vec<_>>()
-                .join(",");
+                let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
+                let uids_list = uids
+                    .iter()
+                    .map(std::string::ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join(",");
 
-            let mail_bodies = imap_session
-                .uid_fetch(&uids_list, "BODY.PEEK[TEXT]")
-                .expect("Couldn't fetch mail for body check!");
+                let mail_bodies = imap_session
+                    .uid_fetch(&uids_list, "BODY.PEEK[TEXT]")
+                    .expect("Couldn't fetch mail for body check!");
 
-            if mail_bodies.len() != uids.len() {
-                error!("Couldn't retrieve the right number of mails; count retrieved: {}, count requested: {}, uid list: {uids_list}.", mail_bodies.len(), uids.len());
-                panic!();
-            }
+                if mail_bodies.len() != uids.len() {
+                    error!("Couldn't retrieve the right number of mails; count retrieved: {}, count requested: {}, uid list: {uids_list}.", mail_bodies.len(), uids.len());
+                    panic!();
+                }
 
-            let mut matched = Vec::new();
-            let mut not_matched = Vec::new();
+                let mut matched = Vec::new();
+                let mut not_matched = Vec::new();
 
-            for mail in mail_bodies.iter() {
-                let uid: Uid = mail
-                    .uid
-                    .unwrap_or_else(|| panic!("Mail has no uid\n\nmail: {mail:?}"))
-                    .into();
+                for mail in mail_bodies.iter() {
+                    let uid: Uid = mail
+                        .uid
+                        .unwrap_or_else(|| panic!("Mail has no uid\n\nmail: {mail:?}"))
+                        .into();
 
-                let assoc_mail = &mails_by_uid[&(u32::from(uid))];
+                    let assoc_mail = &mails_by_uid[&(u32::from(uid))];
 
-                let body = match mail.text() {
+                    let body = match mail.text() {
                     Some(x) => std::str::from_utf8(x)
                         .unwrap_or_else(|err| {
                             panic!(
@@ -692,19 +708,25 @@ fn run_check_tree(
                     }
                 };
 
-                if check.regex.is_match(&body) {
-                    matched.push(*assoc_mail);
-                } else {
-                    not_matched.push(*assoc_mail);
+                    if check.regex.is_match(&body) {
+                        matched.push(*assoc_mail);
+                    } else {
+                        not_matched.push(*assoc_mail);
+                    }
                 }
+
+                debug!(
+                    "End of BodyCheckRegex for regex {}; {} mails matched and {} mails not_matched",
+                    check.regex,
+                    matched.len(),
+                    not_matched.len()
+                );
+
+                // Dispatch the two lists down the tree
+                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+
+                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
             }
-
-            debug!("End of BodyCheckRegex for regex {}", check.regex);
-
-            // Dispatch the two lists down the tree
-            run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
-
-            run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
         }
 
         CheckerTree::CountCheck(check) => {
