@@ -1,0 +1,109 @@
+// This is an example pkl (
+// https://pkl-lang.org/main/current/pkl-cli/index.html#installation )
+// config file, which I switched to because I kept using the same
+// structure, here represented as Check_run_delete_olds, all over the
+// place.
+//
+// This can be turned into a json5 file (actually just json but
+// json5 is a superset) by running
+// `pkl eval -f json settings/prod.pkl.example > settings/prod.json5`
+
+class Check_run_delete_olds {
+  hidden base_days: Int
+  hidden short_name: String
+  hidden count_reqd: Int
+  hidden check_strings: List<String>
+  name = "\(short_name) Runs OK And At Least Once In The Past \(base_days) Day(s)"
+  filters: Any
+  checker_tree {
+    BodyCheckAny {
+      strings = List("warn", "warning", "err", "error", "fatal", "fail", "failed")
+      matched { Action = "Alert" }
+      not_matched {
+        BodyCheckAll {
+          strings = check_strings
+          matched {
+            DateCheck {
+              days = base_days
+              older_than {
+                Action = "Delete"
+              }
+              younger_than {
+                CountCheck {
+                  count = count_reqd
+                  greater_than { Action = "Success" }
+                  equal { Action = "Success" }
+                  less_than { Action = "Alert" }
+                }
+              }
+            }
+          }
+          not_matched { Action = "Alert" }
+        }
+      }
+    }
+  }
+}
+
+imapserver = "imap.gmail.com"
+login = "me@gmail.com"
+password = "nope"
+handlers {
+  new Check_run_delete_olds {
+    short_name = "Puppet"
+    base_days = 1
+    count_reqd = 1
+    check_strings = List("Notice: Applied catalog in")
+    filters = new Dynamic {
+      new { Match { From = " <puppet_cron_stodi@digitalkingdom.org>$" } }
+      new { Match { Subject = "^Cron " } }
+      new { Match { Subject = "puppet agent" } }
+    }
+  }
+  new Check_run_delete_olds {
+    short_name = "telegram-images"
+    base_days = 1
+    count_reqd = 1
+    check_strings = List("telegram images run complete")
+    filters = new Dynamic {
+      new { Match { From = "rlpowell.cron@digitalkingdom.org" } }
+      new { Match { Subject = "telegram-images.run.sh" } }
+    }
+  }
+  // We really don't need to evaluate these for correctness; if
+  // they're not sending then no-snitch would alert us
+  new {
+    name = "clean out no-snitch mails"
+    filters = new Dynamic {
+      new { Match { Subject = "swaks.*@nosnch.in" } }
+    }
+    checker_tree {
+      DateCheck {
+        days = 0
+        older_than {
+          Action = "Delete"
+        }
+        younger_than {
+          Action = "Alert"
+        }
+      }
+    }
+  }
+  new {
+    name = "Alert On Unhandled Mails"
+    // Special case: empty matcher matches all mails in the check
+    // phase, but is ignored in the move phase.
+    filters = List()
+    checker_tree {
+      DateCheck {
+        days = 3
+        older_than {
+          Action = "Alert"
+        }
+        younger_than {
+          Action = "Nothing"
+        }
+      }
+    }
+  }
+}

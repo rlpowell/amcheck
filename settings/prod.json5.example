@@ -1,18 +1,25 @@
+// This is some examples from when I wrote json5 directly.  Once I
+// found that I had *many* rules that looked the same as the first
+// one in this example file, I moved to writing pkl (
+// https://pkl-lang.org/main/current/pkl-cli/index.html#installation )
+// and using that to generate json, but amcheck still loads it as json5
+// so you can manually write files that aren't as aggravating as
+// JSON or as error-prone as YAML.
 {
   imapserver: "localhost",
   login: "weeble",
   password: "password",
-  matcher_sets: [
+  handlers: [
     {
       name: "Puppet Runs OK And At Least Once In The Past Day",
-      matchers: [
+      filters: [
         { Match: { From: " <root@" } },
         { Match: { Subject: "^Cron " } },
         { Match: { Subject: "puppet agent" } },
       ],
       checker_tree: {
-        BodyCheck: {
-          string: "Notice: Applied catalog in",
+        BodyCheckAll: {
+          string: [ "Notice: Applied catalog in" ],
           matched: {
             DateCheck: {
               days: 1,
@@ -33,6 +40,41 @@
         },
       },
     },
-    // FIXME: Add at least one more
+    // We really don't need to evaluate these for correctness; if
+    // they're not sending then no-snitch would alert us
+    {
+      name: "clean out no-snitch mails",
+      filters: [
+        { Match: { Subject: "swaks.*@nosnch.in" } },
+      ],
+      checker_tree: {
+        DateCheck: {
+          days: 0,
+          older_than: {
+            Action: "Delete"
+          },
+          younger_than: {
+            Action: "Alert"
+          },
+        },
+      },
+    },
+    {
+      name: "Alert On Unhandled Mails",
+      // Special case: empty matcher matches all mails in the check
+      // phase, but is ignored in the move phase.
+      filters: [],
+      checker_tree: {
+        DateCheck: {
+          days: 3,
+          older_than: {
+            Action: "Alert"
+          },
+          younger_than: {
+            Action: "Nothing"
+          },
+        },
+      },
+    },
   ]
 }
