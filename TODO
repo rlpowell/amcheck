@@ -1,7 +1,4 @@
-Check the timings (using debug) on BodyCheckRegex with the real data
-
-Build a check for warnings/errors/etc using BodyAnyCheck; see how it
-goes.
+change Empty to Stop ?; just seems clearer
 
 Set any mails that fail a check / cause an alert to Flagged and push
 them back to the inbox.  Alter the rest of the code to ignore
@@ -17,5 +14,6 @@ Add to README:
 - BodyCheckRegex is very slow
 - note that it would be possible to do body searches in the filters
   if anyone actually has a use case for that
+- notes about empty_ok= and how it works
 
 https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want thiserror well; good overview of Rust error handling

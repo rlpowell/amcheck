@@ -17,8 +17,8 @@ setup() {
 
   run cargo run move
   assert_output --partial "Moving 3 mails to storage."
-  refute_output "error"
-  refute_output "warning"
+  refute_output --partial "error"
+  refute_output --partial "warning"
   assert_success
 
   run $testingdir/dovecot_based/maildir_diff.sh "$mail_tempdir" "$thistestdir/target_mail/"

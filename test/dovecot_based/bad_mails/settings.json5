@@ -15,8 +15,10 @@
       checker_tree: {
         BodyCheckRegex: {
           regex: "Notice: Applied catalog in",
+          empty_ok: "Matched",
           matched: {
             DateCheck: {
+              empty_ok: "YoungerThan",
               days: 1,
               older_than: {
                 Action: "Delete"

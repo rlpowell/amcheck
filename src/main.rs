@@ -9,6 +9,8 @@ use amcheck::configuration::{
     get_configuration, get_environment, Action, CheckerTree, Filter, Handler, MatcherPart,
 };
 
+use amcheck::configuration::DateEmpty;
+use amcheck::configuration::MatchEmpty;
 use amcheck::my_imap_wrapper::{my_uid_search, Uid};
 
 use error_stack::{Result, ResultExt};
@@ -448,10 +450,17 @@ fn run_check_tree(
     // NOTE: Do *not* wrap this in a mails.is_empty(), because we want to fail counts that have 0
     // matches
     match checker_tree {
-        CheckerTree::Empty => {}
-        CheckerTree::Action(action) => match action {
-            Action::Alert => {
-                if !mails.is_empty() {
+        CheckerTree::Empty => {
+            debug!("Empty node on checker_tree");
+        }
+        CheckerTree::Action(action) => {
+            debug!(
+                "Start of Action for action {action:#?}, against {} mails",
+                mails.len()
+            );
+
+            match action {
+                Action::Alert => {
                     if noop {
                         println!(
                             "In noop mode, not alerting for check '{name}' for {} mails",
@@ -464,77 +473,121 @@ fn run_check_tree(
                         }
                     }
                 }
-            }
-            Action::Nothing => {}
-            Action::Success => {
-                info!("Check '{name}' passed with {} mails", mails.len());
-            }
-            Action::Delete => {
-                if !mails.is_empty() {
-                    info!("Deleting {} mails for check '{name}'", mails.len());
-                    let uids_list = mails
-                        .iter()
-                        .map(|x| x.uid.to_string())
-                        .collect::<Vec<_>>()
-                        .join(",");
+                Action::Nothing => {}
+                Action::Success => {
+                    info!("Check '{name}' passed with {} mails", mails.len());
+                }
+                Action::Delete => {
+                    if !mails.is_empty() {
+                        info!("Deleting {} mails for check '{name}'", mails.len());
+                        let uids_list = mails
+                            .iter()
+                            .map(|x| x.uid.to_string())
+                            .collect::<Vec<_>>()
+                            .join(",");
 
-                    if noop {
-                        println!("In noop mode, not deleting uids {uids_list:#?}");
-                    } else {
-                        imap_session
-                            .uid_store(uids_list, "+FLAGS (\\Deleted)")
-                            .change_context(MyError::Imap)?;
-                        imap_session.expunge().change_context(MyError::Imap)?;
+                        if noop {
+                            println!("In noop mode, not deleting uids {uids_list:#?}");
+                        } else {
+                            imap_session
+                                .uid_store(uids_list, "+FLAGS (\\Deleted)")
+                                .change_context(MyError::Imap)?;
+                            imap_session.expunge().change_context(MyError::Imap)?;
+                        }
                     }
                 }
             }
-        },
+        }
         CheckerTree::MatchCheck(check) => {
-            // Given the matchers, build a list of mails that do and do not match
+            debug!(
+                "Start of MatchCheck for checks {:#?}, checking {} mails",
+                check.matchers,
+                mails.len()
+            );
+
             let mut matched = Vec::new();
             let mut not_matched = Vec::new();
 
-            for mail in mails {
-                if match_mail(name, &check.matchers, mail) {
-                    matched.push(*mail);
-                } else {
-                    not_matched.push(*mail);
+            if !mails.is_empty() {
+                // Given the matchers, build a list of mails that do and do not match
+                for mail in mails {
+                    if match_mail(name, &check.matchers, mail) {
+                        matched.push(*mail);
+                    } else {
+                        not_matched.push(*mail);
+                    }
                 }
             }
 
-            // Dispatch the two lists down the tree
-            run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+            debug!(
+                "End of MatchCheck for checks {:#?}; {} mails matched and {} mails not_matched",
+                check.matchers,
+                matched.len(),
+                not_matched.len()
+            );
 
-            run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
+            // Dispatch the two lists down the tree
+            if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
+                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+            }
+            if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
+                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
+            }
         }
         CheckerTree::DateCheck(check) => {
+            debug!(
+                "Start of DateCheck for days ago {}, checking {} mails",
+                check.days,
+                mails.len()
+            );
+
             // Build a list of mails with dates before and after the given number of days ago
             let mut older = Vec::new();
             let mut younger = Vec::new();
 
-            for mail in mails {
-                let odt = time::OffsetDateTime::now_local()
-                    .change_context(MyError::DateFormatting)?
-                    .checked_sub(time::Duration::days(i64::from(check.days)))
-                    .ok_or(MyError::DateSubtraction(i64::from(check.days)))?;
+            if !mails.is_empty() {
+                for mail in mails {
+                    let odt = time::OffsetDateTime::now_local()
+                        .change_context(MyError::DateFormatting)?
+                        .checked_sub(time::Duration::days(i64::from(check.days)))
+                        .ok_or(MyError::DateSubtraction(i64::from(check.days)))?;
 
-                trace!("Checking if mail date {:?} for uid {}: from_addr: {}, subject: {} is older/younger than target date {odt:?}", mail.date, mail.uid, mail.from_addr, mail.subject);
+                    trace!("Checking if mail date {:?} for uid {}: from_addr: {}, subject: {} is older/younger than target date {odt:?}", mail.date, mail.uid, mail.from_addr, mail.subject);
 
-                // An older mail has a smaller date, so smaller mail_date is true
-                if mail.date < odt {
-                    older.push(*mail);
-                } else {
-                    // Technically "younger or equal", but whatever
-                    younger.push(*mail);
+                    // An older mail has a smaller date, so smaller mail_date is true
+                    if mail.date < odt {
+                        older.push(*mail);
+                    } else {
+                        // Technically "younger or equal", but whatever
+                        younger.push(*mail);
+                    }
                 }
+
+                debug!(
+                    "End of DateCheck for days ago {}; {} mails matched and {} mails not_matched",
+                    check.days,
+                    older.len(),
+                    younger.len()
+                );
             }
 
-            // Dispatch the two lists down the tree
-            run_check_tree(noop, name, &check.older_than, imap_session, &older)?;
-
-            run_check_tree(noop, name, &check.younger_than, imap_session, &younger)?;
+            if !older.is_empty() || check.empty_ok == DateEmpty::OlderThan {
+                run_check_tree(noop, name, &check.older_than, imap_session, &older)?;
+            }
+            if !younger.is_empty() || check.empty_ok == DateEmpty::YoungerThan {
+                run_check_tree(noop, name, &check.younger_than, imap_session, &younger)?;
+            }
         }
         CheckerTree::BodyCheckAny(check) => {
+            let mut matched = Vec::new();
+            let mut not_matched = Vec::new();
+
+            debug!(
+                "Start of BodyCheckAny for strings {:#?}, checking {} mails",
+                check.strings,
+                mails.len()
+            );
+
             if !mails.is_empty() {
                 let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
                 let uids_list = uids
@@ -571,9 +624,6 @@ fn run_check_tree(
                 )
                         });
 
-                let mut matched = Vec::new();
-                let mut not_matched = Vec::new();
-
                 for mail in mails {
                     if body_text_uids.contains(&mail.uid) {
                         matched.push(*mail);
@@ -581,14 +631,32 @@ fn run_check_tree(
                         not_matched.push(*mail);
                     }
                 }
+            }
 
-                // Dispatch the two lists down the tree
+            debug!(
+                "End of BodyCheckAny for strings {:#?}; {} mails matched and {} mails not_matched",
+                check.strings,
+                matched.len(),
+                not_matched.len()
+            );
+
+            if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
                 run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
-
+            }
+            if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
                 run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
             }
         }
         CheckerTree::BodyCheckAll(check) => {
+            debug!(
+                "Start of BodyCheckAll for strings {:#?}, checking {} mails",
+                check.strings,
+                mails.len()
+            );
+
+            let mut matched = Vec::new();
+            let mut not_matched = Vec::new();
+
             if !mails.is_empty() {
                 let uids: Vec<Uid> = mails.iter().map(|x| x.uid).collect();
                 let uids_list = uids
@@ -628,9 +696,6 @@ fn run_check_tree(
                 )
                     });
 
-                let mut matched = Vec::new();
-                let mut not_matched = Vec::new();
-
                 for mail in mails {
                     if body_text_uids.contains(&mail.uid) {
                         matched.push(*mail);
@@ -638,21 +703,33 @@ fn run_check_tree(
                         not_matched.push(*mail);
                     }
                 }
+            }
 
-                // Dispatch the two lists down the tree
+            debug!(
+                "End of BodyCheckAll for strings {:#?}; {} mails matched and {} mails not_matched",
+                check.strings,
+                matched.len(),
+                not_matched.len()
+            );
+
+            if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
                 run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
-
+            }
+            if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
                 run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
             }
         }
         CheckerTree::BodyCheckRegex(check) => {
-            if !mails.is_empty() {
-                debug!(
-                    "Start of BodyCheckRegex for regex {}, checking {} mails",
-                    check.regex,
-                    mails.len()
-                );
+            debug!(
+                "Start of BodyCheckRegex for regex {}, checking {} mails",
+                check.regex,
+                mails.len()
+            );
 
+            let mut matched = Vec::new();
+            let mut not_matched = Vec::new();
+
+            if !mails.is_empty() {
                 let mut mails_by_uid: HashMap<u32, &Mail> = HashMap::new();
                 for mail in mails {
                     mails_by_uid.insert(u32::from(mail.uid), *mail);
@@ -673,9 +750,6 @@ fn run_check_tree(
                     error!("Couldn't retrieve the right number of mails; count retrieved: {}, count requested: {}, uid list: {uids_list}.", mail_bodies.len(), uids.len());
                     panic!();
                 }
-
-                let mut matched = Vec::new();
-                let mut not_matched = Vec::new();
 
                 for mail in mail_bodies.iter() {
                     let uid: Uid = mail
@@ -714,23 +788,33 @@ fn run_check_tree(
                         not_matched.push(*assoc_mail);
                     }
                 }
+            }
 
-                debug!(
-                    "End of BodyCheckRegex for regex {}; {} mails matched and {} mails not_matched",
-                    check.regex,
-                    matched.len(),
-                    not_matched.len()
-                );
+            debug!(
+                "End of BodyCheckRegex for regex {}; {} mails matched and {} mails not_matched",
+                check.regex,
+                matched.len(),
+                not_matched.len()
+            );
 
-                // Dispatch the two lists down the tree
+            // Dispatch the two lists down the tree
+            if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
                 run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
-
+            }
+            if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
                 run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
             }
         }
 
         CheckerTree::CountCheck(check) => {
-            match mails.len().cmp(&usize::from(check.count)) {
+            let cmp = mails.len().cmp(&usize::from(check.count));
+            debug!(
+                "Start of CountCheck for number {}; actual number is {}, comparitor result is {cmp:#?}",
+                check.count,
+                mails.len(),
+            );
+
+            match cmp {
                 Ordering::Greater => {
                     run_check_tree(noop, name, &check.greater_than, imap_session, mails)?;
                 }

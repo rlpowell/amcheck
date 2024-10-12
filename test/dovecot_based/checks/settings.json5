@@ -11,6 +11,7 @@
       filters: [],
       checker_tree: {
         BodyCheckAny: {
+          empty_ok: "Matched",
           strings: [ "Error", "damaged", "moo" ],
           matched: { Action: "Alert" },
           not_matched: "Empty",
@@ -23,6 +24,7 @@
       filters: [],
       checker_tree: {
         BodyCheckAll: {
+          empty_ok: "Matched",
           strings: [ "catalog", "moo", "cow" ],
           matched: { Action: "Alert" },
           not_matched: "Empty",
@@ -39,11 +41,88 @@
       ],
       checker_tree: {
         BodyCheckRegex: {
+          empty_ok: "Matched",
           regex: "Server Error.*node",
           matched: { Action: "Alert" },
           not_matched: "Empty",
         }
       }
+    },
+    {
+      name: "Check for shallow count 0 failure",
+      filters: [
+        { Match: { From: " <root@" } },
+        { Match: { Subject: "^Cron " } },
+        { Match: { Subject: "puppet agent" } },
+      ],
+      checker_tree: {
+        BodyCheckAll: {
+          // This matches zero mails
+          strings: ["wibble"],
+          empty_ok: "Matched",
+          matched: {
+            DateCheck: {
+              empty_ok: "OlderThan",
+              days: 1,
+              younger_than: "Empty",
+              older_than: {
+                BodyCheckAll: {
+                  empty_ok: "Matched",
+                  strings: ["in"],
+                  matched: {
+                    CountCheck: {
+                      count: 1,
+                      greater_than: { Action: "Success" },
+                      equal: { Action: "Success" },
+                      less_than: { Action: "Alert" },
+                    },
+                  },
+                  not_matched: "Empty",
+                },
+              },
+            },
+          },
+          not_matched: "Empty",
+        },
+      },
+    },
+    {
+      name: "Check for deep count 0 failure",
+      filters: [
+        { Match: { From: " <root@" } },
+        { Match: { Subject: "^Cron " } },
+        { Match: { Subject: "puppet agent" } },
+      ],
+      checker_tree: {
+        BodyCheckAll: {
+          empty_ok: "NotMatched",
+          strings: ["alert panic"],
+          matched: { Action: "Alert" },
+          not_matched: {
+            DateCheck: {
+              days: 1,
+              younger_than: "Empty",
+              empty_ok: "OlderThan",
+              older_than: {
+                BodyCheckAll: {
+                  // This should be the place where we go from some mails to zero mails
+                  strings: ["wibble"],
+                  empty_ok: "Matched",
+                  matched: {
+                    CountCheck: {
+                      count: 1,
+                      greater_than: { Action: "Success" },
+                      equal: { Action: "Success" },
+                      less_than: { Action: "Alert" },
+                    },
+                  },
+                  not_matched: "Empty",
+                },
+              },
+            },
+          },
+        },
+      },
     },
     {
       name: "Puppet Runs OK And At Least Once In The Past Day",
@@ -55,9 +134,11 @@
       checker_tree: {
         BodyCheckAll: {
           strings: ["Notice: Applied catalog in"],
+          empty_ok: "Matched",
           matched: {
             DateCheck: {
               days: 1,
+              empty_ok: "YoungerThan",
               older_than: {
                 Action: "Delete"
               },
@@ -87,6 +168,7 @@
       checker_tree: {
         MatchCheck: {
           matchers: [],
+          empty_ok: "Matched",
           matched: { Action: "Delete" },
           not_matched: { Action: "Alert" },
         }

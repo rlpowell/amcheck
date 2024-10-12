@@ -38,9 +38,22 @@ pub enum CheckerTree {
     BodyCheckRegex(BodyCheckRegex),
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+pub enum MatchEmpty {
+    Matched,
+    NotMatched,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, serde::Deserialize, serde::Serialize)]
+pub enum DateEmpty {
+    YoungerThan,
+    OlderThan,
+}
+
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct MatchCheck {
     pub matchers: Vec<Filter>,
+    pub empty_ok: MatchEmpty,
     pub matched: Box<CheckerTree>,
     pub not_matched: Box<CheckerTree>,
 }
@@ -48,6 +61,7 @@ pub struct MatchCheck {
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct DateCheck {
     pub days: u8,
+    pub empty_ok: DateEmpty,
     pub older_than: Box<CheckerTree>,
     pub younger_than: Box<CheckerTree>,
 }
@@ -63,6 +77,7 @@ pub struct CountCheck {
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct BodyCheckAny {
     pub strings: Vec<String>,
+    pub empty_ok: MatchEmpty,
     pub matched: Box<CheckerTree>,
     pub not_matched: Box<CheckerTree>,
 }
@@ -70,6 +85,7 @@ pub struct BodyCheckAny {
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub struct BodyCheckAll {
     pub strings: Vec<String>,
+    pub empty_ok: MatchEmpty,
     pub matched: Box<CheckerTree>,
     pub not_matched: Box<CheckerTree>,
 }
@@ -78,6 +94,7 @@ pub struct BodyCheckAll {
 pub struct BodyCheckRegex {
     #[serde(with = "serde_regex")]
     pub regex: regex::Regex,
+    pub empty_ok: MatchEmpty,
     pub matched: Box<CheckerTree>,
     pub not_matched: Box<CheckerTree>,
 }
@@ -117,7 +134,9 @@ mod json_test {
     use crate::configuration::Action::*;
     use crate::configuration::BodyCheckAll;
     use crate::configuration::CheckerTree::*;
+    use crate::configuration::DateEmpty::*;
     use crate::configuration::Filter::*;
+    use crate::configuration::MatchEmpty;
     use crate::configuration::MatcherPart::*;
     use crate::configuration::{CountCheck, DateCheck, Handler, MatchCheck};
 
@@ -135,10 +154,13 @@ mod json_test {
                     regex::Regex::new("root@digitalkingdom.org").unwrap(),
                 ))],
                 checker_tree: MatchCheck(MatchCheck {
+                    empty_ok: MatchEmpty::Matched,
                     matchers: vec![],
                     matched: Box::new(BodyCheckAll(BodyCheckAll {
+                        empty_ok: MatchEmpty::Matched,
                         strings: vec!["Notice: Applied catalog in".to_string()],
                         matched: Box::new(DateCheck(DateCheck {
+                            empty_ok: YoungerThan,
                             days: 1,
                             older_than: Box::new(Action(Delete)),
                             younger_than: Box::new(CountCheck(CountCheck {
@@ -189,9 +211,11 @@ mod json_test {
             }
           }
         ],
+        "empty_ok": "Matched",
         "matched": {
           "DateCheck": {
             "days": 1,
+            "empty_ok": "YoungerThan",
             "older_than": {
               "Action": "Delete"
             },
