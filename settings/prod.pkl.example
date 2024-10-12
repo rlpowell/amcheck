@@ -13,18 +13,22 @@ class Check_run_delete_olds {
   hidden short_name: String
   hidden count_reqd: Int
   hidden check_strings: List<String>
+  hidden warn_strings = List("warn", "warning", "err", "error", "fatal", "fail", "failed")
   name = "\(short_name) Runs OK And At Least Once In The Past \(base_days) Day(s)"
   filters: Any
   checker_tree {
     BodyCheckAny {
-      strings = List("warn", "warning", "err", "error", "fatal", "fail", "failed")
+      strings = warn_strings
+      empty_ok = "NotMatched"
       matched { Action = "Alert" }
       not_matched {
         BodyCheckAll {
           strings = check_strings
+          empty_ok = "Matched"
           matched {
             DateCheck {
               days = base_days
+              empty_ok = "YoungerThan"
               older_than {
                 Action = "Delete"
               }
@@ -80,6 +84,7 @@ handlers {
     checker_tree {
       DateCheck {
         days = 0
+        empty_ok = "OlderThan"
         older_than {
           Action = "Delete"
         }
@@ -97,6 +102,7 @@ handlers {
     checker_tree {
       DateCheck {
         days = 3
+        empty_ok = "YoungerThan"
         older_than {
           Action = "Alert"
         }
