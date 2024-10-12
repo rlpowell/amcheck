@@ -341,7 +341,7 @@ fn move_to_storage(
         info!("No mails to move.");
     } else if noop {
         info!(
-            "In no-op mode, doing nothing with {} mails.",
+            "In no-op mode, not moving {} mails to storage.",
             storables.len()
         );
     } else {
@@ -461,16 +461,9 @@ fn run_check_tree(
 
             match action {
                 Action::Alert => {
-                    if noop {
-                        println!(
-                            "In noop mode, not alerting for check '{name}' for {} mails",
-                            mails.len()
-                        );
-                    } else {
-                        warn!("CHECK FAILED for check '{name}' for {} mails; details for first 10 (or fewer) mails follows", mails.len());
-                        for mail in mails.iter().take(9) {
-                            warn!("CHECK FAILED DETAILS for check '{name}': mail from '{}' with subject '{}' and date '{}'!", mail.from_addr, mail.subject, mail.date);
-                        }
+                    warn!("CHECK FAILED for check '{name}' for {} mails; details for first 10 (or fewer) mails follows", mails.len());
+                    for mail in mails.iter().take(9) {
+                        warn!("CHECK FAILED DETAILS for check '{name}': mail from '{}' with subject '{}' and date '{}'!", mail.from_addr, mail.subject, mail.date);
                     }
                 }
                 Action::Nothing => {}
@@ -479,7 +472,6 @@ fn run_check_tree(
                 }
                 Action::Delete => {
                     if !mails.is_empty() {
-                        info!("Deleting {} mails for check '{name}'", mails.len());
                         let uids_list = mails
                             .iter()
                             .map(|x| x.uid.to_string())
@@ -487,8 +479,12 @@ fn run_check_tree(
                             .join(",");
 
                         if noop {
-                            println!("In noop mode, not deleting uids {uids_list:#?}");
+                            info!(
+                                "In noop mode, not deleting {} mails for check '{name}'",
+                                mails.len()
+                            );
                         } else {
+                            info!("Deleting {} mails for check '{name}'", mails.len());
                             imap_session
                                 .uid_store(uids_list, "+FLAGS (\\Deleted)")
                                 .change_context(MyError::Imap)?;
