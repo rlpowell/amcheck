@@ -384,7 +384,7 @@ fn check_storage(
 
     // Walk through the list of checks
     for matcher_set in &matcher_sets {
-        if matches!(matcher_set.checker_tree, CheckerTree::Empty) {
+        if matches!(matcher_set.checker_tree, CheckerTree::Stop) {
             continue;
         }
 
@@ -428,7 +428,7 @@ fn check_storage(
 
 fn print_head_of(tree: &CheckerTree) -> String {
     match tree {
-        CheckerTree::Empty => "Empty".to_string(),
+        CheckerTree::Stop => "Stop".to_string(),
         CheckerTree::Action(x) => format!("Action {x:?}"),
         CheckerTree::MatchCheck(x) => format!("MatchCheck {:?}", x.matchers),
         CheckerTree::DateCheck(x) => format!("DateCheck {}", x.days),
@@ -450,8 +450,8 @@ fn run_check_tree(
     // NOTE: Do *not* wrap this in a mails.is_empty(), because we want to fail counts that have 0
     // matches
     match checker_tree {
-        CheckerTree::Empty => {
-            debug!("Empty node on checker_tree");
+        CheckerTree::Stop => {
+            debug!("Stop node on checker_tree");
         }
         CheckerTree::Action(action) => {
             debug!(

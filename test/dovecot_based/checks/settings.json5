@@ -14,7 +14,7 @@
           empty_ok: "Matched",
           strings: [ "Error", "damaged", "moo" ],
           matched: { Action: "Alert" },
-          not_matched: "Empty",
+          not_matched: "Stop",
         }
       }
     },
@@ -27,7 +27,7 @@
           empty_ok: "Matched",
           strings: [ "catalog", "moo", "cow" ],
           matched: { Action: "Alert" },
-          not_matched: "Empty",
+          not_matched: "Stop",
         }
       }
     },
@@ -44,7 +44,7 @@
           empty_ok: "Matched",
           regex: "Server Error.*node",
           matched: { Action: "Alert" },
-          not_matched: "Empty",
+          not_matched: "Stop",
         }
       }
     },
@@ -64,7 +64,7 @@
             DateCheck: {
               empty_ok: "OlderThan",
               days: 1,
-              younger_than: "Empty",
+              younger_than: "Stop",
               older_than: {
                 BodyCheckAll: {
                   empty_ok: "Matched",
@@ -77,12 +77,12 @@
                       less_than: { Action: "Alert" },
                     },
                   },
-                  not_matched: "Empty",
+                  not_matched: "Stop",
                 },
               },
             },
           },
-          not_matched: "Empty",
+          not_matched: "Stop",
         },
       },
     },
@@ -101,7 +101,7 @@
           not_matched: {
             DateCheck: {
               days: 1,
-              younger_than: "Empty",
+              younger_than: "Stop",
               empty_ok: "OlderThan",
               older_than: {
                 BodyCheckAll: {
@@ -116,7 +116,7 @@
                       less_than: { Action: "Alert" },
                     },
                   },
-                  not_matched: "Empty",
+                  not_matched: "Stop",
                 },
               },
             },

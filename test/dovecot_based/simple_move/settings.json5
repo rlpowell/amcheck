@@ -13,7 +13,7 @@
         { Match: { Subject: "^Cron " } },
         { UnMatch: { Subject: "alert" } },
       ],
-      checker_tree: "Empty"
+      checker_tree: "Stop"
     },
   ]
 }

@@ -1,5 +1,3 @@
-change Empty to Stop ?; just seems clearer
-
 Set any mails that fail a check / cause an alert to Flagged and push
 them back to the inbox.  Alter the rest of the code to ignore
 Flagged messages (just add UNFLAGGED to search probably).

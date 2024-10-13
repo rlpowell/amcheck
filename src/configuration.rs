@@ -28,7 +28,7 @@ pub struct Handler {
 
 #[derive(Clone, Debug, serde::Deserialize, serde::Serialize)]
 pub enum CheckerTree {
-    Empty,
+    Stop,
     Action(Action),
     MatchCheck(MatchCheck),
     DateCheck(DateCheck),
@@ -172,7 +172,7 @@ mod json_test {
                         })),
                         not_matched: Box::new(Action(Alert)),
                     })),
-                    not_matched: Box::new(Empty),
+                    not_matched: Box::new(Stop),
                 }),
             },
         };
