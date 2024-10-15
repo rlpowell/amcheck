@@ -439,7 +439,7 @@ fn print_head_of(tree: &CheckerTree) -> String {
     }
 }
 
-#[tracing::instrument(skip(checker_tree, mails, imap_session), fields(tree_head_type = print_head_of(checker_tree)))]
+#[tracing::instrument(skip(checker_tree, mails, imap_session), fields(tree_head_type = print_head_of(checker_tree)), level="error")]
 fn run_check_tree(
     noop: bool,
     name: &str,
