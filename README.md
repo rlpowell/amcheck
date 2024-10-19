@@ -1,8 +1,10 @@
+# What Is This?
+
 amcheck is a system for automating checks on mails, typically mails produced by other automations.  Something like a very verbose procmail but (1) for IMAP and (2) with a focus on reporting on emails that look like something went wrong.
 
 # Wait, What?
 
-Look at the puppet handler description in [the config file section below](#config-file-structure-and-use), which is talking about [the puppet block in the example settings file](settings/prod.json5.example#L19).  That clause handles an automated email I get from Puppet, a configuration management system.  If this still doesn't make sense, this project is probably not for you.
+Look at [the puppet handler description below](#the-puppet-handler-example), which is talking about [the puppet block in the example settings file](settings/prod.json5.example#L19).  That clause handles an automated email I get from Puppet, a configuration management system.  If this still doesn't make sense, this project is probably not for you.
 
 # Basic Usage
 
@@ -31,6 +33,8 @@ The first handler, the one for a Puppet run, shows the basic structure well.
 In the `move` phase, the various filters are run against all your inbox mail, and any matching mail is moved to your storage folder.
 
 In the `check` phase, all the filters are run again, and then the checker_tree is walked until an `Action` or `Stop` is reached.
+
+## The Puppet Handler Example
 
 So the puppet handler says:
 
