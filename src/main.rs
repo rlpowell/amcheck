@@ -79,6 +79,7 @@ fn main() -> Result<(), MyError> {
                 settings.handlers,
                 &settings.inbox_name,
                 &settings.storage_folder_name,
+                settings.days_back,
                 false,
             )?;
         }
@@ -88,6 +89,7 @@ fn main() -> Result<(), MyError> {
                 settings.handlers,
                 &settings.inbox_name,
                 &settings.storage_folder_name,
+                settings.days_back,
                 true,
             )?;
         }
@@ -304,6 +306,7 @@ fn move_to_storage(
     matcher_sets: Vec<Handler>,
     inbox_name: &str,
     storage_folder_name: &str,
+    days_back: i64,
     noop: bool,
 ) -> Result<(), MyError> {
     imap_session
@@ -320,7 +323,6 @@ fn move_to_storage(
         // Generate a date like "SINCE 02-Sep-2023" that goes back 2 months-ish
         let date_format = time::format_description::parse("SINCE [day]-[month repr:short]-[year]")
             .change_context(MyError::DateFormatting)?;
-        let days_back: i64 = 60;
         let odt = time::OffsetDateTime::now_local()
             .change_context(MyError::DateFormatting)?
             .checked_sub(time::Duration::days(days_back))

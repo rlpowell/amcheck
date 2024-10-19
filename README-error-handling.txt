@@ -15,3 +15,6 @@ enum MyError {
     Imap(#[from] ImapError),
 
 , and that's on purpose.
+
+https://www.youtube.com/watch?v=jpVzSse7oJ4 covers why you want
+thiserror well; good overview of Rust error handling

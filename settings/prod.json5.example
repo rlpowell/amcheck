@@ -9,6 +9,12 @@
   imapserver: "localhost",
   login: "weeble",
   password: "password",
+  // Optional, defaults to "INBOX"
+  inbox_name: "ninbox",
+  // Optional, defaults to "amcheck_storage"
+  storage_folder_name: "borage",
+  // Optional, defaults to 60
+  days_back: 14,
   handlers: [
     {
       name: "Puppet Runs OK And At Least Once In The Past Day",
@@ -20,17 +26,19 @@
       checker_tree: {
         BodyCheckAll: {
           string: [ "Notice: Applied catalog in" ],
+          empty_ok = "NotMatched",
           matched: {
             DateCheck: {
               days: 1,
+              empty_ok = "YoungerThan",
               older_than: {
                 Action: "Delete"
               },
               younger_than: {
                 CountCheck: {
                   count: 1,
-                  greater_than: { Action: "Log" },
-                  equal: { Action: "Log" },
+                  greater_than: { Action: "Success" },
+                  equal: { Action: "Success" },
                   less_than: { Action: "Alert" },
                 },
               },
