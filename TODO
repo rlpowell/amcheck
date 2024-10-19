@@ -1,9 +1,6 @@
-Set any mails that fail a check / cause an alert to Flagged and push
-them back to the inbox.  Alter the rest of the code to ignore
-Flagged messages (just add UNFLAGGED to search probably).
-
-Put the `amcheck_storage` name into the settings.  And maybe INBOX
-too.
+Possible future: Set any mails that fail a check / cause an alert to
+Flagged and push them back to the inbox.  Alter the rest of the code
+to ignore Flagged messages (just add UNFLAGGED to search probably).
 
 Add to README:
 - the notes from configuration.rs

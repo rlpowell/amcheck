@@ -74,16 +74,38 @@ fn main() -> Result<(), MyError> {
 
     match args[1].as_str() {
         "move" => {
-            move_to_storage(&mut imap_session, settings.handlers, false)?;
+            move_to_storage(
+                &mut imap_session,
+                settings.handlers,
+                &settings.inbox_name,
+                &settings.storage_folder_name,
+                false,
+            )?;
         }
         "move_noop" => {
-            move_to_storage(&mut imap_session, settings.handlers, true)?;
+            move_to_storage(
+                &mut imap_session,
+                settings.handlers,
+                &settings.inbox_name,
+                &settings.storage_folder_name,
+                true,
+            )?;
         }
         "check" => {
-            check_storage(&mut imap_session, settings.handlers, false)?;
+            check_storage(
+                &mut imap_session,
+                settings.handlers,
+                &settings.storage_folder_name,
+                false,
+            )?;
         }
         "check_noop" => {
-            check_storage(&mut imap_session, settings.handlers, true)?;
+            check_storage(
+                &mut imap_session,
+                settings.handlers,
+                &settings.storage_folder_name,
+                true,
+            )?;
         }
         _ => panic!("Sole argument must be either 'move' or 'check'."),
     }
@@ -280,9 +302,13 @@ fn get_mails(
 fn move_to_storage(
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
     matcher_sets: Vec<Handler>,
+    inbox_name: &str,
+    storage_folder_name: &str,
     noop: bool,
 ) -> Result<(), MyError> {
-    imap_session.select("INBOX").change_context(MyError::Imap)?;
+    imap_session
+        .select(inbox_name)
+        .change_context(MyError::Imap)?;
 
     #[allow(clippy::needless_late_init)]
     let odt_formatted: String;
@@ -345,22 +371,22 @@ fn move_to_storage(
             storables.len()
         );
     } else {
-        // Check if the amcheck_storage folder exists
+        // Check if the storage folder exists
         let names = imap_session
-            .list(Some(""), Some("amcheck_storage"))
+            .list(Some(""), Some(storage_folder_name))
             .change_context(MyError::Imap)?;
 
         if names.is_empty() {
-            info!("amcheck_storage doesn't exist, creating");
+            info!("{storage_folder_name} doesn't exist, creating");
             imap_session
-                .create("amcheck_storage")
+                .create(storage_folder_name)
                 .change_context(MyError::Imap)?;
         }
 
         info!("Moving {} mails to storage.", storables.len());
         // imap.mv returns no information at all except failure
         imap_session
-            .uid_mv(storables.join(","), "amcheck_storage")
+            .uid_mv(storables.join(","), storage_folder_name)
             .change_context(MyError::Imap)?;
     }
 
@@ -371,10 +397,11 @@ fn move_to_storage(
 fn check_storage(
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
     matcher_sets: Vec<Handler>,
+    storage_folder_name: &str,
     noop: bool,
 ) -> Result<(), MyError> {
     imap_session
-        .select("amcheck_storage")
+        .select(storage_folder_name)
         .change_context(MyError::Imap)?;
 
     debug!("Pulling list of IMAP UIDs.");

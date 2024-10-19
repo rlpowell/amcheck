@@ -7,6 +7,7 @@
 
 /target
 settings/prod.json5
+settings/prod.pkl
 test/dovecot_based/local_only_move
 
 .container_history

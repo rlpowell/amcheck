@@ -7,6 +7,9 @@ pub struct Settings {
     pub login: String,
     pub password: Secret<String>,
     pub handlers: Vec<Handler>,
+    // These two have defaults in the config setup below
+    pub inbox_name: String,
+    pub storage_folder_name: String,
 }
 
 // FIXME: put this in the readme
@@ -273,7 +276,8 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     debug!("Config file: {config_file:?}");
 
     let settings = config::Config::builder()
-        // .set_default("database.database_name", "newsletter")?
+        .set_default("inbox_name", "INBOX")?
+        .set_default("storage_folder_name", "amcheck_storage")?
         .add_source(config::File::from(config_file))
         // Add in settings from environment variables (with a prefix of AMCHECK and '__' as separator)
         // E.g. `AMCHECK_APPLICATION__PORT=5001 would set `Settings.application.port`

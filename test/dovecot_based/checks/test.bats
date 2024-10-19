@@ -14,7 +14,7 @@ setup() {
 }
 
 run_with_fmt() {
-  cargo run check | sed 's/^\s*//' | fmt -w 1234
+  cargo run check | sed 's/^\s*//' | fmt -w 2500
 }
 
 @test "checker test" {
