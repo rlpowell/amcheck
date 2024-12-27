@@ -12,3 +12,6 @@ RUN apt-get update
 RUN apt-get install -y dovecot-imapd procmail sudo mutt
 
 RUN echo "${USERNAME}    ALL=(ALL)    NOPASSWD: ALL" > /etc/sudoers.d/${USERNAME}
+
+# Dude I don't even know
+RUN echo "stty erase ^h" >> /home/${USERNAME}/.bothrc-local
