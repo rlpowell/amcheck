@@ -52,6 +52,9 @@ class Check_run_delete_olds {
 imapserver = "imap.gmail.com"
 login = "me@gmail.com"
 password = "nope"
+// Optional; turn it on if you want things in gmail to actually
+// get deleted and not just archived
+gmail_delete_hack = true
 handlers {
   new Check_run_delete_olds {
     short_name = "Puppet"

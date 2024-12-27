@@ -7,10 +7,11 @@ pub struct Settings {
     pub login: String,
     pub password: Secret<String>,
     pub handlers: Vec<Handler>,
-    // These three have defaults in the config setup below
+    // These four have defaults in the config setup below
     pub inbox_name: String,
     pub storage_folder_name: String,
     pub days_back: i64,
+    pub gmail_delete_hack: bool,
 }
 
 // FIXME: put this in the readme
@@ -280,6 +281,7 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
         .set_default("inbox_name", "INBOX")?
         .set_default("storage_folder_name", "amcheck_storage")?
         .set_default("days_back", i64::from(60))?
+        .set_default("gmail_delete_hack", false)?
         .add_source(config::File::from(config_file))
         // Add in settings from environment variables (with a prefix of AMCHECK and '__' as separator)
         // E.g. `AMCHECK_APPLICATION__PORT=5001 would set `Settings.application.port`

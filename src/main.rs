@@ -99,6 +99,7 @@ fn main() -> Result<(), MyError> {
                 settings.handlers,
                 &settings.storage_folder_name,
                 false,
+                settings.gmail_delete_hack,
             )?;
         }
         "check_noop" => {
@@ -107,6 +108,7 @@ fn main() -> Result<(), MyError> {
                 settings.handlers,
                 &settings.storage_folder_name,
                 true,
+                settings.gmail_delete_hack,
             )?;
         }
         _ => panic!("Sole argument must be either 'move' or 'check'."),
@@ -401,6 +403,7 @@ fn check_storage(
     matcher_sets: Vec<Handler>,
     storage_folder_name: &str,
     noop: bool,
+    gmail_delete_hack: bool,
 ) -> Result<(), MyError> {
     imap_session
         .select(storage_folder_name)
@@ -449,6 +452,7 @@ fn check_storage(
             &matcher_set.checker_tree,
             imap_session,
             &checkables,
+            gmail_delete_hack,
         )?;
     }
 
@@ -475,6 +479,7 @@ fn run_check_tree(
     checker_tree: &CheckerTree,
     imap_session: &mut imap::Session<Box<dyn imap::ImapConnection>>,
     mails: &Vec<&Mail>,
+    gmail_delete_hack: bool,
 ) -> Result<(), MyError> {
     // NOTE: Do *not* wrap this in a mails.is_empty(), because we want to fail counts that have 0
     // matches
@@ -514,8 +519,21 @@ fn run_check_tree(
                             );
                         } else {
                             info!("Deleting {} mails for check '{name}'", mails.len());
+
+                            if gmail_delete_hack {
+                                // As of Dec 2024, (1) deleting things in gmail doesn't actually
+                                // delete them, even if you have your imap settings correct and (2)
+                                // move to trash crashes (see
+                                // https://github.com/d99kris/nmail/issues/172 ) ; this works
+                                // around both issues.
+                                imap_session
+                                    .uid_copy(&uids_list, "[Gmail]/Trash")
+                                    .change_context(MyError::Imap)?;
+                                imap_session.expunge().change_context(MyError::Imap)?;
+                            }
+
                             imap_session
-                                .uid_store(uids_list, "+FLAGS (\\Deleted)")
+                                .uid_store(&uids_list, "+FLAGS (\\Deleted)")
                                 .change_context(MyError::Imap)?;
                             imap_session.expunge().change_context(MyError::Imap)?;
                         }
@@ -553,10 +571,24 @@ fn run_check_tree(
 
             // Dispatch the two lists down the tree
             if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
-                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.matched,
+                    imap_session,
+                    &matched,
+                    gmail_delete_hack,
+                )?;
             }
             if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
-                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.not_matched,
+                    imap_session,
+                    &not_matched,
+                    gmail_delete_hack,
+                )?;
             }
         }
         CheckerTree::DateCheck(check) => {
@@ -597,10 +629,24 @@ fn run_check_tree(
             }
 
             if !older.is_empty() || check.empty_ok == DateEmpty::OlderThan {
-                run_check_tree(noop, name, &check.older_than, imap_session, &older)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.older_than,
+                    imap_session,
+                    &older,
+                    gmail_delete_hack,
+                )?;
             }
             if !younger.is_empty() || check.empty_ok == DateEmpty::YoungerThan {
-                run_check_tree(noop, name, &check.younger_than, imap_session, &younger)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.younger_than,
+                    imap_session,
+                    &younger,
+                    gmail_delete_hack,
+                )?;
             }
         }
         CheckerTree::BodyCheckAny(check) => {
@@ -666,10 +712,24 @@ fn run_check_tree(
             );
 
             if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
-                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.matched,
+                    imap_session,
+                    &matched,
+                    gmail_delete_hack,
+                )?;
             }
             if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
-                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.not_matched,
+                    imap_session,
+                    &not_matched,
+                    gmail_delete_hack,
+                )?;
             }
         }
         CheckerTree::BodyCheckAll(check) => {
@@ -738,10 +798,24 @@ fn run_check_tree(
             );
 
             if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
-                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.matched,
+                    imap_session,
+                    &matched,
+                    gmail_delete_hack,
+                )?;
             }
             if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
-                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.not_matched,
+                    imap_session,
+                    &not_matched,
+                    gmail_delete_hack,
+                )?;
             }
         }
         CheckerTree::BodyCheckRegex(check) => {
@@ -824,10 +898,24 @@ fn run_check_tree(
 
             // Dispatch the two lists down the tree
             if !matched.is_empty() || check.empty_ok == MatchEmpty::Matched {
-                run_check_tree(noop, name, &check.matched, imap_session, &matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.matched,
+                    imap_session,
+                    &matched,
+                    gmail_delete_hack,
+                )?;
             }
             if !not_matched.is_empty() || check.empty_ok == MatchEmpty::NotMatched {
-                run_check_tree(noop, name, &check.not_matched, imap_session, &not_matched)?;
+                run_check_tree(
+                    noop,
+                    name,
+                    &check.not_matched,
+                    imap_session,
+                    &not_matched,
+                    gmail_delete_hack,
+                )?;
             }
         }
 
@@ -841,13 +929,34 @@ fn run_check_tree(
 
             match cmp {
                 Ordering::Greater => {
-                    run_check_tree(noop, name, &check.greater_than, imap_session, mails)?;
+                    run_check_tree(
+                        noop,
+                        name,
+                        &check.greater_than,
+                        imap_session,
+                        mails,
+                        gmail_delete_hack,
+                    )?;
                 }
                 Ordering::Less => {
-                    run_check_tree(noop, name, &check.less_than, imap_session, mails)?;
+                    run_check_tree(
+                        noop,
+                        name,
+                        &check.less_than,
+                        imap_session,
+                        mails,
+                        gmail_delete_hack,
+                    )?;
                 }
                 Ordering::Equal => {
-                    run_check_tree(noop, name, &check.equal, imap_session, mails)?;
+                    run_check_tree(
+                        noop,
+                        name,
+                        &check.equal,
+                        imap_session,
+                        mails,
+                        gmail_delete_hack,
+                    )?;
                 }
             };
         }

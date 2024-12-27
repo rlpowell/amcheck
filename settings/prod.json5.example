@@ -15,6 +15,9 @@
   storage_folder_name: "borage",
   // Optional, defaults to 60
   days_back: 14,
+  // Optional; turn it on if you want things in gmail to actually
+  // get deleted and not just archived
+  gmail_delete_hack: true,
   handlers: [
     {
       name: "Puppet Runs OK And At Least Once In The Past Day",
